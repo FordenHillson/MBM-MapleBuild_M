@@ -92,6 +92,10 @@ function emptyItem(slot: GearSlotId): GearItem {
     star: 0,
     atkBase: 0,
     atkBonus: 0,
+    phyDefBase: 0,
+    magDefBase: 0,
+    maxHpBase: 0,
+    maxDamageBase: 0,
     flameRank: null,
     mainLines: isFlameSlot(slot)
       ? emptyFlameLines()

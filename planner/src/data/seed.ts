@@ -27,6 +27,10 @@ export function demoMainWeapon(): GearItem {
     star: 23,
     atkBase: 15930,
     atkBonus: 18704,
+    phyDefBase: 0,
+    magDefBase: 0,
+    maxHpBase: 0,
+    maxDamageBase: 0,
     flameRank: 'Legendary' satisfies FlameRank,
     mainLines: [
       {

@@ -130,9 +130,18 @@ function migrateGearItem(item: GearItem, slotId: GearSlotId): GearItem {
           return { grade: bonusGrade, lines: bonusLines }
         })()
 
+  const phyDefBase = Number(item.phyDefBase) || 0
+  const magDefBase = Number(item.magDefBase) || 0
+  const maxHpBase = Number(item.maxHpBase) || 0
+  const maxDamageBase = Number(item.maxDamageBase) || 0
+
   return {
     ...item,
     slotId,
+    phyDefBase,
+    magDefBase,
+    maxHpBase,
+    maxDamageBase,
     flameRank,
     mainLines,
     potential,

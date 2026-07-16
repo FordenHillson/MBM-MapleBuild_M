@@ -135,6 +135,10 @@ export function ranksForSlot(
     ranks = ranks.filter((r) => r !== 'Dreamy Belt')
   }
 
+  if (slot === 'hat') {
+    ranks = ranks.filter((r) => r !== 'Genesis')
+  }
+
   return ranks
 }
 
@@ -181,6 +185,11 @@ export interface GearItem {
   star: number
   atkBase: number
   atkBonus: number
+  /** Base defensive/resource stats (DEF, HP, DMG) that start at zero. */
+  phyDefBase: number
+  magDefBase: number
+  maxHpBase: number
+  maxDamageBase: number
   /**
    * Rebirth Flame grade — drives flame option pool.
    * `null` = no flame (None).
