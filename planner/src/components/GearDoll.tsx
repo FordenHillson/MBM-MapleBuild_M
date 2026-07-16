@@ -83,10 +83,14 @@ function SlotCell({
           ) : (
             <SlotSilhouette slot={slot} className="slot-silhouette filled" />
           )}
-          <span className={`badge pot ${potentialFrameClass(item.potential.grade)}`}>
-            {potGradeLetter(item.potential.grade)}
-          </span>
-          {item.bonusPotential.lines.some((l) => l.optionId) && (
+          {item.potential && (
+            <span
+              className={`badge pot ${potentialFrameClass(item.potential.grade)}`}
+            >
+              {potGradeLetter(item.potential.grade)}
+            </span>
+          )}
+          {item.bonusPotential?.lines.some((l) => l.optionId) && (
             <span
               className={`badge add ${potentialFrameClass(item.bonusPotential.grade)}`}
             >

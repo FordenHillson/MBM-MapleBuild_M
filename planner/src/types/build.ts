@@ -181,8 +181,11 @@ export interface GearItem {
   star: number
   atkBase: number
   atkBonus: number
-  /** Rebirth Flame grade — drives Main Weapon flame option pool. */
-  flameRank: FlameRank
+  /**
+   * Rebirth Flame grade — drives flame option pool.
+   * `null` = no flame (None).
+   */
+  flameRank: FlameRank | null
   mainLines: StatLine[]
   /**
    * Selectable main option for Necro / Absolab / Arcane / Genesis weapons.
@@ -194,8 +197,10 @@ export interface GearItem {
    * Two fixed lines; values (%) are user-entered.
    */
   sharenianAbility: StatLine[] | null
-  potential: PotentialBlock
-  bonusPotential: PotentialBlock
+  /** `null` = no Potential (None). */
+  potential: PotentialBlock | null
+  /** `null` = no Bonus Potential (None). */
+  bonusPotential: PotentialBlock | null
   emblem: EmblemBlock | null
   soul: SoulBlock | null
 }

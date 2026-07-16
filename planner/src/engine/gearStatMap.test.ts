@@ -40,6 +40,23 @@ describe('aggregateGearPlayerStats', () => {
     expect(atk.phyAtk).toBeCloseTo(piece + emblemBoost, 5)
   })
 
+  it('ignores flame / potential / bonus when set to None', () => {
+    const weapon = {
+      ...demoMainWeapon(),
+      flameRank: null,
+      mainLines: [
+        { optionId: 'phyAtkBossAtk', label: 'ignored', value: 73 },
+      ],
+      potential: null,
+      bonusPotential: null,
+    }
+    const bag = aggregateGearPlayerStats({ mainWeapon: weapon })
+    expect(bag.critDmgPercent).toBeCloseTo(5, 5) // emblem only
+    expect(bag.mesoGainPercent).toBeUndefined()
+    expect(bag.maxMpPercent).toBeUndefined()
+    expect(bag.accPercent).toBeUndefined()
+  })
+
   it('feeds flame bases with gear maxHp / maxMpPercent / exp', () => {
     const weapon = demoMainWeapon()
     const bag = aggregateGearPlayerStats({ mainWeapon: weapon })

@@ -118,8 +118,8 @@ export function aggregateGearPlayerStats(
     if (!isFlameSlot(item.slotId)) {
       contributeLines(bag, item.mainLines)
     }
-    contributeLines(bag, item.potential.lines)
-    contributeLines(bag, item.bonusPotential.lines)
+    if (item.potential) contributeLines(bag, item.potential.lines)
+    if (item.bonusPotential) contributeLines(bag, item.bonusPotential.lines)
 
     if (item.emblem) {
       const baseBoost = item.emblem.baseOptionBoostPercent / 100

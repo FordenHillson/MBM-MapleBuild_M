@@ -78,9 +78,12 @@ export function GearSummaryPopup({
   const soulSuffix = item.soul
     ? ` ของ ${item.soul.name.replace(/ Soul$/, '')}`
     : ''
-  const potLines = activeLines(item.potential.lines)
-  const bonusLines = activeLines(item.bonusPotential.lines)
-  const flameLines = isFlameSlot(slot) ? activeLines(item.mainLines) : []
+  const potLines = activeLines(item.potential?.lines ?? [])
+  const bonusLines = activeLines(item.bonusPotential?.lines ?? [])
+  const flameLines =
+    isFlameSlot(slot) && item.flameRank
+      ? activeLines(item.mainLines)
+      : []
   const otherMainLines = !isFlameSlot(slot)
     ? activeLines(item.mainLines)
     : []
@@ -94,8 +97,8 @@ export function GearSummaryPopup({
     ? flameRankFrameClass(item.flameRank)
     : ''
   const showFlame = flameLines.length > 0
-  const showPotential = potLines.length > 0
-  const showBonus = bonusLines.length > 0
+  const showPotential = potLines.length > 0 && item.potential != null
+  const showBonus = bonusLines.length > 0 && item.bonusPotential != null
 
   return (
     <div
@@ -146,7 +149,7 @@ export function GearSummaryPopup({
                   className="dossier-icon-silhouette"
                 />
               )}
-              {showPotential && (
+              {showPotential && item.potential && (
                 <span
                   className={`dossier-badge pot ${potentialFrameClass(item.potential.grade)}`}
                 >
@@ -257,7 +260,7 @@ export function GearSummaryPopup({
             </section>
           )}
 
-          {showPotential && (
+          {showPotential && item.potential && (
             <section className="dossier-section pot-sec">
               <div className="dossier-sec-head">
                 <span
@@ -277,7 +280,7 @@ export function GearSummaryPopup({
             </section>
           )}
 
-          {showBonus && (
+          {showBonus && item.bonusPotential && (
             <section className="dossier-section bonus-sec">
               <div className="dossier-sec-head">
                 <span

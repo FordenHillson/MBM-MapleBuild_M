@@ -20,6 +20,7 @@ import { deriveFlameBases } from '../engine/resolveStats'
 import { aggregateGearPlayerStats } from '../engine/gearStatMap'
 import { createBlankSkill, createEmptyBuild, defaultStatSources } from '../data/seed'
 import {
+  emptyFlameLines,
   isFlameRank,
   isFlameSlot,
   normalizeFlameLines,
@@ -86,39 +87,56 @@ function migrateEnemyTarget(raw: Partial<EnemyTarget> | undefined): EnemyTarget 
 }
 
 function migrateGearItem(item: GearItem, slotId: GearSlotId): GearItem {
-  const flameRank = isFlameRank(item.flameRank) ? item.flameRank : 'Legendary'
+  const flameRank =
+    item.flameRank === null
+      ? null
+      : isFlameRank(item.flameRank)
+        ? item.flameRank
+        : 'Legendary'
   let mainLines = item.mainLines ?? []
-  if (isFlameSlot(slotId)) {
+  if (isFlameSlot(slotId) && flameRank) {
     mainLines = normalizeFlameLines(slotId, flameRank, mainLines)
+  } else if (isFlameSlot(slotId) && flameRank === null) {
+    mainLines = emptyFlameLines()
   }
 
-  const potGrade = normalizePotentialGrade(item.potential?.grade)
-  const potLines = isPotentialSlot(slotId)
-    ? normalizePotentialLines(slotId, potGrade, item.potential?.lines ?? [])
-    : (item.potential?.lines ?? [])
+  const potential =
+    item.potential === null
+      ? null
+      : (() => {
+          const potGrade = normalizePotentialGrade(item.potential?.grade)
+          const potLines = isPotentialSlot(slotId)
+            ? normalizePotentialLines(
+                slotId,
+                potGrade,
+                item.potential?.lines ?? [],
+              )
+            : (item.potential?.lines ?? [])
+          return { grade: potGrade, lines: potLines }
+        })()
 
-  const bonusGrade = normalizePotentialGrade(item.bonusPotential?.grade)
-  const bonusLines = isPotentialSlot(slotId)
-    ? normalizeBonusPotentialLines(
-        slotId,
-        bonusGrade,
-        item.bonusPotential?.lines ?? [],
-      )
-    : (item.bonusPotential?.lines ?? [])
+  const bonusPotential =
+    item.bonusPotential === null
+      ? null
+      : (() => {
+          const bonusGrade = normalizePotentialGrade(item.bonusPotential?.grade)
+          const bonusLines = isPotentialSlot(slotId)
+            ? normalizeBonusPotentialLines(
+                slotId,
+                bonusGrade,
+                item.bonusPotential?.lines ?? [],
+              )
+            : (item.bonusPotential?.lines ?? [])
+          return { grade: bonusGrade, lines: bonusLines }
+        })()
 
   return {
     ...item,
     slotId,
     flameRank,
     mainLines,
-    potential: {
-      grade: potGrade,
-      lines: potLines,
-    },
-    bonusPotential: {
-      grade: bonusGrade,
-      lines: bonusLines,
-    },
+    potential,
+    bonusPotential,
     emblem: normalizeEmblem(slotId, item.emblem),
     soul: normalizeSoul(slotId, item.soul),
     highTierOption: normalizeHighTierOption(

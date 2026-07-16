@@ -15,6 +15,7 @@ import {
   flameOptionsAvailable,
   flameOptionById,
   flameValues,
+  isFlameRank,
   isFlameSlot,
   normalizeFlameLines,
 } from '../data/flameWeapon'
@@ -89,21 +90,15 @@ function emptyItem(slot: GearSlotId): GearItem {
     star: 0,
     atkBase: 0,
     atkBonus: 0,
-    flameRank: 'Legendary',
+    flameRank: null,
     mainLines: isFlameSlot(slot)
       ? emptyFlameLines()
       : [
           { optionId: 'critDmg', label: 'Crit DMG', value: 0 },
           { optionId: 'phyAtkBossAtk', label: 'PHY ATK ตาม Boss ATK', value: 0 },
         ],
-    potential: {
-      grade: 'Legendary',
-      lines: isPotentialSlot(slot) ? emptyPotentialLines() : [],
-    },
-    bonusPotential: {
-      grade: 'Epic',
-      lines: isPotentialSlot(slot) ? emptyBonusPotentialLines() : [],
-    },
+    potential: null,
+    bonusPotential: null,
     emblem: supportsEmblem(slot) ? emptyEmblem(slot, 'ruthless') : null,
     highTierOption: null,
     sharenianAbility: null,
@@ -200,7 +195,7 @@ function FlameLineEditor({
                 })
               }}
             >
-              <option value="">— ไม่เลือก —</option>
+              <option value="">None</option>
               {options.map((o) => (
                 <option key={o.id} value={o.id}>
                   {o.label}
@@ -299,7 +294,7 @@ function PotentialLineEditor({
                 })
               }}
             >
-              <option value="">— ไม่เลือก —</option>
+              <option value="">None</option>
               {options.map((o) => (
                 <option key={o.id} value={o.id}>
                   {o.label}
@@ -344,34 +339,54 @@ export function GearEditModal({
 }) {
   const [item, setItem] = useState<GearItem>(() => {
     const base = initial ? structuredClone(initial) : emptyItem(slot)
-    const flameRank = base.flameRank ?? 'Legendary'
-    const potGrade = normalizePotentialGrade(base.potential?.grade)
-    const potLines = isPotentialSlot(slot)
-      ? normalizePotentialLines(slot, potGrade, base.potential?.lines ?? [])
-      : (base.potential?.lines ?? [])
-    const bonusGrade = normalizePotentialGrade(base.bonusPotential?.grade)
-    const bonusLines = isPotentialSlot(slot)
-      ? normalizeBonusPotentialLines(
-          slot,
-          bonusGrade,
-          base.bonusPotential?.lines ?? [],
-        )
-      : (base.bonusPotential?.lines ?? [])
+    const flameRank =
+      base.flameRank === null
+        ? null
+        : isFlameRank(base.flameRank)
+          ? base.flameRank
+          : 'Legendary'
+    const potential =
+      base.potential === null
+        ? null
+        : (() => {
+            const potGrade = normalizePotentialGrade(base.potential?.grade)
+            const potLines = isPotentialSlot(slot)
+              ? normalizePotentialLines(
+                  slot,
+                  potGrade,
+                  base.potential?.lines ?? [],
+                )
+              : (base.potential?.lines ?? [])
+            return { grade: potGrade, lines: potLines }
+          })()
+    const bonusPotential =
+      base.bonusPotential === null
+        ? null
+        : (() => {
+            const bonusGrade = normalizePotentialGrade(
+              base.bonusPotential?.grade,
+            )
+            const bonusLines = isPotentialSlot(slot)
+              ? normalizeBonusPotentialLines(
+                  slot,
+                  bonusGrade,
+                  base.bonusPotential?.lines ?? [],
+                )
+              : (base.bonusPotential?.lines ?? [])
+            return { grade: bonusGrade, lines: bonusLines }
+          })()
     return {
       ...base,
       flameRank,
       rank: normalizeRank(slot, base.rank, rootAbyssLocked),
-      mainLines: isFlameSlot(slot)
-        ? normalizeFlameLines(slot, flameRank, base.mainLines ?? [])
-        : base.mainLines,
-      potential: {
-        grade: potGrade,
-        lines: potLines,
-      },
-      bonusPotential: {
-        grade: bonusGrade,
-        lines: bonusLines,
-      },
+      mainLines:
+        isFlameSlot(slot) && flameRank
+          ? normalizeFlameLines(slot, flameRank, base.mainLines ?? [])
+          : isFlameSlot(slot)
+            ? emptyFlameLines()
+            : base.mainLines,
+      potential,
+      bonusPotential,
       emblem: normalizeEmblem(slot, base.emblem),
       soul: normalizeSoul(slot, base.soul),
       highTierOption: normalizeHighTierOption(
@@ -409,34 +424,52 @@ export function GearEditModal({
     [item.atkBase, item.atkBonus],
   )
 
-  const setFlameRank = (flameRank: FlameRank) => {
+  const setFlameRank = (flameRank: FlameRank | null) => {
     setItem({
       ...item,
       flameRank,
-      mainLines: normalizeFlameLines(slot, flameRank, item.mainLines),
+      mainLines: flameRank
+        ? normalizeFlameLines(slot, flameRank, item.mainLines)
+        : emptyFlameLines(),
     })
   }
 
-  const setPotentialGrade = (grade: PotentialGrade) => {
+  const setPotentialGrade = (grade: PotentialGrade | null) => {
+    if (grade == null) {
+      setItem({ ...item, potential: null })
+      return
+    }
     setItem({
       ...item,
       potential: {
         grade,
         lines: isPotentialSlot(slot)
-          ? normalizePotentialLines(slot, grade, item.potential.lines)
-          : item.potential.lines,
+          ? normalizePotentialLines(
+              slot,
+              grade,
+              item.potential?.lines ?? emptyPotentialLines(),
+            )
+          : (item.potential?.lines ?? []),
       },
     })
   }
 
-  const setBonusPotentialGrade = (grade: PotentialGrade) => {
+  const setBonusPotentialGrade = (grade: PotentialGrade | null) => {
+    if (grade == null) {
+      setItem({ ...item, bonusPotential: null })
+      return
+    }
     setItem({
       ...item,
       bonusPotential: {
         grade,
         lines: isPotentialSlot(slot)
-          ? normalizeBonusPotentialLines(slot, grade, item.bonusPotential.lines)
-          : item.bonusPotential.lines,
+          ? normalizeBonusPotentialLines(
+              slot,
+              grade,
+              item.bonusPotential?.lines ?? emptyBonusPotentialLines(),
+            )
+          : (item.bonusPotential?.lines ?? []),
       },
     })
   }
@@ -727,12 +760,17 @@ export function GearEditModal({
               <h4 style={{ margin: 0 }}>สายหลัก / Flame</h4>
               {isFlameSlot(slot) && (
                 <select
-                  value={item.flameRank}
+                  value={item.flameRank ?? ''}
                   onChange={(e) =>
-                    setFlameRank(e.target.value as FlameRank)
+                    setFlameRank(
+                      e.target.value
+                        ? (e.target.value as FlameRank)
+                        : null,
+                    )
                   }
                   aria-label="Flame rank"
                 >
+                  <option value="">None</option>
                   {FLAME_RANKS.map((r) => (
                     <option key={r} value={r}>
                       {r}
@@ -742,12 +780,16 @@ export function GearEditModal({
               )}
             </div>
             {isFlameSlot(slot) ? (
-              <FlameLineEditor
-                slot={slot}
-                flameRank={item.flameRank}
-                lines={item.mainLines}
-                onChange={(mainLines) => setItem({ ...item, mainLines })}
-              />
+              item.flameRank ? (
+                <FlameLineEditor
+                  slot={slot}
+                  flameRank={item.flameRank}
+                  lines={item.mainLines}
+                  onChange={(mainLines) => setItem({ ...item, mainLines })}
+                />
+              ) : (
+                <p className="muted">ไม่มี Flame</p>
+              )
             ) : (
               <LineEditor
                 lines={item.mainLines}
@@ -756,16 +798,23 @@ export function GearEditModal({
             )}
           </section>
 
-          <section className={`block pot ${potentialFrameClass(item.potential.grade)}`}>
+          <section
+            className={`block pot ${item.potential ? potentialFrameClass(item.potential.grade) : ''}`}
+          >
             <div className="block-head">
               <strong>Potential</strong>
               <select
-                value={item.potential.grade}
+                value={item.potential?.grade ?? ''}
                 onChange={(e) =>
-                  setPotentialGrade(e.target.value as PotentialGrade)
+                  setPotentialGrade(
+                    e.target.value
+                      ? (e.target.value as PotentialGrade)
+                      : null,
+                  )
                 }
                 aria-label="Potential rank"
               >
+                <option value="">None</option>
                 {POTENTIAL_RANKS.map((g) => (
                   <option key={g} value={g}>
                     {g}
@@ -773,7 +822,9 @@ export function GearEditModal({
                 ))}
               </select>
             </div>
-            {isPotentialSlot(slot) ? (
+            {item.potential == null ? (
+              <p className="muted">ไม่มี Potential</p>
+            ) : isPotentialSlot(slot) ? (
               <PotentialLineEditor
                 slot={slot}
                 grade={item.potential.grade}
@@ -781,7 +832,7 @@ export function GearEditModal({
                 onChange={(lines) =>
                   setItem({
                     ...item,
-                    potential: { ...item.potential, lines },
+                    potential: { ...item.potential!, lines },
                   })
                 }
               />
@@ -789,24 +840,32 @@ export function GearEditModal({
               <LineEditor
                 lines={item.potential.lines}
                 onChange={(lines) =>
-                  setItem({ ...item, potential: { ...item.potential, lines } })
+                  setItem({
+                    ...item,
+                    potential: { ...item.potential!, lines },
+                  })
                 }
               />
             )}
           </section>
 
           <section
-            className={`block addpot ${potentialFrameClass(item.bonusPotential.grade)}`}
+            className={`block addpot ${item.bonusPotential ? potentialFrameClass(item.bonusPotential.grade) : ''}`}
           >
             <div className="block-head">
               <strong>Bonus Potential</strong>
               <select
-                value={item.bonusPotential.grade}
+                value={item.bonusPotential?.grade ?? ''}
                 onChange={(e) =>
-                  setBonusPotentialGrade(e.target.value as PotentialGrade)
+                  setBonusPotentialGrade(
+                    e.target.value
+                      ? (e.target.value as PotentialGrade)
+                      : null,
+                  )
                 }
                 aria-label="Bonus Potential rank"
               >
+                <option value="">None</option>
                 {BONUS_POTENTIAL_RANKS.map((g) => (
                   <option key={g} value={g}>
                     {g}
@@ -814,7 +873,9 @@ export function GearEditModal({
                 ))}
               </select>
             </div>
-            {isPotentialSlot(slot) ? (
+            {item.bonusPotential == null ? (
+              <p className="muted">ไม่มี Bonus Potential</p>
+            ) : isPotentialSlot(slot) ? (
               <PotentialLineEditor
                 slot={slot}
                 grade={item.bonusPotential.grade}
@@ -823,7 +884,7 @@ export function GearEditModal({
                 onChange={(lines) =>
                   setItem({
                     ...item,
-                    bonusPotential: { ...item.bonusPotential, lines },
+                    bonusPotential: { ...item.bonusPotential!, lines },
                   })
                 }
               />
@@ -833,7 +894,7 @@ export function GearEditModal({
                 onChange={(lines) =>
                   setItem({
                     ...item,
-                    bonusPotential: { ...item.bonusPotential, lines },
+                    bonusPotential: { ...item.bonusPotential!, lines },
                   })
                 }
               />
