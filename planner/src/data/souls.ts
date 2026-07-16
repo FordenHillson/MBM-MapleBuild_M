@@ -1,4 +1,5 @@
 import type { GearSlotId, SoulBlock, StatLine } from '../types/build'
+import { slotProfile } from './equipCategory'
 
 /** Bosses ordered highest → lowest (UI pick order). */
 export type SoulBossId =
@@ -665,10 +666,8 @@ export const SOUL_SECONDARY_OPTIONS: SoulOptionDef[] = [
   },
 ]
 
-const SOUL_SLOTS: ReadonlySet<GearSlotId> = new Set(['mainWeapon', 'secondary'])
-
 export function isSoulSlot(slot: GearSlotId): boolean {
-  return SOUL_SLOTS.has(slot)
+  return slotProfile(slot).soul.enabled
 }
 
 export function soulOptionsForSlot(slot: GearSlotId): SoulOptionDef[] {

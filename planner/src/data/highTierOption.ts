@@ -1,5 +1,6 @@
 import type { GearSlotId, ItemRank, StatLine } from '../types/build'
 import { isWeaponMainOptionRank } from '../types/build'
+import { slotProfile } from './equipCategory'
 
 export interface HighTierOptionDef {
   id: string
@@ -35,7 +36,9 @@ export function supportsHighTierOption(
   slot: GearSlotId,
   rank: ItemRank,
 ): boolean {
-  return slot === 'mainWeapon' && isWeaponMainOptionRank(rank)
+  return (
+    slotProfile(slot).highTierOption.enabled && isWeaponMainOptionRank(rank)
+  )
 }
 
 export function highTierOptionById(id: string): HighTierOptionDef | undefined {

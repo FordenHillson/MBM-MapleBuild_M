@@ -1,11 +1,13 @@
 import { describe, expect, it } from 'vitest'
 import {
   buildEmblemLines,
+  defaultBaseBoost,
   emblemById,
   emblemEffectValue,
   emblemMaxDamageValue,
   emblemsForSlot,
   normalizeEmblem,
+  slotEmblemCategory,
 } from './emblems'
 
 describe('emblems catalog', () => {
@@ -13,6 +15,12 @@ describe('emblems catalog', () => {
     const list = emblemsForSlot('mainWeapon')
     expect(list.length).toBe(5)
     expect(list.every((e) => e.icon.startsWith('https://'))).toBe(true)
+  })
+
+  it('treats belt as accessory (no base boost)', () => {
+    expect(defaultBaseBoost('belt')).toBe(0)
+    expect(slotEmblemCategory('belt')).toBe('accessory')
+    expect(defaultBaseBoost('hat')).toBe(30)
   })
 
   it('normalizes effect + maxDamage lines', () => {
