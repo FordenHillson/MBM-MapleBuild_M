@@ -95,4 +95,34 @@ describe('applyFlameScales', () => {
     expect(bag.phyAtkPercent).toBe(0)
     expect(bag.critDmgPercent).toBe(0)
   })
+
+  it('scales PHY DEF with Max HP (fixed×fixed)', () => {
+    const bag = applyFlameScales(
+      {
+        maxHp: 200_000,
+        maxMp: 0,
+        expPercent: 0,
+        bossAtkPercent: 0,
+        critRate: 0,
+        critDmgPercent: 0,
+      },
+      [{ optionId: 'phyDefMaxHp', label: '', value: 0.45 }],
+    ) as any
+    expect(bag.phyDef).toBe(scaleFixedWithFixed(200_000, 0.45))
+  })
+
+  it('adds ignoreDef as percentage points', () => {
+    const bag = applyFlameScales(
+      {
+        maxHp: 0,
+        maxMp: 0,
+        expPercent: 0,
+        bossAtkPercent: 0,
+        critRate: 0,
+        critDmgPercent: 0,
+      },
+      [{ optionId: 'ignoreDef', label: '', value: 4 }],
+    ) as any
+    expect(bag.ignoreDefPercent).toBe(4)
+  })
 })

@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { demoMainWeapon } from '../data/seed'
 import {
   aggregateGearPlayerStats,
+  mergeGearStatBag,
   pickAtkBag,
   resolveGearOptionId,
 } from './gearStatMap'
@@ -16,6 +17,16 @@ describe('gearStatMap registry', () => {
     expect(resolveGearOptionId('meso')).toBe('mesoGainPercent')
     expect(resolveGearOptionId('')).toBeNull()
     expect(resolveGearOptionId('unknownFutureOpt')).toBeNull()
+  })
+
+  it('merges GearStatBag values additively', () => {
+    const merged = mergeGearStatBag(
+      { phyDef: 100, phyDefPercent: 5 },
+      { phyDef: 20, phyDefPercent: 0.5, ignoreDefPercent: 3 },
+    )
+    expect(merged.phyDef).toBe(120)
+    expect(merged.phyDefPercent).toBeCloseTo(5.5)
+    expect(merged.ignoreDefPercent).toBe(3)
   })
 })
 

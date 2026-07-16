@@ -138,7 +138,7 @@ export function resolveAtkTotals(
     },
     collectFlameLines(gear),
   )
-  equipment = mergeAtkBag(equipment, flameBonus)
+  equipment = mergeAtkBag(equipment, pickAtkBag(flameBonus))
 
   const out = {} as AtkResolution
   for (const key of ATK_STAT_KEYS) {

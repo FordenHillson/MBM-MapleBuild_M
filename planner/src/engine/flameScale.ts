@@ -1,4 +1,5 @@
-import type { AtkStatBag, StatLine } from '../types/build'
+import type { AtkStatBag, PlayerStatKey, StatLine } from '../types/build'
+import type { GearStatBag } from './gearStatMap'
 
 /** Inputs used for Rebirth Flame “scales with” conversion (percentage points for %). */
 export interface FlameScaleBases {
@@ -10,7 +11,7 @@ export interface FlameScaleBases {
   critDmgPercent: number
 }
 
-function emptyBag(): AtkStatBag {
+function emptyBag(): GearStatBag {
   return {
     phyAtk: 0,
     phyAtkPercent: 0,
@@ -28,8 +29,8 @@ function emptyBag(): AtkStatBag {
   }
 }
 
-function add(bag: AtkStatBag, key: keyof AtkStatBag, value: number): void {
-  bag[key] += value
+function add(bag: GearStatBag, key: PlayerStatKey, value: number): void {
+  bag[key] = (bag[key] ?? 0) + value
 }
 
 /**
@@ -82,7 +83,7 @@ export function scaleBonus(base: number, flameValuePercent: number): number {
 export function applyFlameScales(
   bases: FlameScaleBases,
   lines: StatLine[],
-): AtkStatBag {
+): GearStatBag {
   const bag = emptyBag()
 
   for (const line of lines) {
@@ -103,6 +104,20 @@ export function applyFlameScales(
         break
       case 'magAtkMaxMp':
         add(bag, 'magAtk', scaleFixedWithFixed(bases.maxMp, v))
+        break
+
+      // Fixed × Fixed → flat DEF
+      case 'phyDefMaxHp':
+        add(bag, 'phyDef', scaleFixedWithFixed(bases.maxHp, v))
+        break
+      case 'magDefMaxHp':
+        add(bag, 'magDef', scaleFixedWithFixed(bases.maxHp, v))
+        break
+      case 'phyDefMaxMp':
+        add(bag, 'phyDef', scaleFixedWithFixed(bases.maxMp, v))
+        break
+      case 'magDefMaxMp':
+        add(bag, 'magDef', scaleFixedWithFixed(bases.maxMp, v))
         break
 
       // Percent × Percent → ATK%
@@ -148,6 +163,64 @@ export function applyFlameScales(
         )
         break
 
+      // Percent × Percent → DEF%
+      case 'phyDefExp':
+        add(
+          bag,
+          'phyDefPercent',
+          scalePercentWithPercent(bases.expPercent, v),
+        )
+        break
+      case 'magDefExp':
+        add(
+          bag,
+          'magDefPercent',
+          scalePercentWithPercent(bases.expPercent, v),
+        )
+        break
+      case 'phyDefBossAtk':
+        add(
+          bag,
+          'phyDefPercent',
+          scalePercentWithPercent(bases.bossAtkPercent, v),
+        )
+        break
+      case 'magDefBossAtk':
+        add(
+          bag,
+          'magDefPercent',
+          scalePercentWithPercent(bases.bossAtkPercent, v),
+        )
+        break
+      case 'phyDefCritRate':
+        add(
+          bag,
+          'phyDefPercent',
+          scalePercentWithPercent(bases.critRate, v),
+        )
+        break
+      case 'magDefCritRate':
+        add(
+          bag,
+          'magDefPercent',
+          scalePercentWithPercent(bases.critRate, v),
+        )
+        break
+      case 'phyDefCritDmg':
+        add(
+          bag,
+          'phyDefPercent',
+          scalePercentWithPercent(bases.critDmgPercent, v),
+        )
+        break
+      case 'magDefCritDmg':
+        add(
+          bag,
+          'magDefPercent',
+          scalePercentWithPercent(bases.critDmgPercent, v),
+        )
+        break
+
       // Percent × Percent → Crit DMG%
       case 'critDmgExp':
         add(bag, 'critDmgPercent', scalePercentWithPercent(bases.expPercent, v))
@@ -166,6 +239,10 @@ export function applyFlameScales(
       case 'finalDmg':
       case 'Final DMG Increase':
         add(bag, 'finalPercent', v)
+        break
+
+      case 'ignoreDef':
+        add(bag, 'ignoreDefPercent', v)
         break
       default:
         break

@@ -86,6 +86,19 @@ export function emptyGearStatBag(): GearStatBag {
   return {}
 }
 
+export function mergeGearStatBag(
+  into: GearStatBag,
+  addend: GearStatBag,
+): GearStatBag {
+  const out: GearStatBag = { ...into }
+  for (const key of Object.keys(addend) as PlayerStatKey[]) {
+    const v = addend[key]
+    if (v == null || v === 0) continue
+    out[key] = (out[key] ?? 0) + v
+  }
+  return out
+}
+
 export function resolveGearOptionId(optionId: string): PlayerStatKey | null {
   if (!optionId) return null
   return GEAR_OPTION_TO_STAT[optionId] ?? null
