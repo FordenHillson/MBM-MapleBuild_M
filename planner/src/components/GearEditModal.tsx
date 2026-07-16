@@ -751,61 +751,6 @@ export function GearEditModal({
             </section>
           )}
 
-          {supportsHatMainOption(slot, item.rank) && (
-            <section>
-              <h4>Option หลัก</h4>
-              <p className="muted" style={{ marginTop: 0 }}>
-                Helmet: เลือกออฟหลัก แล้วใส่ค่าเอง
-              </p>
-              <div
-                className="field-grid"
-                style={{ gridTemplateColumns: '2fr 1fr', maxWidth: 320 }}
-              >
-                <label>
-                  ออฟหลัก
-                  <select
-                    value={item.highTierOption?.optionId ?? HAT_MAIN_OPTIONS[0]!.optionId}
-                    onChange={(e) => {
-                      const optionId = e.target.value
-                      setItem({
-                        ...item,
-                        highTierOption: emptyHatMainOption(
-                          optionId || undefined,
-                          item.highTierOption?.value ?? 0,
-                        ),
-                      })
-                    }}
-                  >
-                    {HAT_MAIN_OPTIONS.map((opt) => (
-                      <option key={opt.optionId} value={opt.optionId}>
-                        {opt.label}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label>
-                  ค่า
-                  <input
-                    type="number"
-                    min={0}
-                    step={0.1}
-                    value={item.highTierOption?.value ?? 0}
-                    onChange={(e) =>
-                      setItem({
-                        ...item,
-                        highTierOption: {
-                          ...(item.highTierOption ??
-                            emptyHatMainOption(undefined, 0)),
-                          value: Number(e.target.value),
-                        },
-                      })
-                    }
-                  />
-                </label>
-              </div>
-            </section>
-          )}
-
           {supportsSharenianAbility(slot, item.rank) &&
             item.sharenianAbility && (
             <section>
@@ -839,12 +784,9 @@ export function GearEditModal({
           )}
 
           <section>
-            <h4>{slot === 'hat' ? 'DEF / HP / DMG' : 'ATK'}</h4>
+            <h4>{slot === 'hat' ? 'Option' : 'ATK'}</h4>
             {slot === 'hat' ? (
-              <div
-                className="field-grid"
-                style={{ gridTemplateColumns: 'repeat(3, minmax(0, 1fr))' }}
-              >
+              <div className="hat-option-edit">
                 <label>
                   PHY / MAG DEF
                   <input
@@ -873,6 +815,58 @@ export function GearEditModal({
                     }
                   />
                 </label>
+                {supportsHatMainOption(slot, item.rank) ? (
+                  <div className="hat-main-option-row">
+                    <label>
+                      Option หลัก
+                      <select
+                        value={
+                          item.highTierOption?.optionId ??
+                          HAT_MAIN_OPTIONS[0]!.optionId
+                        }
+                        onChange={(e) => {
+                          const optionId = e.target.value
+                          setItem({
+                            ...item,
+                            highTierOption: emptyHatMainOption(
+                              optionId || undefined,
+                              item.highTierOption?.value ?? 0,
+                            ),
+                          })
+                        }}
+                      >
+                        {HAT_MAIN_OPTIONS.map((opt) => (
+                          <option key={opt.optionId} value={opt.optionId}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <label>
+                      ค่า
+                      <input
+                        type="number"
+                        min={0}
+                        step={0.1}
+                        value={item.highTierOption?.value ?? 0}
+                        onChange={(e) =>
+                          setItem({
+                            ...item,
+                            highTierOption: {
+                              ...(item.highTierOption ??
+                                emptyHatMainOption(undefined, 0)),
+                              value: Number(e.target.value),
+                            },
+                          })
+                        }
+                      />
+                    </label>
+                  </div>
+                ) : (
+                  <p className="muted" style={{ margin: 0 }}>
+                    Root Abyss — ไม่มี Option หลักให้เลือก
+                  </p>
+                )}
                 <label>
                   DMG สูงสุด
                   <input
@@ -886,6 +880,11 @@ export function GearEditModal({
                     }
                   />
                 </label>
+                <div className="hat-option-set-stub">
+                  <span>ออปชั่นเซ็ต</span>
+                  <strong>ไม่มีเอฟเฟกต์</strong>
+                  <span className="muted">จะเพิ่มสเตตทีหลัง</span>
+                </div>
               </div>
             ) : (
               <div className="field-grid">
@@ -911,6 +910,10 @@ export function GearEditModal({
                 </label>
               </div>
             )}
+          </section>
+
+          {(isFlameSlot(slot) || slot !== 'hat') && (
+          <section>
             <div className="block-head" style={{ marginBottom: 6 }}>
               <h4 style={{ margin: 0 }}>สายหลัก / Flame</h4>
               {isFlameSlot(slot) && (
@@ -952,6 +955,7 @@ export function GearEditModal({
               />
             )}
           </section>
+          )}
 
           <section
             className={`block pot ${item.potential ? potentialFrameClass(item.potential.grade) : ''}`}

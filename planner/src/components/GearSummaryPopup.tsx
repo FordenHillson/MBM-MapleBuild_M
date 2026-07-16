@@ -39,9 +39,12 @@ function formatLineValue(line: StatLine): string {
     key === 'hpRecovery' ||
     key === 'mpRecovery' ||
     key === 'phyAtk' ||
-    key === 'magAtk'
+    key === 'magAtk' ||
+    key === 'critAtk'
   ) {
-    return String(line.value)
+    return key === 'critAtk' || key === 'phyAtk' || key === 'magAtk'
+      ? line.value.toLocaleString('en-US')
+      : String(line.value)
   }
   if (key && PLAYER_PERCENT_KEYS.has(key)) {
     return `${line.value}%`
@@ -225,23 +228,48 @@ export function GearSummaryPopup({
             </div>
           </div>
 
-          <div className="dossier-atk">
-            {slot === 'hat' ? (
-              <>
-                <div className="dossier-atk-main">
-                  <span className="dossier-atk-label">PHY / MAG DEF</span>
-                  <strong className="dossier-atk-value">
-                    {item.phyDefBase.toLocaleString('en-US')}
-                  </strong>
-                </div>
-                <p className="dossier-atk-break">
-                  HP สูงสุด{' '}
-                  {item.maxHpBase.toLocaleString('en-US')} · DMG สูงสุด{' '}
+          {slot === 'hat' ? (
+            <section className="dossier-section dossier-opt-list" aria-label="Option">
+              <div className="dossier-opt-row">
+                <span>PHY / MAG DEF</span>
+                <strong className="dossier-opt-value">
+                  {item.phyDefBase.toLocaleString('en-US')}
+                </strong>
+              </div>
+              <div className="dossier-opt-row">
+                <span>HP สูงสุด</span>
+                <strong className="dossier-opt-value">
+                  {item.maxHpBase.toLocaleString('en-US')}
+                </strong>
+              </div>
+              {item.highTierOption &&
+                supportsHatMainOption(slot, item.rank) && (
+                  <div className="dossier-opt-row dossier-opt-main">
+                    <span>{item.highTierOption.label}</span>
+                    <strong className="dossier-opt-value">
+                      {formatLineValue(item.highTierOption)}
+                    </strong>
+                  </div>
+                )}
+              <div className="dossier-opt-row">
+                <span>DMG สูงสุด</span>
+                <strong className="dossier-opt-value">
                   {item.maxDamageBase.toLocaleString('en-US')}
-                </p>
-              </>
-            ) : (
-              <>
+                </strong>
+              </div>
+              <div className="dossier-opt-row dossier-opt-set">
+                <span className="dossier-opt-set-label">
+                  ออปชั่นเซ็ต
+                  <span className="dossier-opt-help" title="จะเพิ่มสเตตทีหลัง" aria-hidden>
+                    ?
+                  </span>
+                </span>
+                <strong className="dossier-opt-set-value">ไม่มีเอฟเฟกต์</strong>
+              </div>
+            </section>
+          ) : (
+            <>
+              <div className="dossier-atk">
                 <div className="dossier-atk-main">
                   <span className="dossier-atk-label">PHY ATK</span>
                   <strong className="dossier-atk-value">
@@ -252,22 +280,21 @@ export function GearSummaryPopup({
                   ({item.atkBase.toLocaleString('en-US')} +{' '}
                   {item.atkBonus.toLocaleString('en-US')})
                 </p>
-              </>
-            )}
-          </div>
+              </div>
 
-          {item.highTierOption &&
-            (supportsHighTierOption(slot, item.rank) ||
-              supportsHatMainOption(slot, item.rank)) && (
-            <section className="dossier-section high-tier-sec">
-              <div className="dossier-sec-head">
-                <strong>Option หลัก</strong>
-              </div>
-              <div className="dossier-row">
-                <span>{item.highTierOption.label}</span>
-                <strong>{item.highTierOption.value}%</strong>
-              </div>
-            </section>
+              {item.highTierOption &&
+                supportsHighTierOption(slot, item.rank) && (
+                  <section className="dossier-section high-tier-sec">
+                    <div className="dossier-sec-head">
+                      <strong>Option หลัก</strong>
+                    </div>
+                    <div className="dossier-row">
+                      <span>{item.highTierOption.label}</span>
+                      <strong>{item.highTierOption.value}%</strong>
+                    </div>
+                  </section>
+                )}
+            </>
           )}
 
           {item.sharenianAbility &&

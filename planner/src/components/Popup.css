@@ -523,6 +523,70 @@
   color: #1a1f29;
 }
 
+/* Hat Option block — MSM tooltip-style rows (label left / value right) */
+.dossier-opt-list {
+  padding: 0;
+  border-top: 1px solid #d5dde8;
+  border-bottom: 1px solid #d5dde8;
+}
+
+.dossier-opt-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 0;
+  border-bottom: 1px solid #e4e9f0;
+  font-size: 12px;
+}
+
+.dossier-opt-row:last-child {
+  border-bottom: none;
+}
+
+.dossier-opt-row > span {
+  color: #3d4656;
+  font-weight: 600;
+  min-width: 0;
+}
+
+.dossier-opt-value {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: #c45c2c;
+  white-space: nowrap;
+}
+
+.dossier-opt-main > span {
+  color: #1aa05a;
+  font-weight: 700;
+}
+
+.dossier-opt-set > span,
+.dossier-opt-set-value {
+  color: #6b7382;
+  font-weight: 600;
+}
+
+.dossier-opt-set-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.dossier-opt-help {
+  display: inline-grid;
+  place-items: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid #aeb6c2;
+  font-size: 10px;
+  font-weight: 700;
+  color: #8a93a3;
+  line-height: 1;
+}
+
 .dossier-atk {
   padding: 8px 0 2px;
   border-top: 1px solid #d5dde8;
@@ -1233,6 +1297,47 @@
   gap: 4px;
   font-size: 12px;
   max-width: 160px;
+}
+
+.hat-option-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 420px;
+}
+
+.hat-option-edit > label,
+.hat-main-option-row label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.hat-main-option-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 10px;
+}
+
+.hat-option-set-stub {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  padding: 8px 10px;
+  border: 1px dashed #c8d0dc;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #6b7382;
+  background: #f5f7fa;
+}
+
+.hat-option-set-stub strong {
+  margin-left: auto;
+  font-weight: 650;
+  color: #4a5568;
 }
 
 .sharenian-ability-list {
