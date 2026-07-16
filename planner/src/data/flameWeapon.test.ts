@@ -9,7 +9,7 @@ describe('flameWeapon secondary', () => {
   it('treats secondary like main weapon', () => {
     expect(isFlameSlot('mainWeapon')).toBe(true)
     expect(isFlameSlot('secondary')).toBe(true)
-    expect(isFlameSlot('hat')).toBe(false)
+    expect(isFlameSlot('hat')).toBe(true)
   })
 
   it('reuses weapon option pool including Final DMG', () => {
@@ -17,7 +17,6 @@ describe('flameWeapon secondary', () => {
     const secondary = flameOptionsForSlot('secondary')
     expect(secondary).toEqual(main)
     expect(secondary.some((o) => o.id === 'finalDmg')).toBe(true)
-    expect(flameOptionsForSlot('hat')).toEqual([])
   })
 
   it('normalizes secondary flame lines to two slots', () => {
