@@ -132,7 +132,9 @@ function migrateGearItem(item: GearItem, slotId: GearSlotId): GearItem {
         })()
 
   const phyDefBase = Number(item.phyDefBase) || 0
-  const magDefBase = Number(item.magDefBase) || 0
+  // Hat PHY/MAG DEF always match in-game — keep both fields in sync.
+  const magDefBase =
+    slotId === 'hat' ? phyDefBase : Number(item.magDefBase) || 0
   const maxHpBase = Number(item.maxHpBase) || 0
   const maxDamageBase = Number(item.maxDamageBase) || 0
 

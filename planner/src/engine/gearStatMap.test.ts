@@ -80,7 +80,7 @@ describe('aggregateGearPlayerStats', () => {
       atkBase: 0,
       atkBonus: 0,
       phyDefBase: 100,
-      magDefBase: 80,
+      magDefBase: 100,
       maxHpBase: 1000,
       maxDamageBase: 50_000,
       flameRank: null,
@@ -100,7 +100,7 @@ describe('aggregateGearPlayerStats', () => {
     }
     const bag = aggregateGearPlayerStats({ hat })
     expect(bag.phyDef).toBe(130) // 100 + 30
-    expect(bag.magDef).toBe(104) // 80 + 24
+    expect(bag.magDef).toBe(130) // same base as PHY DEF
     expect(bag.maxHp).toBe(1000) // no emblem boost
     expect(bag.maxDamage).toBe(50_000)
   })

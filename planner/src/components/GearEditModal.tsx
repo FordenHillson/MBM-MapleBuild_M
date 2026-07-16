@@ -843,32 +843,21 @@ export function GearEditModal({
             {slot === 'hat' ? (
               <div
                 className="field-grid"
-                style={{ gridTemplateColumns: 'repeat(2, minmax(0, 1fr))' }}
+                style={{ gridTemplateColumns: 'repeat(3, minmax(0, 1fr))' }}
               >
                 <label>
-                  PHY DEF
+                  PHY / MAG DEF
                   <input
                     type="number"
                     value={item.phyDefBase}
-                    onChange={(e) =>
+                    onChange={(e) => {
+                      const def = Number(e.target.value)
                       setItem({
                         ...item,
-                        phyDefBase: Number(e.target.value),
+                        phyDefBase: def,
+                        magDefBase: def,
                       })
-                    }
-                  />
-                </label>
-                <label>
-                  MAG DEF
-                  <input
-                    type="number"
-                    value={item.magDefBase}
-                    onChange={(e) =>
-                      setItem({
-                        ...item,
-                        magDefBase: Number(e.target.value),
-                      })
-                    }
+                    }}
                   />
                 </label>
                 <label>

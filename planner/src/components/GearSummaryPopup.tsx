@@ -229,10 +229,9 @@ export function GearSummaryPopup({
             {slot === 'hat' ? (
               <>
                 <div className="dossier-atk-main">
-                  <span className="dossier-atk-label">PHY DEF / MAG DEF</span>
+                  <span className="dossier-atk-label">PHY / MAG DEF</span>
                   <strong className="dossier-atk-value">
-                    {item.phyDefBase.toLocaleString('en-US')} /{' '}
-                    {item.magDefBase.toLocaleString('en-US')}
+                    {item.phyDefBase.toLocaleString('en-US')}
                   </strong>
                 </div>
                 <p className="dossier-atk-break">
