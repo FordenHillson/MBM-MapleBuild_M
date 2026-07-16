@@ -40,6 +40,7 @@ import {
 } from '../data/bonusPotentialWeapon'
 import {
   buildEmblemLines,
+  canEquipEmblem,
   defaultBaseBoost,
   emptyEmblem,
   emblemById,
@@ -381,10 +382,15 @@ export function GearEditModal({
               : (base.bonusPotential?.lines ?? [])
             return { grade: bonusGrade, lines: bonusLines }
           })()
+    const normalizedRank = normalizeRank(
+      slot,
+      base.rank,
+      rootAbyssLocked,
+    )
     return {
       ...base,
       flameRank,
-      rank: normalizeRank(slot, base.rank, rootAbyssLocked),
+      rank: normalizedRank,
       mainLines:
         isFlameSlot(slot) && flameRank
           ? normalizeFlameLines(slot, flameRank, base.mainLines ?? [])
@@ -393,16 +399,16 @@ export function GearEditModal({
             : base.mainLines,
       potential,
       bonusPotential,
-      emblem: normalizeEmblem(slot, base.emblem),
+      emblem: normalizeEmblem(slot, base.emblem, normalizedRank),
       soul: normalizeSoul(slot, base.soul),
       highTierOption: normalizeHighTierOption(
         slot,
-        normalizeRank(slot, base.rank, rootAbyssLocked),
+        normalizedRank,
         base.highTierOption,
       ),
       sharenianAbility: normalizeSharenianAbility(
         slot,
-        normalizeRank(slot, base.rank, rootAbyssLocked),
+        normalizedRank,
         base.sharenianAbility,
       ),
       iconUrl: normalizeIconUrl(base.iconUrl),
@@ -418,6 +424,7 @@ export function GearEditModal({
   )
 
   const emblemSupported = supportsEmblem(slot)
+  const emblemAllowed = emblemSupported && canEquipEmblem(slot, item.rank)
   const isAccessoryEmblem = defaultBaseBoost(slot) === 0 && emblemSupported
   const soulSupported = isSoulSlot(slot)
   const soulBoss = item.soul
@@ -606,23 +613,26 @@ export function GearEditModal({
                 <select
                   value={item.rank}
                   disabled={rootAbyssLocked}
-                  onChange={(e) => {
-                    const rank = e.target.value as ItemRank
-                    setItem({
-                      ...item,
+                onChange={(e) => {
+                  const rank = e.target.value as ItemRank
+                  const allowEmblem = canEquipEmblem(slot, rank)
+                  if (!allowEmblem) setEmblemPickerOpen(false)
+                  setItem({
+                    ...item,
+                    rank,
+                    emblem: allowEmblem ? item.emblem : null,
+                    highTierOption: normalizeHighTierOption(
+                      slot,
                       rank,
-                      highTierOption: normalizeHighTierOption(
-                        slot,
-                        rank,
-                        item.highTierOption,
-                      ),
-                      sharenianAbility: normalizeSharenianAbility(
-                        slot,
-                        rank,
-                        item.sharenianAbility,
-                      ),
-                    })
-                  }}
+                      item.highTierOption,
+                    ),
+                    sharenianAbility: normalizeSharenianAbility(
+                      slot,
+                      rank,
+                      item.sharenianAbility,
+                    ),
+                  })
+                }}
                 >
                   {ranks.map((r) => (
                     <option key={r}>{r}</option>
@@ -933,6 +943,10 @@ export function GearEditModal({
             <h4>Emblem</h4>
             {!emblemSupported ? (
               <p className="muted">ช่องนี้ไม่มี Emblem</p>
+            ) : !emblemAllowed ? (
+              <p className="muted">
+                ต้องเป็น Unique หรือสูงกว่าเพื่อใส่ Emblem
+              </p>
             ) : item.emblem ? (
               <>
                 <div className="soul-summary">

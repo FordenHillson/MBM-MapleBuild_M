@@ -1,8 +1,10 @@
 import type {
   EmblemBlock,
   GearSlotId,
+  ItemRank,
   StatLine,
 } from '../types/build'
+import { ITEM_RANKS_ORDERED } from '../types/build'
 import { slotCategory, slotProfile } from './equipCategory'
 
 export type EmblemEquipCategory =
@@ -151,6 +153,16 @@ export function supportsEmblem(slot: GearSlotId): boolean {
   return slotProfile(slot).emblem.enabled
 }
 
+const EMBLEM_MIN_INDEX = ITEM_RANKS_ORDERED.indexOf('Unique')
+
+export function canEquipEmblem(slot: GearSlotId, rank: ItemRank): boolean {
+  if (!supportsEmblem(slot)) return false
+  if (slot !== 'hat') return true
+  const rankIndex = ITEM_RANKS_ORDERED.indexOf(rank)
+  if (rankIndex === -1) return false
+  return rankIndex <= EMBLEM_MIN_INDEX
+}
+
 export function emblemById(id: string): EmblemDef | undefined {
   return EMBLEM_DEFS.find((e) => e.id === id)
 }
@@ -244,9 +256,10 @@ export function emptyEmblem(
 export function normalizeEmblem(
   slot: GearSlotId,
   emblem: EmblemBlock | null | undefined,
+  rank: ItemRank,
 ): EmblemBlock | null {
   if (!emblem) return null
-  if (!supportsEmblem(slot)) return null
+  if (!canEquipEmblem(slot, rank)) return null
 
   const id = resolveTypeId(slot, emblem.typeId, emblem.name)
   if (!id) return null

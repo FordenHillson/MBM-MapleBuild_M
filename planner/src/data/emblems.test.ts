@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   buildEmblemLines,
+  canEquipEmblem,
   defaultBaseBoost,
   emblemById,
   emblemEffectValue,
@@ -8,6 +9,7 @@ import {
   emblemsForSlot,
   normalizeEmblem,
   slotEmblemCategory,
+  supportsEmblem,
 } from './emblems'
 
 describe('emblems catalog', () => {
@@ -33,7 +35,7 @@ describe('emblems catalog', () => {
         { optionId: 'critDmg', label: 'Crit DMG', value: 7.5 },
         { optionId: 'maxDamage', label: 'DMG สูงสุด', value: 1_000_000 },
       ],
-    })
+    }, 'Legendary')
     expect(next?.lines).toHaveLength(2)
     expect(emblemEffectValue(next!)).toBe(7.5)
     expect(emblemMaxDamageValue(next!)).toBe(1_000_000)
@@ -47,5 +49,20 @@ describe('emblems catalog', () => {
       value: 12,
     })
     expect(lines[1]).toMatchObject({ optionId: 'maxDamage', value: 500000 })
+  })
+})
+
+describe('canEquipEmblem gate', () => {
+  it('allows hats that are Unique or above', () => {
+    expect(canEquipEmblem('hat', 'Unique')).toBe(true)
+    expect(canEquipEmblem('hat', 'Legendary')).toBe(true)
+    expect(canEquipEmblem('hat', 'Epic')).toBe(false)
+  })
+
+  it('matches supportsEmblem for other slots', () => {
+    expect(canEquipEmblem('belt', 'Normal')).toBe(supportsEmblem('belt'))
+    expect(canEquipEmblem('title', 'Normal')).toBe(
+      supportsEmblem('title'),
+    )
   })
 })

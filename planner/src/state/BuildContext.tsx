@@ -152,7 +152,7 @@ function migrateGearItem(item: GearItem, slotId: GearSlotId): GearItem {
     mainLines,
     potential,
     bonusPotential,
-    emblem: normalizeEmblem(slotId, item.emblem),
+    emblem: normalizeEmblem(slotId, item.emblem, item.rank),
     soul: normalizeSoul(slotId, item.soul),
     highTierOption,
     sharenianAbility: normalizeSharenianAbility(
