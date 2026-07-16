@@ -140,6 +140,253 @@
   place-items: center;
 }
 
+.dossier-icon.has-rank-tex {
+  border: none;
+  background-color: #0a0c10;
+  background-image: var(--rank-frame);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  box-shadow: none;
+}
+
+.dossier-icon.has-rank-tex.has-emblem-tex {
+  background-image: var(--rank-frame), var(--rank-emblem);
+  background-size: 100% 100%, 86% 86%;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+  overflow: hidden;
+  --shine-hi: rgba(255, 150, 165, 0.7);
+  --shine-mid: rgba(210, 90, 110, 0.45);
+}
+
+.dossier-icon.has-emblem-tex.rank-genesis {
+  --shine-hi: rgba(255, 85, 100, 0.78);
+  --shine-mid: rgba(200, 28, 45, 0.55);
+}
+.dossier-icon.has-emblem-tex.rank-pink-neon {
+  --shine-hi: rgba(255, 110, 200, 0.78);
+  --shine-mid: rgba(220, 60, 170, 0.55);
+}
+.dossier-icon.has-emblem-tex.rank-pink {
+  --shine-hi: rgba(240, 130, 185, 0.72);
+  --shine-mid: rgba(190, 90, 150, 0.5);
+}
+.dossier-icon.has-emblem-tex.rank-blue-neon {
+  --shine-hi: rgba(100, 170, 255, 0.78);
+  --shine-mid: rgba(40, 110, 220, 0.55);
+}
+.dossier-icon.has-emblem-tex.rank-blue {
+  --shine-hi: rgba(100, 160, 230, 0.72);
+  --shine-mid: rgba(55, 100, 180, 0.5);
+}
+.dossier-icon.has-emblem-tex.rank-red {
+  --shine-hi: rgba(255, 90, 150, 0.78);
+  --shine-mid: rgba(210, 35, 100, 0.55);
+}
+.dossier-icon.has-emblem-tex.rank-green {
+  --shine-hi: rgba(90, 230, 150, 0.72);
+  --shine-mid: rgba(35, 160, 95, 0.5);
+}
+.dossier-icon.has-emblem-tex.rank-orange {
+  --shine-hi: rgba(255, 175, 90, 0.75);
+  --shine-mid: rgba(220, 120, 35, 0.5);
+}
+.dossier-icon.has-emblem-tex.rank-purple {
+  --shine-hi: rgba(180, 130, 240, 0.75);
+  --shine-mid: rgba(130, 70, 190, 0.5);
+}
+.dossier-icon.has-emblem-tex.rank-cyan {
+  --shine-hi: rgba(90, 210, 240, 0.75);
+  --shine-mid: rgba(45, 150, 190, 0.5);
+}
+
+.dossier-icon.has-emblem-tex::before {
+  content: '';
+  position: absolute;
+  inset: 4%;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    var(--shine-mid) 3deg,
+    var(--shine-hi) 12deg,
+    var(--shine-hi) 22deg,
+    var(--shine-mid) 30deg,
+    transparent 38deg,
+    transparent 70deg,
+    var(--shine-mid) 74deg,
+    var(--shine-hi) 84deg,
+    var(--shine-hi) 96deg,
+    var(--shine-mid) 104deg,
+    transparent 112deg,
+    transparent 155deg,
+    var(--shine-mid) 160deg,
+    var(--shine-hi) 172deg,
+    var(--shine-hi) 188deg,
+    var(--shine-mid) 198deg,
+    transparent 206deg,
+    transparent 248deg,
+    var(--shine-mid) 253deg,
+    var(--shine-hi) 265deg,
+    var(--shine-hi) 280deg,
+    var(--shine-mid) 290deg,
+    transparent 300deg,
+    transparent 360deg
+  );
+  -webkit-mask-image: radial-gradient(
+    circle at center,
+    transparent 42%,
+    rgba(0, 0, 0, 0.08) 50%,
+    rgba(0, 0, 0, 0.35) 58%,
+    rgba(0, 0, 0, 0.75) 66%,
+    rgba(0, 0, 0, 0.75) 74%,
+    rgba(0, 0, 0, 0.35) 82%,
+    rgba(0, 0, 0, 0.08) 90%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    circle at center,
+    transparent 42%,
+    rgba(0, 0, 0, 0.08) 50%,
+    rgba(0, 0, 0, 0.35) 58%,
+    rgba(0, 0, 0, 0.75) 66%,
+    rgba(0, 0, 0, 0.75) 74%,
+    rgba(0, 0, 0, 0.35) 82%,
+    rgba(0, 0, 0, 0.08) 90%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  opacity: 0.82;
+  filter: blur(2.8px) drop-shadow(0 0 6px var(--shine-mid));
+  animation: emblemOrbitSpin 3.15s linear infinite;
+}
+
+.dossier-icon.has-emblem-tex > * {
+  z-index: 2;
+}
+
+.dossier-icon .emblem-detail-shine,
+.dossier-icon .emblem-line-glow,
+.gear-icon-preview .emblem-detail-shine,
+.gear-icon-preview .emblem-line-glow {
+  position: absolute;
+  inset: 2%;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.dossier-icon .emblem-detail-shine,
+.gear-icon-preview .emblem-detail-shine {
+  background: conic-gradient(
+    from 25deg,
+    transparent 0deg,
+    var(--shine-mid) 2deg,
+    var(--shine-hi) 14deg,
+    var(--shine-mid) 26deg,
+    transparent 34deg,
+    transparent 100deg,
+    var(--shine-mid) 106deg,
+    var(--shine-hi) 120deg,
+    var(--shine-mid) 134deg,
+    transparent 142deg,
+    transparent 210deg,
+    var(--shine-mid) 216deg,
+    var(--shine-hi) 230deg,
+    var(--shine-mid) 244deg,
+    transparent 252deg,
+    transparent 320deg,
+    var(--shine-mid) 326deg,
+    var(--shine-hi) 340deg,
+    var(--shine-mid) 352deg,
+    transparent 360deg
+  );
+  -webkit-mask-image: radial-gradient(
+    circle at center,
+    transparent 38%,
+    rgba(0, 0, 0, 0.06) 46%,
+    rgba(0, 0, 0, 0.3) 55%,
+    rgba(0, 0, 0, 0.7) 64%,
+    rgba(0, 0, 0, 0.7) 72%,
+    rgba(0, 0, 0, 0.3) 80%,
+    rgba(0, 0, 0, 0.06) 88%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    circle at center,
+    transparent 38%,
+    rgba(0, 0, 0, 0.06) 46%,
+    rgba(0, 0, 0, 0.3) 55%,
+    rgba(0, 0, 0, 0.7) 64%,
+    rgba(0, 0, 0, 0.7) 72%,
+    rgba(0, 0, 0, 0.3) 80%,
+    rgba(0, 0, 0, 0.06) 88%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  opacity: 0.65;
+  filter: blur(3.2px);
+  animation: emblemOrbitSpin 4.28s linear infinite reverse;
+}
+
+.dossier-icon .emblem-line-glow,
+.gear-icon-preview .emblem-line-glow {
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at center,
+    var(--shine-hi) 0%,
+    var(--shine-mid) 38%,
+    transparent 72%
+  );
+  -webkit-mask-image: none;
+  mask-image: none;
+  mix-blend-mode: screen;
+  filter: blur(3.6px);
+  opacity: 0.4;
+  animation: emblemLinePulse 3.15s ease-in-out infinite;
+}
+
+@keyframes emblemOrbitSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes emblemLinePulse {
+  0%,
+  100% {
+    opacity: 0.28;
+    filter: blur(3.2px);
+  }
+  50% {
+    opacity: 0.55;
+    filter: blur(4px);
+  }
+}
+
+.dossier-icon.has-rank-tex.rank-genesis {
+  box-shadow:
+    0 0 5px rgba(255, 40, 55, 0.9),
+    0 0 12px rgba(255, 24, 48, 0.55),
+    0 0 22px rgba(255, 16, 40, 0.35);
+}
+
+.dossier-icon.has-rank-tex .dossier-icon-img {
+  width: 72%;
+  height: 72%;
+  object-fit: contain;
+}
+
+.dossier-icon.has-rank-tex .dossier-icon-silhouette {
+  width: 55%;
+  height: 55%;
+  color: #9aa6b8;
+  opacity: 0.7;
+}
+
 .dossier-icon-letter {
   font-size: 22px;
   font-weight: 800;
@@ -222,15 +469,27 @@
   background: #2ecc71;
 }
 
-.dossier-badge.pot.rank-green { background: #2ecc71; }
-.dossier-badge.pot.rank-orange { background: #e67e22; }
-.dossier-badge.pot.rank-purple { background: #9b59b6; }
-.dossier-badge.pot.rank-cyan { background: #3498db; }
-.dossier-badge.pot.rank-gray { background: #95a5a6; }
+.dossier-badge.add {
+  top: 3px;
+  left: 22px;
+  background: #9b59b6;
+}
+
+.dossier-badge.pot.rank-green,
+.dossier-badge.add.rank-green { background: #2ecc71; }
+.dossier-badge.pot.rank-orange,
+.dossier-badge.add.rank-orange { background: #e67e22; }
+.dossier-badge.pot.rank-purple,
+.dossier-badge.add.rank-purple { background: #9b59b6; }
+.dossier-badge.pot.rank-cyan,
+.dossier-badge.add.rank-cyan { background: #3498db; }
+.dossier-badge.pot.rank-gray,
+.dossier-badge.add.rank-gray { background: #95a5a6; }
 
 .dossier-badge.emb {
   top: 3px;
   right: 3px;
+  min-width: 20px;
   background: #8e44ad;
 }
 
@@ -1024,6 +1283,151 @@
   color: #6b7382;
   font-size: 22px;
   font-weight: 800;
+}
+
+.gear-icon-preview.has-rank-tex {
+  border: none;
+  background-color: #0a0c10;
+  background-image: var(--rank-frame);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.gear-icon-preview.has-rank-tex.has-emblem-tex {
+  background-image: var(--rank-frame), var(--rank-emblem);
+  background-size: 100% 100%, 86% 86%;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+  position: relative;
+  --shine-hi: rgba(255, 150, 165, 0.7);
+  --shine-mid: rgba(210, 90, 110, 0.45);
+}
+
+.gear-icon-preview.has-emblem-tex.rank-genesis {
+  --shine-hi: rgba(255, 85, 100, 0.78);
+  --shine-mid: rgba(200, 28, 45, 0.55);
+}
+.gear-icon-preview.has-emblem-tex.rank-pink-neon {
+  --shine-hi: rgba(255, 110, 200, 0.78);
+  --shine-mid: rgba(220, 60, 170, 0.55);
+}
+.gear-icon-preview.has-emblem-tex.rank-pink {
+  --shine-hi: rgba(240, 130, 185, 0.72);
+  --shine-mid: rgba(190, 90, 150, 0.5);
+}
+.gear-icon-preview.has-emblem-tex.rank-blue-neon {
+  --shine-hi: rgba(100, 170, 255, 0.78);
+  --shine-mid: rgba(40, 110, 220, 0.55);
+}
+.gear-icon-preview.has-emblem-tex.rank-blue {
+  --shine-hi: rgba(100, 160, 230, 0.72);
+  --shine-mid: rgba(55, 100, 180, 0.5);
+}
+.gear-icon-preview.has-emblem-tex.rank-red {
+  --shine-hi: rgba(255, 90, 150, 0.78);
+  --shine-mid: rgba(210, 35, 100, 0.55);
+}
+.gear-icon-preview.has-emblem-tex.rank-green {
+  --shine-hi: rgba(90, 230, 150, 0.72);
+  --shine-mid: rgba(35, 160, 95, 0.5);
+}
+.gear-icon-preview.has-emblem-tex.rank-orange {
+  --shine-hi: rgba(255, 175, 90, 0.75);
+  --shine-mid: rgba(220, 120, 35, 0.5);
+}
+.gear-icon-preview.has-emblem-tex.rank-purple {
+  --shine-hi: rgba(180, 130, 240, 0.75);
+  --shine-mid: rgba(130, 70, 190, 0.5);
+}
+.gear-icon-preview.has-emblem-tex.rank-cyan {
+  --shine-hi: rgba(90, 210, 240, 0.75);
+  --shine-mid: rgba(45, 150, 190, 0.5);
+}
+
+.gear-icon-preview.has-emblem-tex::before {
+  content: '';
+  position: absolute;
+  inset: 4%;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    var(--shine-mid) 3deg,
+    var(--shine-hi) 12deg,
+    var(--shine-hi) 22deg,
+    var(--shine-mid) 30deg,
+    transparent 38deg,
+    transparent 70deg,
+    var(--shine-mid) 74deg,
+    var(--shine-hi) 84deg,
+    var(--shine-hi) 96deg,
+    var(--shine-mid) 104deg,
+    transparent 112deg,
+    transparent 155deg,
+    var(--shine-mid) 160deg,
+    var(--shine-hi) 172deg,
+    var(--shine-hi) 188deg,
+    var(--shine-mid) 198deg,
+    transparent 206deg,
+    transparent 248deg,
+    var(--shine-mid) 253deg,
+    var(--shine-hi) 265deg,
+    var(--shine-hi) 280deg,
+    var(--shine-mid) 290deg,
+    transparent 300deg,
+    transparent 360deg
+  );
+  -webkit-mask-image: radial-gradient(
+    circle at center,
+    transparent 42%,
+    rgba(0, 0, 0, 0.08) 50%,
+    rgba(0, 0, 0, 0.35) 58%,
+    rgba(0, 0, 0, 0.75) 66%,
+    rgba(0, 0, 0, 0.75) 74%,
+    rgba(0, 0, 0, 0.35) 82%,
+    rgba(0, 0, 0, 0.08) 90%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    circle at center,
+    transparent 42%,
+    rgba(0, 0, 0, 0.08) 50%,
+    rgba(0, 0, 0, 0.35) 58%,
+    rgba(0, 0, 0, 0.75) 66%,
+    rgba(0, 0, 0, 0.75) 74%,
+    rgba(0, 0, 0, 0.35) 82%,
+    rgba(0, 0, 0, 0.08) 90%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  opacity: 0.82;
+  filter: blur(2.8px) drop-shadow(0 0 6px var(--shine-mid));
+  animation: emblemOrbitSpin 3.15s linear infinite;
+}
+
+.gear-icon-preview.has-emblem-tex > * {
+  position: relative;
+  z-index: 2;
+}
+
+.gear-icon-preview.has-rank-tex.rank-genesis {
+  box-shadow:
+    0 0 5px rgba(255, 40, 55, 0.9),
+    0 0 12px rgba(255, 24, 48, 0.5),
+    0 0 20px rgba(255, 16, 40, 0.3);
+}
+
+.gear-icon-preview.has-rank-tex img {
+  width: 70%;
+  height: 70%;
+}
+
+.gear-icon-preview.has-rank-tex .gear-icon-silhouette {
+  width: 52%;
+  height: 52%;
 }
 
 .gear-icon-preview img {

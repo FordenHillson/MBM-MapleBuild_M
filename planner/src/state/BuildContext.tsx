@@ -20,6 +20,7 @@ import { deriveFlameBases } from '../engine/resolveStats'
 import { aggregateGearPlayerStats } from '../engine/gearStatMap'
 import { createBlankSkill, createEmptyBuild, defaultStatSources } from '../data/seed'
 import {
+  emptyFlameLines,
   isFlameRank,
   isFlameSlot,
   normalizeFlameLines,
@@ -32,6 +33,7 @@ import {
 import { normalizeBonusPotentialLines } from '../data/bonusPotentialWeapon'
 import { normalizeEmblem } from '../data/emblems'
 import { normalizeSoul } from '../data/souls'
+import { normalizeHatMainOption } from '../data/hatMainOption'
 import { normalizeHighTierOption } from '../data/highTierOption'
 import { normalizeSharenianAbility } from '../data/sharenianAbility'
 import { normalizeIconUrl } from '../data/gearIcon'
@@ -86,46 +88,73 @@ function migrateEnemyTarget(raw: Partial<EnemyTarget> | undefined): EnemyTarget 
 }
 
 function migrateGearItem(item: GearItem, slotId: GearSlotId): GearItem {
-  const flameRank = isFlameRank(item.flameRank) ? item.flameRank : 'Legendary'
+  const flameRank =
+    item.flameRank === null
+      ? null
+      : isFlameRank(item.flameRank)
+        ? item.flameRank
+        : 'Legendary'
   let mainLines = item.mainLines ?? []
-  if (isFlameSlot(slotId)) {
+  if (isFlameSlot(slotId) && flameRank) {
     mainLines = normalizeFlameLines(slotId, flameRank, mainLines)
+  } else if (isFlameSlot(slotId) && flameRank === null) {
+    mainLines = emptyFlameLines()
   }
 
-  const potGrade = normalizePotentialGrade(item.potential?.grade)
-  const potLines = isPotentialSlot(slotId)
-    ? normalizePotentialLines(slotId, potGrade, item.potential?.lines ?? [])
-    : (item.potential?.lines ?? [])
+  const potential =
+    item.potential === null
+      ? null
+      : (() => {
+          const potGrade = normalizePotentialGrade(item.potential?.grade)
+          const potLines = isPotentialSlot(slotId)
+            ? normalizePotentialLines(
+                slotId,
+                potGrade,
+                item.potential?.lines ?? [],
+              )
+            : (item.potential?.lines ?? [])
+          return { grade: potGrade, lines: potLines }
+        })()
 
-  const bonusGrade = normalizePotentialGrade(item.bonusPotential?.grade)
-  const bonusLines = isPotentialSlot(slotId)
-    ? normalizeBonusPotentialLines(
-        slotId,
-        bonusGrade,
-        item.bonusPotential?.lines ?? [],
-      )
-    : (item.bonusPotential?.lines ?? [])
+  const bonusPotential =
+    item.bonusPotential === null
+      ? null
+      : (() => {
+          const bonusGrade = normalizePotentialGrade(item.bonusPotential?.grade)
+          const bonusLines = isPotentialSlot(slotId)
+            ? normalizeBonusPotentialLines(
+                slotId,
+                bonusGrade,
+                item.bonusPotential?.lines ?? [],
+              )
+            : (item.bonusPotential?.lines ?? [])
+          return { grade: bonusGrade, lines: bonusLines }
+        })()
+
+  const phyDefBase = Number(item.phyDefBase) || 0
+  const magDefBase = Number(item.magDefBase) || 0
+  const maxHpBase = Number(item.maxHpBase) || 0
+  const maxDamageBase = Number(item.maxDamageBase) || 0
+
+  const highTierOption =
+    slotId === 'hat'
+      ? normalizeHatMainOption(slotId, item.rank, item.highTierOption)
+      : normalizeHighTierOption(slotId, item.rank, item.highTierOption)
 
   return {
     ...item,
     slotId,
+    phyDefBase,
+    magDefBase,
+    maxHpBase,
+    maxDamageBase,
     flameRank,
     mainLines,
-    potential: {
-      grade: potGrade,
-      lines: potLines,
-    },
-    bonusPotential: {
-      grade: bonusGrade,
-      lines: bonusLines,
-    },
-    emblem: normalizeEmblem(slotId, item.emblem),
+    potential,
+    bonusPotential,
+    emblem: normalizeEmblem(slotId, item.emblem, item.rank),
     soul: normalizeSoul(slotId, item.soul),
-    highTierOption: normalizeHighTierOption(
-      slotId,
-      item.rank,
-      item.highTierOption,
-    ),
+    highTierOption,
     sharenianAbility: normalizeSharenianAbility(
       slotId,
       item.rank,

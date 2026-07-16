@@ -15,6 +15,7 @@ import {
   flameOptionsAvailable,
   flameOptionById,
   flameValues,
+  isFlameRank,
   isFlameSlot,
   normalizeFlameLines,
 } from '../data/flameWeapon'
@@ -39,6 +40,7 @@ import {
 } from '../data/bonusPotentialWeapon'
 import {
   buildEmblemLines,
+  canEquipEmblem,
   defaultBaseBoost,
   emptyEmblem,
   emblemById,
@@ -60,10 +62,18 @@ import {
   supportsHighTierOption,
 } from '../data/highTierOption'
 import {
+  HAT_MAIN_OPTIONS,
+  emptyHatMainOption,
+  normalizeHatMainOption,
+  supportsHatMainOption,
+} from '../data/hatMainOption'
+import {
   normalizeSharenianAbility,
   supportsSharenianAbility,
 } from '../data/sharenianAbility'
 import { fileToGearIconDataUrl, normalizeIconUrl } from '../data/gearIcon'
+import { rankFrameClass } from '../data/itemRankStyle'
+import { resolveItemRankFrameLayers } from '../data/itemRankTextures'
 import { EmblemPickerPopup } from './EmblemPickerPopup'
 import { SoulPickerPopup } from './SoulPickerPopup'
 import { SlotSilhouette } from './SlotSilhouette'
@@ -89,21 +99,19 @@ function emptyItem(slot: GearSlotId): GearItem {
     star: 0,
     atkBase: 0,
     atkBonus: 0,
-    flameRank: 'Legendary',
+    phyDefBase: 0,
+    magDefBase: 0,
+    maxHpBase: 0,
+    maxDamageBase: 0,
+    flameRank: null,
     mainLines: isFlameSlot(slot)
       ? emptyFlameLines()
       : [
           { optionId: 'critDmg', label: 'Crit DMG', value: 0 },
           { optionId: 'phyAtkBossAtk', label: 'PHY ATK ตาม Boss ATK', value: 0 },
         ],
-    potential: {
-      grade: 'Legendary',
-      lines: isPotentialSlot(slot) ? emptyPotentialLines() : [],
-    },
-    bonusPotential: {
-      grade: 'Epic',
-      lines: isPotentialSlot(slot) ? emptyBonusPotentialLines() : [],
-    },
+    potential: null,
+    bonusPotential: null,
     emblem: supportsEmblem(slot) ? emptyEmblem(slot, 'ruthless') : null,
     highTierOption: null,
     sharenianAbility: null,
@@ -200,7 +208,7 @@ function FlameLineEditor({
                 })
               }}
             >
-              <option value="">— ไม่เลือก —</option>
+              <option value="">None</option>
               {options.map((o) => (
                 <option key={o.id} value={o.id}>
                   {o.label}
@@ -299,7 +307,7 @@ function PotentialLineEditor({
                 })
               }}
             >
-              <option value="">— ไม่เลือก —</option>
+              <option value="">None</option>
               {options.map((o) => (
                 <option key={o.id} value={o.id}>
                   {o.label}
@@ -344,44 +352,68 @@ export function GearEditModal({
 }) {
   const [item, setItem] = useState<GearItem>(() => {
     const base = initial ? structuredClone(initial) : emptyItem(slot)
-    const flameRank = base.flameRank ?? 'Legendary'
-    const potGrade = normalizePotentialGrade(base.potential?.grade)
-    const potLines = isPotentialSlot(slot)
-      ? normalizePotentialLines(slot, potGrade, base.potential?.lines ?? [])
-      : (base.potential?.lines ?? [])
-    const bonusGrade = normalizePotentialGrade(base.bonusPotential?.grade)
-    const bonusLines = isPotentialSlot(slot)
-      ? normalizeBonusPotentialLines(
-          slot,
-          bonusGrade,
-          base.bonusPotential?.lines ?? [],
-        )
-      : (base.bonusPotential?.lines ?? [])
+    const flameRank =
+      base.flameRank === null
+        ? null
+        : isFlameRank(base.flameRank)
+          ? base.flameRank
+          : 'Legendary'
+    const potential =
+      base.potential === null
+        ? null
+        : (() => {
+            const potGrade = normalizePotentialGrade(base.potential?.grade)
+            const potLines = isPotentialSlot(slot)
+              ? normalizePotentialLines(
+                  slot,
+                  potGrade,
+                  base.potential?.lines ?? [],
+                )
+              : (base.potential?.lines ?? [])
+            return { grade: potGrade, lines: potLines }
+          })()
+    const bonusPotential =
+      base.bonusPotential === null
+        ? null
+        : (() => {
+            const bonusGrade = normalizePotentialGrade(
+              base.bonusPotential?.grade,
+            )
+            const bonusLines = isPotentialSlot(slot)
+              ? normalizeBonusPotentialLines(
+                  slot,
+                  bonusGrade,
+                  base.bonusPotential?.lines ?? [],
+                )
+              : (base.bonusPotential?.lines ?? [])
+            return { grade: bonusGrade, lines: bonusLines }
+          })()
+    const normalizedRank = normalizeRank(
+      slot,
+      base.rank,
+      rootAbyssLocked,
+    )
     return {
       ...base,
       flameRank,
-      rank: normalizeRank(slot, base.rank, rootAbyssLocked),
-      mainLines: isFlameSlot(slot)
-        ? normalizeFlameLines(slot, flameRank, base.mainLines ?? [])
-        : base.mainLines,
-      potential: {
-        grade: potGrade,
-        lines: potLines,
-      },
-      bonusPotential: {
-        grade: bonusGrade,
-        lines: bonusLines,
-      },
-      emblem: normalizeEmblem(slot, base.emblem),
+      rank: normalizedRank,
+      mainLines:
+        isFlameSlot(slot) && flameRank
+          ? normalizeFlameLines(slot, flameRank, base.mainLines ?? [])
+          : isFlameSlot(slot)
+            ? emptyFlameLines()
+            : base.mainLines,
+      potential,
+      bonusPotential,
+      emblem: normalizeEmblem(slot, base.emblem, normalizedRank),
       soul: normalizeSoul(slot, base.soul),
-      highTierOption: normalizeHighTierOption(
-        slot,
-        normalizeRank(slot, base.rank, rootAbyssLocked),
-        base.highTierOption,
-      ),
+      highTierOption:
+        slot === 'hat'
+          ? normalizeHatMainOption(slot, normalizedRank, base.highTierOption)
+          : normalizeHighTierOption(slot, normalizedRank, base.highTierOption),
       sharenianAbility: normalizeSharenianAbility(
         slot,
-        normalizeRank(slot, base.rank, rootAbyssLocked),
+        normalizedRank,
         base.sharenianAbility,
       ),
       iconUrl: normalizeIconUrl(base.iconUrl),
@@ -397,46 +429,68 @@ export function GearEditModal({
   )
 
   const emblemSupported = supportsEmblem(slot)
+  const emblemAllowed = emblemSupported && canEquipEmblem(slot, item.rank)
   const isAccessoryEmblem = defaultBaseBoost(slot) === 0 && emblemSupported
   const soulSupported = isSoulSlot(slot)
   const soulBoss = item.soul
     ? soulBossById(parseSoulId(item.soul.soulId, slot)?.bossId ?? '')
     : undefined
   const emblemDef = item.emblem ? emblemById(item.emblem.typeId) : undefined
+  const layers = resolveItemRankFrameLayers(item.rank, 'summary', {
+    hasEmblem: Boolean(item.emblem),
+  })
 
   const total = useMemo(
     () => item.atkBase + item.atkBonus,
     [item.atkBase, item.atkBonus],
   )
 
-  const setFlameRank = (flameRank: FlameRank) => {
+  const setFlameRank = (flameRank: FlameRank | null) => {
     setItem({
       ...item,
       flameRank,
-      mainLines: normalizeFlameLines(slot, flameRank, item.mainLines),
+      mainLines: flameRank
+        ? normalizeFlameLines(slot, flameRank, item.mainLines)
+        : emptyFlameLines(),
     })
   }
 
-  const setPotentialGrade = (grade: PotentialGrade) => {
+  const setPotentialGrade = (grade: PotentialGrade | null) => {
+    if (grade == null) {
+      setItem({ ...item, potential: null })
+      return
+    }
     setItem({
       ...item,
       potential: {
         grade,
         lines: isPotentialSlot(slot)
-          ? normalizePotentialLines(slot, grade, item.potential.lines)
-          : item.potential.lines,
+          ? normalizePotentialLines(
+              slot,
+              grade,
+              item.potential?.lines ?? emptyPotentialLines(),
+            )
+          : (item.potential?.lines ?? []),
       },
     })
   }
 
-  const setBonusPotentialGrade = (grade: PotentialGrade) => {
+  const setBonusPotentialGrade = (grade: PotentialGrade | null) => {
+    if (grade == null) {
+      setItem({ ...item, bonusPotential: null })
+      return
+    }
     setItem({
       ...item,
       bonusPotential: {
         grade,
         lines: isPotentialSlot(slot)
-          ? normalizeBonusPotentialLines(slot, grade, item.bonusPotential.lines)
-          : item.bonusPotential.lines,
+          ? normalizeBonusPotentialLines(
+              slot,
+              grade,
+              item.bonusPotential?.lines ?? emptyBonusPotentialLines(),
+            )
+          : (item.bonusPotential?.lines ?? []),
       },
     })
   }
@@ -467,8 +521,27 @@ export function GearEditModal({
             <h4>ไอคอน</h4>
             <div className="gear-icon-editor">
               <div
-                className={`gear-icon-preview ${item.iconUrl ? 'has-img' : ''}`}
+                className={`gear-icon-preview has-rank-tex ${rankFrameClass(item.rank)}${layers.emblem ? ' has-emblem-tex' : ''}${item.iconUrl ? ' has-img' : ''}`}
+                style={{
+                  ['--rank-frame' as string]: `url("${layers.frame}")`,
+                  ...(layers.emblem
+                    ? {
+                        ['--rank-emblem' as string]: `url("${layers.emblem}")`,
+                        ...(layers.emblemLines
+                          ? {
+                              ['--emblem-lines' as string]: `url("${layers.emblemLines}")`,
+                            }
+                          : {}),
+                      }
+                    : {}),
+                }}
               >
+                {layers.emblem && (
+                  <>
+                    <span className="emblem-detail-shine" aria-hidden />
+                    <span className="emblem-line-glow" aria-hidden />
+                  </>
+                )}
                 {item.iconUrl ? (
                   <img src={item.iconUrl} alt="" />
                 ) : (
@@ -547,14 +620,25 @@ export function GearEditModal({
                   disabled={rootAbyssLocked}
                   onChange={(e) => {
                     const rank = e.target.value as ItemRank
+                    const allowEmblem = canEquipEmblem(slot, rank)
+                    if (!allowEmblem) setEmblemPickerOpen(false)
+                    const nextHighTier =
+                      slot === 'hat'
+                        ? normalizeHatMainOption(
+                            slot,
+                            rank,
+                            item.highTierOption,
+                          )
+                        : normalizeHighTierOption(
+                            slot,
+                            rank,
+                            item.highTierOption,
+                          )
                     setItem({
                       ...item,
                       rank,
-                      highTierOption: normalizeHighTierOption(
-                        slot,
-                        rank,
-                        item.highTierOption,
-                      ),
+                      emblem: allowEmblem ? item.emblem : null,
+                      highTierOption: nextHighTier,
                       sharenianAbility: normalizeSharenianAbility(
                         slot,
                         rank,
@@ -667,6 +751,61 @@ export function GearEditModal({
             </section>
           )}
 
+          {supportsHatMainOption(slot, item.rank) && (
+            <section>
+              <h4>Option หลัก</h4>
+              <p className="muted" style={{ marginTop: 0 }}>
+                Helmet: เลือกออฟหลัก แล้วใส่ค่าเอง
+              </p>
+              <div
+                className="field-grid"
+                style={{ gridTemplateColumns: '2fr 1fr', maxWidth: 320 }}
+              >
+                <label>
+                  ออฟหลัก
+                  <select
+                    value={item.highTierOption?.optionId ?? HAT_MAIN_OPTIONS[0]!.optionId}
+                    onChange={(e) => {
+                      const optionId = e.target.value
+                      setItem({
+                        ...item,
+                        highTierOption: emptyHatMainOption(
+                          optionId || undefined,
+                          item.highTierOption?.value ?? 0,
+                        ),
+                      })
+                    }}
+                  >
+                    {HAT_MAIN_OPTIONS.map((opt) => (
+                      <option key={opt.optionId} value={opt.optionId}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  ค่า
+                  <input
+                    type="number"
+                    min={0}
+                    step={0.1}
+                    value={item.highTierOption?.value ?? 0}
+                    onChange={(e) =>
+                      setItem({
+                        ...item,
+                        highTierOption: {
+                          ...(item.highTierOption ??
+                            emptyHatMainOption(undefined, 0)),
+                          value: Number(e.target.value),
+                        },
+                      })
+                    }
+                  />
+                </label>
+              </div>
+            </section>
+          )}
+
           {supportsSharenianAbility(slot, item.rank) &&
             item.sharenianAbility && (
             <section>
@@ -700,39 +839,104 @@ export function GearEditModal({
           )}
 
           <section>
-            <h4>ATK</h4>
-            <div className="field-grid">
-              <label>
-                Base
-                <input
-                  type="number"
-                  value={item.atkBase}
-                  onChange={(e) =>
-                    setItem({ ...item, atkBase: Number(e.target.value) })
-                  }
-                />
-              </label>
-              <label>
-                Bonus
-                <input
-                  type="number"
-                  value={item.atkBonus}
-                  onChange={(e) =>
-                    setItem({ ...item, atkBonus: Number(e.target.value) })
-                  }
-                />
-              </label>
-            </div>
+            <h4>{slot === 'hat' ? 'DEF / HP / DMG' : 'ATK'}</h4>
+            {slot === 'hat' ? (
+              <div
+                className="field-grid"
+                style={{ gridTemplateColumns: 'repeat(2, minmax(0, 1fr))' }}
+              >
+                <label>
+                  PHY DEF
+                  <input
+                    type="number"
+                    value={item.phyDefBase}
+                    onChange={(e) =>
+                      setItem({
+                        ...item,
+                        phyDefBase: Number(e.target.value),
+                      })
+                    }
+                  />
+                </label>
+                <label>
+                  MAG DEF
+                  <input
+                    type="number"
+                    value={item.magDefBase}
+                    onChange={(e) =>
+                      setItem({
+                        ...item,
+                        magDefBase: Number(e.target.value),
+                      })
+                    }
+                  />
+                </label>
+                <label>
+                  HP สูงสุด
+                  <input
+                    type="number"
+                    value={item.maxHpBase}
+                    onChange={(e) =>
+                      setItem({
+                        ...item,
+                        maxHpBase: Number(e.target.value),
+                      })
+                    }
+                  />
+                </label>
+                <label>
+                  DMG สูงสุด
+                  <input
+                    type="number"
+                    value={item.maxDamageBase}
+                    onChange={(e) =>
+                      setItem({
+                        ...item,
+                        maxDamageBase: Number(e.target.value),
+                      })
+                    }
+                  />
+                </label>
+              </div>
+            ) : (
+              <div className="field-grid">
+                <label>
+                  Base
+                  <input
+                    type="number"
+                    value={item.atkBase}
+                    onChange={(e) =>
+                      setItem({ ...item, atkBase: Number(e.target.value) })
+                    }
+                  />
+                </label>
+                <label>
+                  Bonus
+                  <input
+                    type="number"
+                    value={item.atkBonus}
+                    onChange={(e) =>
+                      setItem({ ...item, atkBonus: Number(e.target.value) })
+                    }
+                  />
+                </label>
+              </div>
+            )}
             <div className="block-head" style={{ marginBottom: 6 }}>
               <h4 style={{ margin: 0 }}>สายหลัก / Flame</h4>
               {isFlameSlot(slot) && (
                 <select
-                  value={item.flameRank}
+                  value={item.flameRank ?? ''}
                   onChange={(e) =>
-                    setFlameRank(e.target.value as FlameRank)
+                    setFlameRank(
+                      e.target.value
+                        ? (e.target.value as FlameRank)
+                        : null,
+                    )
                   }
                   aria-label="Flame rank"
                 >
+                  <option value="">None</option>
                   {FLAME_RANKS.map((r) => (
                     <option key={r} value={r}>
                       {r}
@@ -742,12 +946,16 @@ export function GearEditModal({
               )}
             </div>
             {isFlameSlot(slot) ? (
-              <FlameLineEditor
-                slot={slot}
-                flameRank={item.flameRank}
-                lines={item.mainLines}
-                onChange={(mainLines) => setItem({ ...item, mainLines })}
-              />
+              item.flameRank ? (
+                <FlameLineEditor
+                  slot={slot}
+                  flameRank={item.flameRank}
+                  lines={item.mainLines}
+                  onChange={(mainLines) => setItem({ ...item, mainLines })}
+                />
+              ) : (
+                <p className="muted">ไม่มี Flame</p>
+              )
             ) : (
               <LineEditor
                 lines={item.mainLines}
@@ -756,16 +964,23 @@ export function GearEditModal({
             )}
           </section>
 
-          <section className={`block pot ${potentialFrameClass(item.potential.grade)}`}>
+          <section
+            className={`block pot ${item.potential ? potentialFrameClass(item.potential.grade) : ''}`}
+          >
             <div className="block-head">
               <strong>Potential</strong>
               <select
-                value={item.potential.grade}
+                value={item.potential?.grade ?? ''}
                 onChange={(e) =>
-                  setPotentialGrade(e.target.value as PotentialGrade)
+                  setPotentialGrade(
+                    e.target.value
+                      ? (e.target.value as PotentialGrade)
+                      : null,
+                  )
                 }
                 aria-label="Potential rank"
               >
+                <option value="">None</option>
                 {POTENTIAL_RANKS.map((g) => (
                   <option key={g} value={g}>
                     {g}
@@ -773,7 +988,9 @@ export function GearEditModal({
                 ))}
               </select>
             </div>
-            {isPotentialSlot(slot) ? (
+            {item.potential == null ? (
+              <p className="muted">ไม่มี Potential</p>
+            ) : isPotentialSlot(slot) ? (
               <PotentialLineEditor
                 slot={slot}
                 grade={item.potential.grade}
@@ -781,7 +998,7 @@ export function GearEditModal({
                 onChange={(lines) =>
                   setItem({
                     ...item,
-                    potential: { ...item.potential, lines },
+                    potential: { ...item.potential!, lines },
                   })
                 }
               />
@@ -789,24 +1006,32 @@ export function GearEditModal({
               <LineEditor
                 lines={item.potential.lines}
                 onChange={(lines) =>
-                  setItem({ ...item, potential: { ...item.potential, lines } })
+                  setItem({
+                    ...item,
+                    potential: { ...item.potential!, lines },
+                  })
                 }
               />
             )}
           </section>
 
           <section
-            className={`block addpot ${potentialFrameClass(item.bonusPotential.grade)}`}
+            className={`block addpot ${item.bonusPotential ? potentialFrameClass(item.bonusPotential.grade) : ''}`}
           >
             <div className="block-head">
               <strong>Bonus Potential</strong>
               <select
-                value={item.bonusPotential.grade}
+                value={item.bonusPotential?.grade ?? ''}
                 onChange={(e) =>
-                  setBonusPotentialGrade(e.target.value as PotentialGrade)
+                  setBonusPotentialGrade(
+                    e.target.value
+                      ? (e.target.value as PotentialGrade)
+                      : null,
+                  )
                 }
                 aria-label="Bonus Potential rank"
               >
+                <option value="">None</option>
                 {BONUS_POTENTIAL_RANKS.map((g) => (
                   <option key={g} value={g}>
                     {g}
@@ -814,7 +1039,9 @@ export function GearEditModal({
                 ))}
               </select>
             </div>
-            {isPotentialSlot(slot) ? (
+            {item.bonusPotential == null ? (
+              <p className="muted">ไม่มี Bonus Potential</p>
+            ) : isPotentialSlot(slot) ? (
               <PotentialLineEditor
                 slot={slot}
                 grade={item.bonusPotential.grade}
@@ -823,7 +1050,7 @@ export function GearEditModal({
                 onChange={(lines) =>
                   setItem({
                     ...item,
-                    bonusPotential: { ...item.bonusPotential, lines },
+                    bonusPotential: { ...item.bonusPotential!, lines },
                   })
                 }
               />
@@ -833,7 +1060,7 @@ export function GearEditModal({
                 onChange={(lines) =>
                   setItem({
                     ...item,
-                    bonusPotential: { ...item.bonusPotential, lines },
+                    bonusPotential: { ...item.bonusPotential!, lines },
                   })
                 }
               />
@@ -844,6 +1071,10 @@ export function GearEditModal({
             <h4>Emblem</h4>
             {!emblemSupported ? (
               <p className="muted">ช่องนี้ไม่มี Emblem</p>
+            ) : !emblemAllowed ? (
+              <p className="muted">
+                ต้องเป็น Unique หรือสูงกว่าเพื่อใส่ Emblem
+              </p>
             ) : item.emblem ? (
               <>
                 <div className="soul-summary">

@@ -54,7 +54,23 @@ describe('potential / bonus on secondary', () => {
     ])
     expect(lines).toHaveLength(3)
     expect(lines[0]?.optionId).toBe('critDmg')
-    expect(isPotentialSlot('hat')).toBe(false)
-    expect(bonusPotentialOptionsForSlot('hat')).toEqual([])
+  })
+})
+
+describe('potential / bonus on hat', () => {
+  it('treats hat as a potential slot with its own hat-specific pools', () => {
+    expect(isPotentialSlot('hat')).toBe(true)
+    expect(potentialOptionsForSlot('hat').length).toBeGreaterThan(0)
+    expect(bonusPotentialOptionsForSlot('hat').length).toBeGreaterThan(0)
+    expect(potentialOptionsForSlot('hat')).not.toEqual(
+      potentialOptionsForSlot('mainWeapon'),
+    )
+  })
+
+  it('does not treat other armor slots as potential slots', () => {
+    expect(isPotentialSlot('gloves')).toBe(false)
+    expect(isPotentialSlot('outfitTop')).toBe(false)
+    expect(potentialOptionsForSlot('gloves')).toEqual([])
+    expect(bonusPotentialOptionsForSlot('gloves')).toEqual([])
   })
 })

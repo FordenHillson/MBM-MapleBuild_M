@@ -61,7 +61,7 @@ export function collectFlameLines(
 ): StatLine[] {
   const lines: StatLine[] = []
   for (const item of Object.values(gear)) {
-    if (!item || !isFlameSlot(item.slotId)) continue
+    if (!item || !isFlameSlot(item.slotId) || !item.flameRank) continue
     for (const line of item.mainLines) {
       if (line.optionId) lines.push(line)
     }
@@ -138,7 +138,7 @@ export function resolveAtkTotals(
     },
     collectFlameLines(gear),
   )
-  equipment = mergeAtkBag(equipment, flameBonus)
+  equipment = mergeAtkBag(equipment, pickAtkBag(flameBonus))
 
   const out = {} as AtkResolution
   for (const key of ATK_STAT_KEYS) {

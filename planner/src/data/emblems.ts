@@ -1,8 +1,11 @@
 import type {
   EmblemBlock,
   GearSlotId,
+  ItemRank,
   StatLine,
 } from '../types/build'
+import { ITEM_RANKS_ORDERED } from '../types/build'
+import { slotCategory, slotProfile } from './equipCategory'
 
 export type EmblemEquipCategory =
   | 'weapon'
@@ -136,41 +139,28 @@ export const EMBLEM_DEFS: EmblemDef[] = [
   },
 ]
 
-const ARMOR_SLOTS: ReadonlySet<GearSlotId> = new Set([
-  'hat',
-  'gloves',
-  'outfitTop',
-  'outfitBottom',
-  'shoulder',
-  'shoes',
-  'belt',
-  'cape',
-])
-
-const ACCESSORY_SLOTS: ReadonlySet<GearSlotId> = new Set([
-  'pendant1',
-  'pendant2',
-  'ring1',
-  'ring2',
-  'ring3',
-  'ring4',
-  'earrings',
-  'face',
-  'eye',
-])
-
 export function slotEmblemCategory(
   slot: GearSlotId,
 ): EmblemEquipCategory | null {
-  if (slot === 'mainWeapon') return 'weapon'
-  if (slot === 'secondary') return 'secondary'
-  if (ARMOR_SLOTS.has(slot)) return 'armor'
-  if (ACCESSORY_SLOTS.has(slot)) return 'accessory'
-  return null
+  const profile = slotProfile(slot)
+  if (!profile.emblem.enabled) return null
+  const cat = slotCategory(slot)
+  if (cat === 'misc') return null
+  return cat
 }
 
 export function supportsEmblem(slot: GearSlotId): boolean {
-  return slotEmblemCategory(slot) != null
+  return slotProfile(slot).emblem.enabled
+}
+
+const EMBLEM_MIN_INDEX = ITEM_RANKS_ORDERED.indexOf('Unique')
+
+export function canEquipEmblem(slot: GearSlotId, rank: ItemRank): boolean {
+  if (!supportsEmblem(slot)) return false
+  if (slot !== 'hat') return true
+  const rankIndex = ITEM_RANKS_ORDERED.indexOf(rank)
+  if (rankIndex === -1) return false
+  return rankIndex <= EMBLEM_MIN_INDEX
 }
 
 export function emblemById(id: string): EmblemDef | undefined {
@@ -179,15 +169,13 @@ export function emblemById(id: string): EmblemDef | undefined {
 
 export function emblemsForSlot(slot: GearSlotId): EmblemDef[] {
   const cat = slotEmblemCategory(slot)
-  if (!cat) return []
+  if (cat == null) return []
   return EMBLEM_DEFS.filter((e) => e.categories.includes(cat))
 }
 
 /** Accessories get no basic-option boost; weapon/armor/secondary default +30%. */
 export function defaultBaseBoost(slot: GearSlotId): number {
-  const cat = slotEmblemCategory(slot)
-  if (cat === 'accessory' || cat == null) return 0
-  return 30
+  return slotProfile(slot).emblem.defaultBaseBoostPercent
 }
 
 function resolveTypeId(
@@ -268,9 +256,10 @@ export function emptyEmblem(
 export function normalizeEmblem(
   slot: GearSlotId,
   emblem: EmblemBlock | null | undefined,
+  rank: ItemRank,
 ): EmblemBlock | null {
   if (!emblem) return null
-  if (!supportsEmblem(slot)) return null
+  if (!canEquipEmblem(slot, rank)) return null
 
   const id = resolveTypeId(slot, emblem.typeId, emblem.name)
   if (!id) return null

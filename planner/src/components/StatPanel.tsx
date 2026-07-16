@@ -1,6 +1,10 @@
 import { useMemo, useState } from 'react'
-import { resolveAtkTotals } from '../engine/aggregate'
-import { aggregateGearPlayerStats } from '../engine/gearStatMap'
+import { collectFlameLines, resolveAtkTotals } from '../engine/aggregate'
+import {
+  aggregateGearPlayerStats,
+  mergeGearStatBag,
+} from '../engine/gearStatMap'
+import { applyFlameScales } from '../engine/flameScale'
 import {
   resolveCategoryTotals,
   deriveFlameBases,
@@ -202,14 +206,35 @@ export function StatPanel() {
     [active.gear, active.statSources, flameBases],
   )
 
+  const flameExtra = useMemo(() => {
+    const lines = collectFlameLines(active.gear)
+    if (!lines.length) return {}
+    return applyFlameScales(
+      {
+        maxHp: flameBases.maxHp,
+        maxMp: flameBases.maxMp,
+        expPercent: flameBases.expPercent,
+        bossAtkPercent: atkResolved.bossAtkPercent.total,
+        critRate: atkResolved.critRate.total,
+        critDmgPercent: atkResolved.critDmgPercent.total,
+      },
+      lines,
+    )
+  }, [active.gear, flameBases, atkResolved])
+
+  const equipmentBag = useMemo(
+    () => mergeGearStatBag(gearStats, flameExtra),
+    [gearStats, flameExtra],
+  )
+
   const categoryRows = useMemo(() => {
     if (cat === 'atk') return null
     return resolveCategoryTotals(
       CAT_META[cat].keys,
       active.statSources,
-      gearStats,
+      equipmentBag,
     )
-  }, [cat, active.statSources, gearStats])
+  }, [cat, active.statSources, equipmentBag])
 
   return (
     <div className="stat-layout">

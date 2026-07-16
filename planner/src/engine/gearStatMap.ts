@@ -36,6 +36,8 @@ export const GEAR_OPTION_TO_STAT: Record<string, PlayerStatKey> = {
   critDmg: 'critDmgPercent',
   critDmgPercent: 'critDmgPercent',
   'Crit DMG': 'critDmgPercent',
+  critDmgRes: 'critDmgReducePercent',
+  'Crit DMG RES': 'critDmgReducePercent',
   finalPercent: 'finalPercent',
   finalDmg: 'finalPercent',
   'Final%': 'finalPercent',
@@ -55,8 +57,9 @@ export const GEAR_OPTION_TO_STAT: Record<string, PlayerStatKey> = {
   acc: 'accPercent',
   ACC: 'accPercent',
   accPercent: 'accPercent',
-  evd: 'evdPercent',
-  EVD: 'evdPercent',
+  evd: 'evd',
+  EVD: 'evd',
+  evdFlat: 'evd',
   evdPercent: 'evdPercent',
 
   // Resource
@@ -84,6 +87,19 @@ export type GearStatBag = Partial<Record<PlayerStatKey, number>>
 
 export function emptyGearStatBag(): GearStatBag {
   return {}
+}
+
+export function mergeGearStatBag(
+  into: GearStatBag,
+  addend: GearStatBag,
+): GearStatBag {
+  const out: GearStatBag = { ...into }
+  for (const key of Object.keys(addend) as PlayerStatKey[]) {
+    const v = addend[key]
+    if (v == null || v === 0) continue
+    out[key] = (out[key] ?? 0) + v
+  }
+  return out
 }
 
 export function resolveGearOptionId(optionId: string): PlayerStatKey | null {
@@ -114,16 +130,22 @@ export function aggregateGearPlayerStats(
     if (!item) continue
     const pieceAtk = item.atkBase + item.atkBonus
     bag.phyAtk = (bag.phyAtk ?? 0) + pieceAtk
+    bag.phyDef = (bag.phyDef ?? 0) + item.phyDefBase
+    bag.magDef = (bag.magDef ?? 0) + item.magDefBase
+    bag.maxHp = (bag.maxHp ?? 0) + item.maxHpBase
+    bag.maxDamage = (bag.maxDamage ?? 0) + item.maxDamageBase
 
     if (!isFlameSlot(item.slotId)) {
       contributeLines(bag, item.mainLines)
     }
-    contributeLines(bag, item.potential.lines)
-    contributeLines(bag, item.bonusPotential.lines)
+    if (item.potential) contributeLines(bag, item.potential.lines)
+    if (item.bonusPotential) contributeLines(bag, item.bonusPotential.lines)
 
     if (item.emblem) {
       const baseBoost = item.emblem.baseOptionBoostPercent / 100
       bag.phyAtk = (bag.phyAtk ?? 0) + pieceAtk * baseBoost
+      bag.phyDef = (bag.phyDef ?? 0) + item.phyDefBase * baseBoost
+      bag.magDef = (bag.magDef ?? 0) + item.magDefBase * baseBoost
       contributeLines(bag, item.emblem.lines)
     }
     if (item.soul) contributeLines(bag, [item.soul.stat])

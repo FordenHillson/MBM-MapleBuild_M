@@ -1,4 +1,5 @@
 import type { GearSlotId, ItemRank, StatLine } from '../types/build'
+import { slotProfile } from './equipCategory'
 
 export interface SharenianOptionDef {
   id: string
@@ -34,7 +35,7 @@ export function supportsSharenianAbility(
   slot: GearSlotId,
   rank: ItemRank,
 ): boolean {
-  return slot === 'secondary' && isSharenianRank(rank)
+  return slotProfile(slot).sharenianAbility.enabled && isSharenianRank(rank)
 }
 
 export function emptySharenianAbility(): StatLine[] {

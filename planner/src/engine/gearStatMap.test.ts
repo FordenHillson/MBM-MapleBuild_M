@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import { demoMainWeapon } from '../data/seed'
+import type { GearItem } from '../types/build'
 import {
   aggregateGearPlayerStats,
+  mergeGearStatBag,
   pickAtkBag,
   resolveGearOptionId,
 } from './gearStatMap'
@@ -16,6 +18,16 @@ describe('gearStatMap registry', () => {
     expect(resolveGearOptionId('meso')).toBe('mesoGainPercent')
     expect(resolveGearOptionId('')).toBeNull()
     expect(resolveGearOptionId('unknownFutureOpt')).toBeNull()
+  })
+
+  it('merges GearStatBag values additively', () => {
+    const merged = mergeGearStatBag(
+      { phyDef: 100, phyDefPercent: 5 },
+      { phyDef: 20, phyDefPercent: 0.5, ignoreDefPercent: 3 },
+    )
+    expect(merged.phyDef).toBe(120)
+    expect(merged.phyDefPercent).toBeCloseTo(5.5)
+    expect(merged.ignoreDefPercent).toBe(3)
   })
 })
 
@@ -38,6 +50,59 @@ describe('aggregateGearPlayerStats', () => {
     const atk = pickAtkBag(bag)
     expect(atk.critDmgPercent).toBeCloseTo(9.5 + 2.84 + 5, 5)
     expect(atk.phyAtk).toBeCloseTo(piece + emblemBoost, 5)
+  })
+
+  it('ignores flame / potential / bonus when set to None', () => {
+    const weapon = {
+      ...demoMainWeapon(),
+      flameRank: null,
+      mainLines: [
+        { optionId: 'phyAtkBossAtk', label: 'ignored', value: 73 },
+      ],
+      potential: null,
+      bonusPotential: null,
+    }
+    const bag = aggregateGearPlayerStats({ mainWeapon: weapon })
+    expect(bag.critDmgPercent).toBeCloseTo(5, 5) // emblem only
+    expect(bag.mesoGainPercent).toBeUndefined()
+    expect(bag.maxMpPercent).toBeUndefined()
+    expect(bag.accPercent).toBeUndefined()
+  })
+
+  it('sums hat DEF/HP/DMG bases and emblem-boosts DEF only', () => {
+    const hat: GearItem = {
+      slotId: 'hat',
+      itemName: 'Test Hat',
+      iconUrl: '',
+      rank: 'Unique',
+      level: 40,
+      star: 0,
+      atkBase: 0,
+      atkBonus: 0,
+      phyDefBase: 100,
+      magDefBase: 80,
+      maxHpBase: 1000,
+      maxDamageBase: 50_000,
+      flameRank: null,
+      mainLines: [],
+      highTierOption: null,
+      sharenianAbility: null,
+      potential: null,
+      bonusPotential: null,
+      emblem: {
+        typeId: 'ruthless',
+        name: 'Ruthless Emblem',
+        level: 1,
+        baseOptionBoostPercent: 30,
+        lines: [],
+      },
+      soul: null,
+    }
+    const bag = aggregateGearPlayerStats({ hat })
+    expect(bag.phyDef).toBe(130) // 100 + 30
+    expect(bag.magDef).toBe(104) // 80 + 24
+    expect(bag.maxHp).toBe(1000) // no emblem boost
+    expect(bag.maxDamage).toBe(50_000)
   })
 
   it('feeds flame bases with gear maxHp / maxMpPercent / exp', () => {

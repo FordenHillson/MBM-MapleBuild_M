@@ -13,11 +13,13 @@ import {
   emblemEffectValue,
   emblemMaxDamageValue,
 } from '../data/emblems'
+import { supportsHatMainOption } from '../data/hatMainOption'
 import { parseSoulId, soulBossById } from '../data/souls'
 import { flameRankFrameClass, isFlameSlot } from '../data/flameWeapon'
 import { supportsHighTierOption } from '../data/highTierOption'
 import { supportsSharenianAbility } from '../data/sharenianAbility'
 import { rankFrameClass } from '../data/itemRankStyle'
+import { resolveItemRankFrameLayers } from '../data/itemRankTextures'
 import { SlotSilhouette } from './SlotSilhouette'
 import './Popup.css'
 
@@ -78,9 +80,12 @@ export function GearSummaryPopup({
   const soulSuffix = item.soul
     ? ` ของ ${item.soul.name.replace(/ Soul$/, '')}`
     : ''
-  const potLines = activeLines(item.potential.lines)
-  const bonusLines = activeLines(item.bonusPotential.lines)
-  const flameLines = isFlameSlot(slot) ? activeLines(item.mainLines) : []
+  const potLines = activeLines(item.potential?.lines ?? [])
+  const bonusLines = activeLines(item.bonusPotential?.lines ?? [])
+  const flameLines =
+    isFlameSlot(slot) && item.flameRank
+      ? activeLines(item.mainLines)
+      : []
   const otherMainLines = !isFlameSlot(slot)
     ? activeLines(item.mainLines)
     : []
@@ -94,8 +99,11 @@ export function GearSummaryPopup({
     ? flameRankFrameClass(item.flameRank)
     : ''
   const showFlame = flameLines.length > 0
-  const showPotential = potLines.length > 0
-  const showBonus = bonusLines.length > 0
+  const showPotential = potLines.length > 0 && item.potential != null
+  const showBonus = bonusLines.length > 0 && item.bonusPotential != null
+  const layers = resolveItemRankFrameLayers(item.rank, 'summary', {
+    hasEmblem: Boolean(item.emblem),
+  })
 
   return (
     <div
@@ -133,7 +141,28 @@ export function GearSummaryPopup({
 
         <div className="dossier-body">
           <div className="dossier-top">
-            <div className={`dossier-icon ${rankFrameClass(item.rank)}`}>
+            <div
+              className={`dossier-icon ${rankFrameClass(item.rank)} has-rank-tex${layers.emblem ? ' has-emblem-tex' : ''}`}
+              style={{
+                ['--rank-frame' as string]: `url("${layers.frame}")`,
+                ...(layers.emblem
+                  ? {
+                      ['--rank-emblem' as string]: `url("${layers.emblem}")`,
+                      ...(layers.emblemLines
+                        ? {
+                            ['--emblem-lines' as string]: `url("${layers.emblemLines}")`,
+                          }
+                        : {}),
+                    }
+                  : {}),
+              }}
+            >
+              {layers.emblem && (
+                <>
+                  <span className="emblem-detail-shine" aria-hidden />
+                  <span className="emblem-line-glow" aria-hidden />
+                </>
+              )}
               {item.iconUrl ? (
                 <img
                   src={item.iconUrl}
@@ -146,14 +175,27 @@ export function GearSummaryPopup({
                   className="dossier-icon-silhouette"
                 />
               )}
-              {showPotential && (
+              {showPotential && item.potential && (
                 <span
                   className={`dossier-badge pot ${potentialFrameClass(item.potential.grade)}`}
+                  title={`Potential ${item.potential.grade}`}
                 >
                   {potGradeLetter(item.potential.grade)}
                 </span>
               )}
-              {item.emblem && <span className="dossier-badge emb">E</span>}
+              {item.bonusPotential && (
+                <span
+                  className={`dossier-badge add ${potentialFrameClass(item.bonusPotential.grade)}`}
+                  title={`Bonus Potential ${item.bonusPotential.grade}`}
+                >
+                  {potGradeLetter(item.bonusPotential.grade)}
+                </span>
+              )}
+              {item.emblem && (
+                <span className="dossier-badge emb" title={item.emblem.name}>
+                  Em
+                </span>
+              )}
               {starCount > 0 && (
                 <span className="dossier-badge star-n">{starCount}</span>
               )}
@@ -184,20 +226,40 @@ export function GearSummaryPopup({
           </div>
 
           <div className="dossier-atk">
-            <div className="dossier-atk-main">
-              <span className="dossier-atk-label">PHY ATK</span>
-              <strong className="dossier-atk-value">
-                {total.toLocaleString('en-US')}
-              </strong>
-            </div>
-            <p className="dossier-atk-break">
-              ({item.atkBase.toLocaleString('en-US')} +{' '}
-              {item.atkBonus.toLocaleString('en-US')})
-            </p>
+            {slot === 'hat' ? (
+              <>
+                <div className="dossier-atk-main">
+                  <span className="dossier-atk-label">PHY DEF / MAG DEF</span>
+                  <strong className="dossier-atk-value">
+                    {item.phyDefBase.toLocaleString('en-US')} /{' '}
+                    {item.magDefBase.toLocaleString('en-US')}
+                  </strong>
+                </div>
+                <p className="dossier-atk-break">
+                  HP สูงสุด{' '}
+                  {item.maxHpBase.toLocaleString('en-US')} · DMG สูงสุด{' '}
+                  {item.maxDamageBase.toLocaleString('en-US')}
+                </p>
+              </>
+            ) : (
+              <>
+                <div className="dossier-atk-main">
+                  <span className="dossier-atk-label">PHY ATK</span>
+                  <strong className="dossier-atk-value">
+                    {total.toLocaleString('en-US')}
+                  </strong>
+                </div>
+                <p className="dossier-atk-break">
+                  ({item.atkBase.toLocaleString('en-US')} +{' '}
+                  {item.atkBonus.toLocaleString('en-US')})
+                </p>
+              </>
+            )}
           </div>
 
           {item.highTierOption &&
-            supportsHighTierOption(slot, item.rank) && (
+            (supportsHighTierOption(slot, item.rank) ||
+              supportsHatMainOption(slot, item.rank)) && (
             <section className="dossier-section high-tier-sec">
               <div className="dossier-sec-head">
                 <strong>Option หลัก</strong>
@@ -257,7 +319,7 @@ export function GearSummaryPopup({
             </section>
           )}
 
-          {showPotential && (
+          {showPotential && item.potential && (
             <section className="dossier-section pot-sec">
               <div className="dossier-sec-head">
                 <span
@@ -277,7 +339,7 @@ export function GearSummaryPopup({
             </section>
           )}
 
-          {showBonus && (
+          {showBonus && item.bonusPotential && (
             <section className="dossier-section bonus-sec">
               <div className="dossier-sec-head">
                 <span
