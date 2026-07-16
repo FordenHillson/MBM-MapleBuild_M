@@ -130,6 +130,10 @@ export function aggregateGearPlayerStats(
     if (!item) continue
     const pieceAtk = item.atkBase + item.atkBonus
     bag.phyAtk = (bag.phyAtk ?? 0) + pieceAtk
+    bag.phyDef = (bag.phyDef ?? 0) + item.phyDefBase
+    bag.magDef = (bag.magDef ?? 0) + item.magDefBase
+    bag.maxHp = (bag.maxHp ?? 0) + item.maxHpBase
+    bag.maxDamage = (bag.maxDamage ?? 0) + item.maxDamageBase
 
     if (!isFlameSlot(item.slotId)) {
       contributeLines(bag, item.mainLines)
@@ -140,6 +144,8 @@ export function aggregateGearPlayerStats(
     if (item.emblem) {
       const baseBoost = item.emblem.baseOptionBoostPercent / 100
       bag.phyAtk = (bag.phyAtk ?? 0) + pieceAtk * baseBoost
+      bag.phyDef = (bag.phyDef ?? 0) + item.phyDefBase * baseBoost
+      bag.magDef = (bag.magDef ?? 0) + item.magDefBase * baseBoost
       contributeLines(bag, item.emblem.lines)
     }
     if (item.soul) contributeLines(bag, [item.soul.stat])

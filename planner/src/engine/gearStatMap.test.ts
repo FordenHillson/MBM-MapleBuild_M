@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { demoMainWeapon } from '../data/seed'
+import type { GearItem } from '../types/build'
 import {
   aggregateGearPlayerStats,
   mergeGearStatBag,
@@ -66,6 +67,42 @@ describe('aggregateGearPlayerStats', () => {
     expect(bag.mesoGainPercent).toBeUndefined()
     expect(bag.maxMpPercent).toBeUndefined()
     expect(bag.accPercent).toBeUndefined()
+  })
+
+  it('sums hat DEF/HP/DMG bases and emblem-boosts DEF only', () => {
+    const hat: GearItem = {
+      slotId: 'hat',
+      itemName: 'Test Hat',
+      iconUrl: '',
+      rank: 'Unique',
+      level: 40,
+      star: 0,
+      atkBase: 0,
+      atkBonus: 0,
+      phyDefBase: 100,
+      magDefBase: 80,
+      maxHpBase: 1000,
+      maxDamageBase: 50_000,
+      flameRank: null,
+      mainLines: [],
+      highTierOption: null,
+      sharenianAbility: null,
+      potential: null,
+      bonusPotential: null,
+      emblem: {
+        typeId: 'ruthless',
+        name: 'Ruthless Emblem',
+        level: 1,
+        baseOptionBoostPercent: 30,
+        lines: [],
+      },
+      soul: null,
+    }
+    const bag = aggregateGearPlayerStats({ hat })
+    expect(bag.phyDef).toBe(130) // 100 + 30
+    expect(bag.magDef).toBe(104) // 80 + 24
+    expect(bag.maxHp).toBe(1000) // no emblem boost
+    expect(bag.maxDamage).toBe(50_000)
   })
 
   it('feeds flame bases with gear maxHp / maxMpPercent / exp', () => {
