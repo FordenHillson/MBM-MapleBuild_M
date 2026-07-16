@@ -62,6 +62,12 @@ import {
   supportsHighTierOption,
 } from '../data/highTierOption'
 import {
+  HAT_MAIN_OPTIONS,
+  emptyHatMainOption,
+  normalizeHatMainOption,
+  supportsHatMainOption,
+} from '../data/hatMainOption'
+import {
   normalizeSharenianAbility,
   supportsSharenianAbility,
 } from '../data/sharenianAbility'
@@ -401,11 +407,10 @@ export function GearEditModal({
       bonusPotential,
       emblem: normalizeEmblem(slot, base.emblem, normalizedRank),
       soul: normalizeSoul(slot, base.soul),
-      highTierOption: normalizeHighTierOption(
-        slot,
-        normalizedRank,
-        base.highTierOption,
-      ),
+      highTierOption:
+        slot === 'hat'
+          ? normalizeHatMainOption(slot, normalizedRank, base.highTierOption)
+          : normalizeHighTierOption(slot, normalizedRank, base.highTierOption),
       sharenianAbility: normalizeSharenianAbility(
         slot,
         normalizedRank,
@@ -613,26 +618,34 @@ export function GearEditModal({
                 <select
                   value={item.rank}
                   disabled={rootAbyssLocked}
-                onChange={(e) => {
-                  const rank = e.target.value as ItemRank
-                  const allowEmblem = canEquipEmblem(slot, rank)
-                  if (!allowEmblem) setEmblemPickerOpen(false)
-                  setItem({
-                    ...item,
-                    rank,
-                    emblem: allowEmblem ? item.emblem : null,
-                    highTierOption: normalizeHighTierOption(
-                      slot,
+                  onChange={(e) => {
+                    const rank = e.target.value as ItemRank
+                    const allowEmblem = canEquipEmblem(slot, rank)
+                    if (!allowEmblem) setEmblemPickerOpen(false)
+                    const nextHighTier =
+                      slot === 'hat'
+                        ? normalizeHatMainOption(
+                            slot,
+                            rank,
+                            item.highTierOption,
+                          )
+                        : normalizeHighTierOption(
+                            slot,
+                            rank,
+                            item.highTierOption,
+                          )
+                    setItem({
+                      ...item,
                       rank,
-                      item.highTierOption,
-                    ),
-                    sharenianAbility: normalizeSharenianAbility(
-                      slot,
-                      rank,
-                      item.sharenianAbility,
-                    ),
-                  })
-                }}
+                      emblem: allowEmblem ? item.emblem : null,
+                      highTierOption: nextHighTier,
+                      sharenianAbility: normalizeSharenianAbility(
+                        slot,
+                        rank,
+                        item.sharenianAbility,
+                      ),
+                    })
+                  }}
                 >
                   {ranks.map((r) => (
                     <option key={r}>{r}</option>
@@ -738,6 +751,61 @@ export function GearEditModal({
             </section>
           )}
 
+          {supportsHatMainOption(slot, item.rank) && (
+            <section>
+              <h4>Option หลัก</h4>
+              <p className="muted" style={{ marginTop: 0 }}>
+                Helmet: เลือกออฟหลัก แล้วใส่ค่าเอง
+              </p>
+              <div
+                className="field-grid"
+                style={{ gridTemplateColumns: '2fr 1fr', maxWidth: 320 }}
+              >
+                <label>
+                  ออฟหลัก
+                  <select
+                    value={item.highTierOption?.optionId ?? HAT_MAIN_OPTIONS[0]!.optionId}
+                    onChange={(e) => {
+                      const optionId = e.target.value
+                      setItem({
+                        ...item,
+                        highTierOption: emptyHatMainOption(
+                          optionId || undefined,
+                          item.highTierOption?.value ?? 0,
+                        ),
+                      })
+                    }}
+                  >
+                    {HAT_MAIN_OPTIONS.map((opt) => (
+                      <option key={opt.optionId} value={opt.optionId}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  ค่า
+                  <input
+                    type="number"
+                    min={0}
+                    step={0.1}
+                    value={item.highTierOption?.value ?? 0}
+                    onChange={(e) =>
+                      setItem({
+                        ...item,
+                        highTierOption: {
+                          ...(item.highTierOption ??
+                            emptyHatMainOption(undefined, 0)),
+                          value: Number(e.target.value),
+                        },
+                      })
+                    }
+                  />
+                </label>
+              </div>
+            </section>
+          )}
+
           {supportsSharenianAbility(slot, item.rank) &&
             item.sharenianAbility && (
             <section>
@@ -771,29 +839,89 @@ export function GearEditModal({
           )}
 
           <section>
-            <h4>ATK</h4>
-            <div className="field-grid">
-              <label>
-                Base
-                <input
-                  type="number"
-                  value={item.atkBase}
-                  onChange={(e) =>
-                    setItem({ ...item, atkBase: Number(e.target.value) })
-                  }
-                />
-              </label>
-              <label>
-                Bonus
-                <input
-                  type="number"
-                  value={item.atkBonus}
-                  onChange={(e) =>
-                    setItem({ ...item, atkBonus: Number(e.target.value) })
-                  }
-                />
-              </label>
-            </div>
+            <h4>{slot === 'hat' ? 'DEF / HP / DMG' : 'ATK'}</h4>
+            {slot === 'hat' ? (
+              <div
+                className="field-grid"
+                style={{ gridTemplateColumns: 'repeat(2, minmax(0, 1fr))' }}
+              >
+                <label>
+                  PHY DEF
+                  <input
+                    type="number"
+                    value={item.phyDefBase}
+                    onChange={(e) =>
+                      setItem({
+                        ...item,
+                        phyDefBase: Number(e.target.value),
+                      })
+                    }
+                  />
+                </label>
+                <label>
+                  MAG DEF
+                  <input
+                    type="number"
+                    value={item.magDefBase}
+                    onChange={(e) =>
+                      setItem({
+                        ...item,
+                        magDefBase: Number(e.target.value),
+                      })
+                    }
+                  />
+                </label>
+                <label>
+                  HP สูงสุด
+                  <input
+                    type="number"
+                    value={item.maxHpBase}
+                    onChange={(e) =>
+                      setItem({
+                        ...item,
+                        maxHpBase: Number(e.target.value),
+                      })
+                    }
+                  />
+                </label>
+                <label>
+                  DMG สูงสุด
+                  <input
+                    type="number"
+                    value={item.maxDamageBase}
+                    onChange={(e) =>
+                      setItem({
+                        ...item,
+                        maxDamageBase: Number(e.target.value),
+                      })
+                    }
+                  />
+                </label>
+              </div>
+            ) : (
+              <div className="field-grid">
+                <label>
+                  Base
+                  <input
+                    type="number"
+                    value={item.atkBase}
+                    onChange={(e) =>
+                      setItem({ ...item, atkBase: Number(e.target.value) })
+                    }
+                  />
+                </label>
+                <label>
+                  Bonus
+                  <input
+                    type="number"
+                    value={item.atkBonus}
+                    onChange={(e) =>
+                      setItem({ ...item, atkBonus: Number(e.target.value) })
+                    }
+                  />
+                </label>
+              </div>
+            )}
             <div className="block-head" style={{ marginBottom: 6 }}>
               <h4 style={{ margin: 0 }}>สายหลัก / Flame</h4>
               {isFlameSlot(slot) && (

@@ -13,6 +13,7 @@ import {
   emblemEffectValue,
   emblemMaxDamageValue,
 } from '../data/emblems'
+import { supportsHatMainOption } from '../data/hatMainOption'
 import { parseSoulId, soulBossById } from '../data/souls'
 import { flameRankFrameClass, isFlameSlot } from '../data/flameWeapon'
 import { supportsHighTierOption } from '../data/highTierOption'
@@ -225,20 +226,40 @@ export function GearSummaryPopup({
           </div>
 
           <div className="dossier-atk">
-            <div className="dossier-atk-main">
-              <span className="dossier-atk-label">PHY ATK</span>
-              <strong className="dossier-atk-value">
-                {total.toLocaleString('en-US')}
-              </strong>
-            </div>
-            <p className="dossier-atk-break">
-              ({item.atkBase.toLocaleString('en-US')} +{' '}
-              {item.atkBonus.toLocaleString('en-US')})
-            </p>
+            {slot === 'hat' ? (
+              <>
+                <div className="dossier-atk-main">
+                  <span className="dossier-atk-label">PHY DEF / MAG DEF</span>
+                  <strong className="dossier-atk-value">
+                    {item.phyDefBase.toLocaleString('en-US')} /{' '}
+                    {item.magDefBase.toLocaleString('en-US')}
+                  </strong>
+                </div>
+                <p className="dossier-atk-break">
+                  HP สูงสุด{' '}
+                  {item.maxHpBase.toLocaleString('en-US')} · DMG สูงสุด{' '}
+                  {item.maxDamageBase.toLocaleString('en-US')}
+                </p>
+              </>
+            ) : (
+              <>
+                <div className="dossier-atk-main">
+                  <span className="dossier-atk-label">PHY ATK</span>
+                  <strong className="dossier-atk-value">
+                    {total.toLocaleString('en-US')}
+                  </strong>
+                </div>
+                <p className="dossier-atk-break">
+                  ({item.atkBase.toLocaleString('en-US')} +{' '}
+                  {item.atkBonus.toLocaleString('en-US')})
+                </p>
+              </>
+            )}
           </div>
 
           {item.highTierOption &&
-            supportsHighTierOption(slot, item.rank) && (
+            (supportsHighTierOption(slot, item.rank) ||
+              supportsHatMainOption(slot, item.rank)) && (
             <section className="dossier-section high-tier-sec">
               <div className="dossier-sec-head">
                 <strong>Option หลัก</strong>
