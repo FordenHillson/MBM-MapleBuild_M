@@ -59,6 +59,10 @@ describe('canEquipEmblem gate', () => {
     expect(canEquipEmblem('hat', 'Epic')).toBe(false)
   })
 
+  it('lets Root Abyss hat equip', () => {
+    expect(canEquipEmblem('hat', 'Root Abyss')).toBe(true)
+  })
+
   it('matches supportsEmblem for other slots', () => {
     expect(canEquipEmblem('belt', 'Normal')).toBe(supportsEmblem('belt'))
     expect(canEquipEmblem('title', 'Normal')).toBe(

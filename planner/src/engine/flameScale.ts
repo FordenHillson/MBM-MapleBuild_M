@@ -72,8 +72,9 @@ export function scaleBonus(base: number, flameValuePercent: number): number {
 }
 
 /**
- * Convert flame option lines into ATK bag bonuses using non-flame base stats.
- * Flat Final DMG is added as percentage points directly.
+ * Convert flame option lines into a GearStatBag (ATK, DEF, ignoreDef, etc.)
+ * using non-flame base stats. Flat Final DMG is added as percentage points
+ * directly.
  *
  * Nexon proportional rules (Forge guide thread 2008238):
  * - Percent × Percent → percent result, no adjust

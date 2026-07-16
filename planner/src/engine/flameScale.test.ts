@@ -107,7 +107,7 @@ describe('applyFlameScales', () => {
         critDmgPercent: 0,
       },
       [{ optionId: 'phyDefMaxHp', label: '', value: 0.45 }],
-    ) as any
+    )
     expect(bag.phyDef).toBe(scaleFixedWithFixed(200_000, 0.45))
   })
 
@@ -122,7 +122,7 @@ describe('applyFlameScales', () => {
         critDmgPercent: 0,
       },
       [{ optionId: 'ignoreDef', label: '', value: 4 }],
-    ) as any
+    )
     expect(bag.ignoreDefPercent).toBe(4)
   })
 })
