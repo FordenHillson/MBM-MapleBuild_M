@@ -65,6 +65,8 @@ import {
   supportsSharenianAbility,
 } from '../data/sharenianAbility'
 import { fileToGearIconDataUrl, normalizeIconUrl } from '../data/gearIcon'
+import { rankFrameClass } from '../data/itemRankStyle'
+import { resolveItemRankFrameLayers } from '../data/itemRankTextures'
 import { EmblemPickerPopup } from './EmblemPickerPopup'
 import { SoulPickerPopup } from './SoulPickerPopup'
 import { SlotSilhouette } from './SlotSilhouette'
@@ -418,6 +420,9 @@ export function GearEditModal({
     ? soulBossById(parseSoulId(item.soul.soulId, slot)?.bossId ?? '')
     : undefined
   const emblemDef = item.emblem ? emblemById(item.emblem.typeId) : undefined
+  const layers = resolveItemRankFrameLayers(item.rank, 'summary', {
+    hasEmblem: Boolean(item.emblem),
+  })
 
   const total = useMemo(
     () => item.atkBase + item.atkBonus,
@@ -500,8 +505,27 @@ export function GearEditModal({
             <h4>ไอคอน</h4>
             <div className="gear-icon-editor">
               <div
-                className={`gear-icon-preview ${item.iconUrl ? 'has-img' : ''}`}
+                className={`gear-icon-preview has-rank-tex ${rankFrameClass(item.rank)}${layers.emblem ? ' has-emblem-tex' : ''}${item.iconUrl ? ' has-img' : ''}`}
+                style={{
+                  ['--rank-frame' as string]: `url("${layers.frame}")`,
+                  ...(layers.emblem
+                    ? {
+                        ['--rank-emblem' as string]: `url("${layers.emblem}")`,
+                        ...(layers.emblemLines
+                          ? {
+                              ['--emblem-lines' as string]: `url("${layers.emblemLines}")`,
+                            }
+                          : {}),
+                      }
+                    : {}),
+                }}
               >
+                {layers.emblem && (
+                  <>
+                    <span className="emblem-detail-shine" aria-hidden />
+                    <span className="emblem-line-glow" aria-hidden />
+                  </>
+                )}
                 {item.iconUrl ? (
                   <img src={item.iconUrl} alt="" />
                 ) : (

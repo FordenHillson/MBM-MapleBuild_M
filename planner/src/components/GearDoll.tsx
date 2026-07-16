@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type CSSProperties } from 'react'
 import { useBuilds } from '../state/BuildContext'
 import {
   SLOT_LABELS,
@@ -9,6 +9,7 @@ import {
 } from '../types/build'
 import { potentialFrameClass } from '../data/potentialWeapon'
 import { rankFrameClass } from '../data/itemRankStyle'
+import { resolveItemRankFrameLayers } from '../data/itemRankTextures'
 import { SlotSilhouette } from './SlotSilhouette'
 import { GearSummaryPopup } from './GearSummaryPopup'
 import { GearEditModal } from './GearEditModal'
@@ -60,24 +61,53 @@ function SlotCell({
   slot: GearSlotId
   item: GearItem | null | undefined
   onClick: () => void
-  style?: React.CSSProperties
+  style?: CSSProperties
 }) {
   const filled = Boolean(item)
   const rankClass = item ? rankFrameClass(item.rank) : ''
+  const layers = item
+    ? resolveItemRankFrameLayers(item.rank, 'table', {
+        hasEmblem: Boolean(item.emblem),
+      })
+    : null
+  const slotStyle: CSSProperties = {
+    ...style,
+    ...(layers
+      ? {
+          ['--rank-frame' as string]: `url("${layers.frame}")`,
+          ...(layers.emblem
+            ? {
+                ['--rank-emblem' as string]: `url("${layers.emblem}")`,
+                ...(layers.emblemLines
+                  ? {
+                      ['--emblem-lines' as string]: `url("${layers.emblemLines}")`,
+                    }
+                  : {}),
+              }
+            : {}),
+        }
+      : {}),
+  }
   return (
     <button
       type="button"
-      className={`gear-slot ${filled ? `filled ${rankClass}` : 'empty'}`}
+      className={`gear-slot ${filled ? `filled ${rankClass}` : 'empty'}${layers ? ' has-rank-tex' : ''}${layers?.emblem ? ' has-emblem-tex' : ''}`}
       onClick={onClick}
       title={
         item
           ? `${SLOT_LABELS[slot]} · ${item.rank}`
           : SLOT_LABELS[slot]
       }
-      style={style}
+      style={slotStyle}
     >
       {item ? (
         <>
+          {layers?.emblem && (
+            <>
+              <span className="emblem-detail-shine" aria-hidden />
+              <span className="emblem-line-glow" aria-hidden />
+            </>
+          )}
           {item.iconUrl ? (
             <img src={item.iconUrl} alt="" className="slot-icon-img" />
           ) : (
@@ -90,7 +120,7 @@ function SlotCell({
               {potGradeLetter(item.potential.grade)}
             </span>
           )}
-          {item.bonusPotential?.lines.some((l) => l.optionId) && (
+          {item.bonusPotential && (
             <span
               className={`badge add ${potentialFrameClass(item.bonusPotential.grade)}`}
             >

@@ -212,6 +212,276 @@
     #1c212b;
 }
 
+/* Texture frames win over CSS rank paints */
+.gear-slot.filled.has-rank-tex {
+  border: none;
+  background-color: #0a0c10;
+  background-image: var(--rank-frame);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  box-shadow: none;
+}
+
+.gear-slot.filled.has-rank-tex.has-emblem-tex {
+  /* frame (transparent hole) over leaf fill */
+  background-image: var(--rank-frame), var(--rank-emblem);
+  background-size: 100% 100%, 86% 86%;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+  --shine-hi: rgba(255, 150, 165, 0.7);
+  --shine-mid: rgba(210, 90, 110, 0.45);
+}
+
+/* Shine tint per rank (match emblem palette) */
+.gear-slot.filled.has-emblem-tex.rank-genesis {
+  --shine-hi: rgba(255, 85, 100, 0.78);
+  --shine-mid: rgba(200, 28, 45, 0.55);
+}
+.gear-slot.filled.has-emblem-tex.rank-pink-neon {
+  --shine-hi: rgba(255, 110, 200, 0.78);
+  --shine-mid: rgba(220, 60, 170, 0.55);
+}
+.gear-slot.filled.has-emblem-tex.rank-pink {
+  --shine-hi: rgba(240, 130, 185, 0.72);
+  --shine-mid: rgba(190, 90, 150, 0.5);
+}
+.gear-slot.filled.has-emblem-tex.rank-blue-neon {
+  --shine-hi: rgba(100, 170, 255, 0.78);
+  --shine-mid: rgba(40, 110, 220, 0.55);
+}
+.gear-slot.filled.has-emblem-tex.rank-blue {
+  --shine-hi: rgba(100, 160, 230, 0.72);
+  --shine-mid: rgba(55, 100, 180, 0.5);
+}
+.gear-slot.filled.has-emblem-tex.rank-red {
+  /* Mythic → magenta emblem */
+  --shine-hi: rgba(255, 90, 150, 0.78);
+  --shine-mid: rgba(210, 35, 100, 0.55);
+}
+.gear-slot.filled.has-emblem-tex.rank-green {
+  --shine-hi: rgba(90, 230, 150, 0.72);
+  --shine-mid: rgba(35, 160, 95, 0.5);
+}
+.gear-slot.filled.has-emblem-tex.rank-orange {
+  --shine-hi: rgba(255, 175, 90, 0.75);
+  --shine-mid: rgba(220, 120, 35, 0.5);
+}
+.gear-slot.filled.has-emblem-tex.rank-purple {
+  --shine-hi: rgba(180, 130, 240, 0.75);
+  --shine-mid: rgba(130, 70, 190, 0.5);
+}
+.gear-slot.filled.has-emblem-tex.rank-cyan {
+  --shine-hi: rgba(90, 210, 240, 0.75);
+  --shine-mid: rgba(45, 150, 190, 0.5);
+}
+
+/* Emblem: longer soft light arcs orbiting in a ring */
+.gear-slot.filled.has-emblem-tex::before {
+  content: '';
+  position: absolute;
+  inset: 4%;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    var(--shine-mid) 3deg,
+    var(--shine-hi) 12deg,
+    var(--shine-hi) 22deg,
+    var(--shine-mid) 30deg,
+    transparent 38deg,
+    transparent 70deg,
+    var(--shine-mid) 74deg,
+    var(--shine-hi) 84deg,
+    var(--shine-hi) 96deg,
+    var(--shine-mid) 104deg,
+    transparent 112deg,
+    transparent 155deg,
+    var(--shine-mid) 160deg,
+    var(--shine-hi) 172deg,
+    var(--shine-hi) 188deg,
+    var(--shine-mid) 198deg,
+    transparent 206deg,
+    transparent 248deg,
+    var(--shine-mid) 253deg,
+    var(--shine-hi) 265deg,
+    var(--shine-hi) 280deg,
+    var(--shine-mid) 290deg,
+    transparent 300deg,
+    transparent 360deg
+  );
+  -webkit-mask-image: radial-gradient(
+    circle at center,
+    transparent 42%,
+    rgba(0, 0, 0, 0.08) 50%,
+    rgba(0, 0, 0, 0.35) 58%,
+    rgba(0, 0, 0, 0.75) 66%,
+    rgba(0, 0, 0, 0.75) 74%,
+    rgba(0, 0, 0, 0.35) 82%,
+    rgba(0, 0, 0, 0.08) 90%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    circle at center,
+    transparent 42%,
+    rgba(0, 0, 0, 0.08) 50%,
+    rgba(0, 0, 0, 0.35) 58%,
+    rgba(0, 0, 0, 0.75) 66%,
+    rgba(0, 0, 0, 0.75) 74%,
+    rgba(0, 0, 0, 0.35) 82%,
+    rgba(0, 0, 0, 0.08) 90%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  opacity: 0.82;
+  filter: blur(2.8px) drop-shadow(0 0 6px var(--shine-mid));
+  animation: emblemOrbitSpin 3.15s linear infinite;
+}
+
+.gear-slot.filled.has-emblem-tex > * {
+  z-index: 2;
+}
+
+/* Emblem detail gleam + soft circular bloom */
+.gear-slot .emblem-detail-shine,
+.gear-slot .emblem-line-glow {
+  position: absolute;
+  inset: 2%;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.gear-slot .emblem-detail-shine {
+  background: conic-gradient(
+    from 25deg,
+    transparent 0deg,
+    var(--shine-mid) 2deg,
+    var(--shine-hi) 14deg,
+    var(--shine-mid) 26deg,
+    transparent 34deg,
+    transparent 100deg,
+    var(--shine-mid) 106deg,
+    var(--shine-hi) 120deg,
+    var(--shine-mid) 134deg,
+    transparent 142deg,
+    transparent 210deg,
+    var(--shine-mid) 216deg,
+    var(--shine-hi) 230deg,
+    var(--shine-mid) 244deg,
+    transparent 252deg,
+    transparent 320deg,
+    var(--shine-mid) 326deg,
+    var(--shine-hi) 340deg,
+    var(--shine-mid) 352deg,
+    transparent 360deg
+  );
+  -webkit-mask-image: radial-gradient(
+    circle at center,
+    transparent 38%,
+    rgba(0, 0, 0, 0.06) 46%,
+    rgba(0, 0, 0, 0.3) 55%,
+    rgba(0, 0, 0, 0.7) 64%,
+    rgba(0, 0, 0, 0.7) 72%,
+    rgba(0, 0, 0, 0.3) 80%,
+    rgba(0, 0, 0, 0.06) 88%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    circle at center,
+    transparent 38%,
+    rgba(0, 0, 0, 0.06) 46%,
+    rgba(0, 0, 0, 0.3) 55%,
+    rgba(0, 0, 0, 0.7) 64%,
+    rgba(0, 0, 0, 0.7) 72%,
+    rgba(0, 0, 0, 0.3) 80%,
+    rgba(0, 0, 0, 0.06) 88%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  opacity: 0.58;
+  filter: blur(3.2px);
+  animation: emblemOrbitSpin 4.28s linear infinite reverse;
+}
+
+.gear-slot .emblem-line-glow {
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at center,
+    var(--shine-hi) 0%,
+    var(--shine-mid) 38%,
+    transparent 72%
+  );
+  -webkit-mask-image: none;
+  mask-image: none;
+  mix-blend-mode: screen;
+  filter: blur(3.6px);
+  opacity: 0.4;
+  animation: emblemLinePulse 3.15s ease-in-out infinite;
+}
+
+@keyframes emblemOrbitSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes emblemLinePulse {
+  0%,
+  100% {
+    opacity: 0.28;
+    filter: blur(3.2px);
+  }
+  50% {
+    opacity: 0.55;
+    filter: blur(4px);
+  }
+}
+
+/* Genesis: soft neon bloom outside the slot */
+.gear-slot.filled.has-rank-tex.rank-genesis {
+  box-shadow:
+    0 0 4px rgba(255, 40, 55, 0.95),
+    0 0 10px rgba(255, 24, 48, 0.65),
+    0 0 18px rgba(255, 16, 40, 0.4),
+    0 0 28px rgba(120, 0, 10, 0.35);
+  overflow: visible;
+}
+
+.gear-slot.filled.has-rank-tex.rank-genesis::after {
+  display: block;
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 12px;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 36, 48, 0.28),
+    rgba(255, 20, 40, 0.12) 45%,
+    transparent 72%
+  );
+  filter: blur(3px);
+  animation: smokeDrift 3.2s ease-in-out infinite alternate;
+}
+
+.gear-slot.filled.has-rank-tex.rank-genesis > * {
+  z-index: 1;
+}
+
+.gear-slot.filled.has-rank-tex .slot-icon-img {
+  inset: 10px;
+  max-width: calc(100% - 20px);
+  max-height: calc(100% - 32px);
+}
+
+.gear-slot.filled.has-rank-tex .slot-silhouette.filled {
+  inset: 12px 12px 24px;
+}
+
 .gear-slot.filled:hover {
   transform: translateY(-1px);
   filter: brightness(1.08);

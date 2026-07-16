@@ -18,6 +18,7 @@ import { flameRankFrameClass, isFlameSlot } from '../data/flameWeapon'
 import { supportsHighTierOption } from '../data/highTierOption'
 import { supportsSharenianAbility } from '../data/sharenianAbility'
 import { rankFrameClass } from '../data/itemRankStyle'
+import { resolveItemRankFrameLayers } from '../data/itemRankTextures'
 import { SlotSilhouette } from './SlotSilhouette'
 import './Popup.css'
 
@@ -99,6 +100,9 @@ export function GearSummaryPopup({
   const showFlame = flameLines.length > 0
   const showPotential = potLines.length > 0 && item.potential != null
   const showBonus = bonusLines.length > 0 && item.bonusPotential != null
+  const layers = resolveItemRankFrameLayers(item.rank, 'summary', {
+    hasEmblem: Boolean(item.emblem),
+  })
 
   return (
     <div
@@ -136,7 +140,28 @@ export function GearSummaryPopup({
 
         <div className="dossier-body">
           <div className="dossier-top">
-            <div className={`dossier-icon ${rankFrameClass(item.rank)}`}>
+            <div
+              className={`dossier-icon ${rankFrameClass(item.rank)} has-rank-tex${layers.emblem ? ' has-emblem-tex' : ''}`}
+              style={{
+                ['--rank-frame' as string]: `url("${layers.frame}")`,
+                ...(layers.emblem
+                  ? {
+                      ['--rank-emblem' as string]: `url("${layers.emblem}")`,
+                      ...(layers.emblemLines
+                        ? {
+                            ['--emblem-lines' as string]: `url("${layers.emblemLines}")`,
+                          }
+                        : {}),
+                    }
+                  : {}),
+              }}
+            >
+              {layers.emblem && (
+                <>
+                  <span className="emblem-detail-shine" aria-hidden />
+                  <span className="emblem-line-glow" aria-hidden />
+                </>
+              )}
               {item.iconUrl ? (
                 <img
                   src={item.iconUrl}
@@ -152,11 +177,24 @@ export function GearSummaryPopup({
               {showPotential && item.potential && (
                 <span
                   className={`dossier-badge pot ${potentialFrameClass(item.potential.grade)}`}
+                  title={`Potential ${item.potential.grade}`}
                 >
                   {potGradeLetter(item.potential.grade)}
                 </span>
               )}
-              {item.emblem && <span className="dossier-badge emb">E</span>}
+              {item.bonusPotential && (
+                <span
+                  className={`dossier-badge add ${potentialFrameClass(item.bonusPotential.grade)}`}
+                  title={`Bonus Potential ${item.bonusPotential.grade}`}
+                >
+                  {potGradeLetter(item.bonusPotential.grade)}
+                </span>
+              )}
+              {item.emblem && (
+                <span className="dossier-badge emb" title={item.emblem.name}>
+                  Em
+                </span>
+              )}
               {starCount > 0 && (
                 <span className="dossier-badge star-n">{starCount}</span>
               )}
