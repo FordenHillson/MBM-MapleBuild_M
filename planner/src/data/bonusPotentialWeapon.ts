@@ -1,6 +1,7 @@
 import type { GearSlotId, PotentialGrade, StatLine } from '../types/build'
 import { isPotentialSlot } from './potentialWeapon'
 import type { PotentialOptionDef } from './potentialWeapon'
+import { BONUS_POTENTIAL_HAT_OPTIONS } from './bonusPotentialHat'
 
 /** Bonus Potential ranks for Weapon / Secondary — Nexon table 6438. */
 export const BONUS_POTENTIAL_RANKS: PotentialGrade[] = [
@@ -104,6 +105,7 @@ const EMPTY_LINE: StatLine = { optionId: '', label: '', value: 0 }
 
 export function bonusPotentialOptionsForSlot(slot: GearSlotId): PotentialOptionDef[] {
   if (!isPotentialSlot(slot)) return []
+  if (slot === 'hat') return BONUS_POTENTIAL_HAT_OPTIONS
   return BONUS_POTENTIAL_WEAPON_OPTIONS
 }
 

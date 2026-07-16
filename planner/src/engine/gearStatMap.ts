@@ -36,6 +36,8 @@ export const GEAR_OPTION_TO_STAT: Record<string, PlayerStatKey> = {
   critDmg: 'critDmgPercent',
   critDmgPercent: 'critDmgPercent',
   'Crit DMG': 'critDmgPercent',
+  critDmgRes: 'critDmgReducePercent',
+  'Crit DMG RES': 'critDmgReducePercent',
   finalPercent: 'finalPercent',
   finalDmg: 'finalPercent',
   'Final%': 'finalPercent',
@@ -55,8 +57,9 @@ export const GEAR_OPTION_TO_STAT: Record<string, PlayerStatKey> = {
   acc: 'accPercent',
   ACC: 'accPercent',
   accPercent: 'accPercent',
-  evd: 'evdPercent',
-  EVD: 'evdPercent',
+  evd: 'evd',
+  EVD: 'evd',
+  evdFlat: 'evd',
   evdPercent: 'evdPercent',
 
   // Resource
