@@ -33,6 +33,7 @@ import {
 import { normalizeBonusPotentialLines } from '../data/bonusPotentialWeapon'
 import { normalizeEmblem } from '../data/emblems'
 import { normalizeSoul } from '../data/souls'
+import { normalizeHatMainOption } from '../data/hatMainOption'
 import { normalizeHighTierOption } from '../data/highTierOption'
 import { normalizeSharenianAbility } from '../data/sharenianAbility'
 import { normalizeIconUrl } from '../data/gearIcon'
@@ -135,6 +136,11 @@ function migrateGearItem(item: GearItem, slotId: GearSlotId): GearItem {
   const maxHpBase = Number(item.maxHpBase) || 0
   const maxDamageBase = Number(item.maxDamageBase) || 0
 
+  const highTierOption =
+    slotId === 'hat'
+      ? normalizeHatMainOption(slotId, item.rank, item.highTierOption)
+      : normalizeHighTierOption(slotId, item.rank, item.highTierOption)
+
   return {
     ...item,
     slotId,
@@ -148,11 +154,7 @@ function migrateGearItem(item: GearItem, slotId: GearSlotId): GearItem {
     bonusPotential,
     emblem: normalizeEmblem(slotId, item.emblem),
     soul: normalizeSoul(slotId, item.soul),
-    highTierOption: normalizeHighTierOption(
-      slotId,
-      item.rank,
-      item.highTierOption,
-    ),
+    highTierOption,
     sharenianAbility: normalizeSharenianAbility(
       slotId,
       item.rank,
