@@ -1,0 +1,17 @@
+.superpowers/
+.cursor/
+.vite/
+*.local
+
+# Large datamine dumps (keep local only)
+dump/
+
+# Nested build artifacts (also ignored by planner/.gitignore)
+**/node_modules/
+**/dist/
+**/__pycache__/
+*.pyc
+
+# Heavy local tooling binaries
+tools/Il2CppDumper/*.exe
+tools/Il2CppDumper/*.zip

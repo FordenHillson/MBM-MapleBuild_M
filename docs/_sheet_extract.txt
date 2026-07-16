@@ -1,0 +1,166 @@
+SHEETS: [('Damage Calculator (Phy Atk)', 'rId5'), ('Damage Calculator (Mag Atk)', 'rId6'), ('Change Log', 'rId7')]
+--- SHARED STRINGS ---
+0: Buffed stats calculator
+1: Phys Atk
+2: Advance Blessing
+3: Boss Atk food
+4: Phys Atk %
+5: Phys Dmg %
+6: Speed Infusion (Bucc buff)
+7: Phys Atk food
+8: Boss Atk %
+9: Crit Rate %
+10: Unmanaged Anger (Hero buff)
+11: Candy Basket
+12: Crit Dmg %
+13: Combat Orders (Pally buff)
+14: Chestnut
+15: Final Dmg %
+16: Call of the Wild (WH buff)
+17: Carrot Juice
+18: Hyper skill
+19: Evan buff
+20: Noodle Soup
+21: Hyper stat
+22: CR % HARD CAP
+23: Skill %
+24: Lv 200 buff
+25: Jellyfish
+26: Pork
+27: Max Dmg
+28: Party buffs. Please pick buffs which correspond and benefit with your class
+29: Boss Rush
+30: Input base stats here. Exclude any food buffs & party buffs. Include self buffs.
+31: Fever (maxed)
+32: Buffed stats
+33: Food buffs
+34: Emblem swap calculator
+35: Damage calculator
+36: Credits
+37: Current emblems
+38: With chosen emblems
+39: Damage Output
+40: Paulpork
+41: For Dmg Formula
+42: Non-Crit Line (Mobs)
+43: 櫻櫻美代套子
+44: For the initial buffed stats calculator
+45: Crit Line (Mobs)
+46: KaitouKiddo
+47: For the initial dmg + emblem calculator
+48: Average Dmg (Mobs)
+49: 殘風⎝( OωO)⎠
+50: For Crit Rate + Cap tests
+51: Non-Crit Line (Boss)
+52: Whaku
+53: For this spreadsheet. Also similar CR test
+54: Crit Line (Boss)
+55: Average Dmg (Boss)
+56: Notes
+57: Last Updated: 09/08/20
+58: Average Dmg (Boss,Cap)
+59: - Crit rate soft caps at 90% for bosses with no crit res
+60: ^ Dmg dealt on enemies with no defense
+61: - CR HARDCAPS at 100%. CAN'T overbuff to compensate
+62: With Crit Res %
+63: - Phys dmg cap REMOVED AS OF MAY UPDATE
+64: - Make sure not to include duplicate self buffs in both the base stat and party buffs or hyper skill.
+65: Avg Dmg (Boss) + Crit Res
+66: Average Dmg (Boss,Cap)
+67: Avg Dmg (Boss,Cap) + Crit Res
+68: - If you want to change "current emblems", then please change your base stats to reflect it first
+69: - No def bosses: GD, WEB and some parts of GHB
+70: Hidden cells (required for calculation)
+71: Mag Atk
+72: Mag Atk %
+73: Mag Dmg %
+74: Mag Atk food
+75: Candy Cane
+76: Meditation (IL/FP buff)
+77: Photic Meditation (Lumi buff)
+78: Snail
+79: Input base stats here. Exclude any food buffs & party buffs. Include self buffs.
+80: For this spreadsheet. Also similar CR test
+81: Average Dmg (Boss,Cap)
+82: Avg Dmg (Boss,Cap) + Crit Res
+83: Date
+84: Changes
+85: May 26th 2020
+86: Damage & Emblem calculator released
+87: Fixed issue where adding BA% in hyperstats didn't do anything
+88: July 14th 2020
+89: Changed the way crit res behaves as crit rate hard caps at 100%
+90: August 3rd 2020
+91: Added Wild Hunter buff and Lv 200 buff options, removed Pink Bean buffs
+92: August 9th 2020
+93: Fixed a minor issue with crit res calculation where abnormal 0% crit rate was applying at times. Added damage cap calculations
+
+===== Damage Calculator (Phy Atk) (xl/worksheets/sheet1.xml) =====
+R1: A='Buffed stats calculator'
+R2: A='Phys Atk' | B='18456.0' | D='Advance Blessing' | E='1.0' | G='Boss Atk food' | H='0.5' | J='Phys Atk %' | K='0.0' | M='Phys Dmg %' | N='0.0' | P='Phys Atk' | Q={F:B2 | V:18456}
+R3: A='Phys Atk %' | B='1.005' | D='Speed Infusion (Bucc buff)' | E='1.0' | G='Phys Atk food' | H='0.5' | J='Boss Atk %' | K='0.2' | M='Crit Rate %' | N='0.0' | P='Phys Atk %' | Q={F:B3+H3+35%*E2+14.7%*E6+21%*E4+10%*H11+K2 | V:2.312}
+R4: A='Phys Dmg %' | B='0.372' | D='Unmanaged Anger (Hero buff)' | E='1.0' | G='Candy Basket' | H='1.0' | J='Crit Dmg %' | K='0.2' | M='Boss Atk %' | N='0.0' | P='Phys Dmg %' | Q={F:B4+30%*H4+20%*H9+15%*E5+15%*E7+N2 | V:1.172}
+R5: A='Boss Atk %' | B='0.927' | D='Combat Orders (Pally buff)' | E='1.0' | G='Chestnut' | H='1.0' | J='Final Dmg %' | K='0.2' | M='Crit Dmg %' | N='0.0' | P='Boss Atk %' | Q={F:B5+H2+20%*H8+50%*H10+15%*E2+9.6%*E3+K3+N4 | V:2.573}
+R6: A='Crit Rate %' | B='0.45' | D='Call of the Wild (WH buff)' | E='1.0' | G='Carrot Juice' | H='1.0' | J='Hyper skill' | M='Final Dmg %' | N='0.15' | P='Crit Rate %' | Q={F:IF(B6+30%*H6+20%*H7+10%*H11+N3<=90%,B6+30%*H6+20%*H7+10%*H11+N3,90%) | V:0.9}
+R7: A='Crit Dmg %' | B='2.832' | D='Evan buff' | E='1.0' | G='Noodle Soup' | H='1.0' | M='Hyper stat' | P='CR % HARD CAP' | Q={F:IF(B6+30%*H6+20%*H7+10%*H11+N3<=100%,B6+30%*H6+20%*H7+10%*H11+N3,100%) | V:1}
+R8: A='Skill %' | B='2.266' | D='Lv 200 buff' | E='0.0' | G='Jellyfish' | H='1.0' | P='Crit Dmg %' | Q={F:B7+30%*H5+30%*E8+20%*H11+K4+N5 | V:3.532}
+R9: A='Final Dmg %' | B='0.15' | G='Pork' | H='1.0' | P='Skill %' | Q={F:B8 | V:2.266}
+R10: A='Max Dmg' | B='5149999.0' | D='Party buffs. Please pick buffs which correspond and benefit with your class' | G='Boss Rush' | H='1.0' | P='Final Dmg %' | Q={F:B9+K5+N6 | V:0.5}
+R11: A='Input base stats here. Exclude any food buffs & party buffs. Include self buffs.' | G='Fever (maxed)' | H='1.0' | P='Buffed stats'
+R12: G='Food buffs'
+R14: A='Emblem swap calculator' | J='Damage calculator' | P='Credits'
+R15: B='Current emblems' | E='With chosen emblems' | L='Damage Output' | P='Paulpork' | Q='For Dmg Formula'
+R16: B='Crit Dmg %' | D='0.6' | E='Crit Dmg %' | G='0.8' | J='Non-Crit Line (Mobs)' | L={F:Q2*(1+Q4)*(1+Q3)*Q9*(1+Q10) | V:451272.5272} | P='櫻櫻美代套子' | Q='For the initial buffed stats calculator'
+R17: B='Boss Atk %' | D='0.28' | E='Boss Atk %' | G='0.4' | J='Crit Line (Mobs)' | L={F:L16*(1+20%+Q8) | V:2135421.599} | P='KaitouKiddo' | Q='For the initial dmg + emblem calculator'
+R18: B='Phys Atk %' | D='0.07' | E='Phys Atk %' | G='0.0' | J='Average Dmg (Mobs)' | L={F:L16*(1-Q6)+L17*Q6 | V:1967006.692} | P='殘風⎝( OωO)⎠' | Q='For Crit Rate + Cap tests'
+R19: J='Non-Crit Line (Boss)' | L={F:Q2*(1+Q4)*(1+Q3+Q9*Q5)*Q9*(1+Q10) | V:1245689.032} | P='Whaku' | Q='For this spreadsheet. Also similar CR test'
+R20: A='Non-Crit Line (Mobs)' | D={F:Q2*(1+Q4)*(1+Q3)*Q9*(1+Q10) | V:451272.5272} | E={F:Q2*(1+Q4)*(1+Q3-D18+G18)*Q9*(1+Q10) | V:441734.7624} | J='Crit Line (Boss)' | L={F:L19*(1+20%+Q8) | V:5894600.502}
+R21: A='Crit Line (Mobs)' | D={F:L16*(1+20%+Q8) | V:2135421.599} | E={F:L16*(1+20%+(Q8-D16+G16)) | V:2225676.104} | J='Average Dmg (Boss)' | L={F:L19*(1-Q6)+L20*Q6 | V:5429709.355} | P='Notes' | S='Last Updated: 09/08/20'
+R22: A='Average Dmg (Mobs)' | D={F:L16*(1-Q6)+L17*Q6 | V:1967006.692} | E={F:E20*(1-Q6)+E21*Q6 | V:2047281.97} | J='Average Dmg (Boss,Cap)' | L={F:L19*(1-Q6)+IF(B10>L20,L20,B10)*Q6 | V:4759568.003} | P='- Crit rate soft caps at 90% for bosses with no crit res'
+R23: A='Non-Crit Line (Boss)' | D={F:Q2*(1+Q4)*(1+Q3+Q9*Q5)*Q9*(1+Q10) | V:1245689.032} | E={F:Q2*(1+Q4)*(1+(Q3-D18+G18)+Q9*(Q5-D17+G17))*Q9*(1+Q10) | V:1273201.396} | J='^ Dmg dealt on enemies with no defense' | P="- CR HARDCAPS at 100%. CAN'T overbuff to compensate"
+R24: A='Crit Line (Boss)' | D={F:L19*(1+20%+Q8) | V:5894600.502} | E={F:L19*(1+20%+(Q8-D16+G16)) | V:6143738.308} | J='With Crit Res %' | K='0.35' | P='- Phys dmg cap REMOVED AS OF MAY UPDATE'
+R25: A='Average Dmg (Boss)' | D={F:L19*(1-Q6)+L20*Q6 | V:5429709.355} | E={F:E23*(1-Q6)+E24*Q6 | V:5656684.617} | J='Average Dmg (Boss)' | L={F:IF(K24>Q7,L19,IF((Q7-K24)>90%,L21,(L19*(1-(Q7-K24))+L20*(Q7-K24)))) | V:4267481.488} | P='- Make sure not to include duplicate self buffs in both the base stat and party buffs or hyper skill.'
+R26: A='Avg Dmg (Boss) + Crit Res' | D={F:IF(K24>Q7,L19,IF((Q7-K24)>90%,L21,(L19*(1-(Q7-K24))+L20*(Q7-K24)))) | V:4267481.488} | E={F:IF(K24>Q7,E23,IF((Q7-K24)>90%,E25,(E23*(1-(Q7-K24))+E24*(Q7-K24)))) | V:4439050.389} | J='Average Dmg (Boss,Cap)' | L={F:IF(K24>Q7,L19,IF((Q7-K24)>90%,L22,(L19*(1-(Q7-K24))+IF(B10>L20,L20,B10)*(Q7-K24)))) | V:3783490.511}
+R27: A='Avg Dmg (Boss,Cap) + Crit Res' | D={F:IF(K24>Q7,L19,IF((Q7-K24)>90%,L22,(L19*(1-(Q7-K24))+IF(B10>L20,L20,B10)*(Q7-K24)))) | V:3783490.511} | E={F:IF(K24>Q7,E23,IF((Q7-K24)>90%,A32,(E23*(1-(Q7-K24))+IF(B10>E24,E24,B10)*(Q7-K24)))) | V:3793119.839} | P='- If you want to change "current emblems", then please change your base stats to reflect it first'
+R29: P='- No def bosses: GD, WEB and some parts of GHB'
+R31: A='Hidden cells (required for calculation)'
+R32: A={F:IF(B10>E24,E24,B10)*Q6 | V:4634999.1}
+
+===== Damage Calculator (Mag Atk) (xl/worksheets/sheet2.xml) =====
+R1: A='Buffed stats calculator'
+R2: A='Mag Atk' | B='18456.0' | D='Advance Blessing' | E='1.0' | G='Boss Atk food' | H='0.5' | J='Mag Atk %' | K='0.0' | M='Mag Dmg %' | N='0.0' | P='Mag Atk' | Q={F:B2 | V:18456}
+R3: A='Mag Atk %' | B='1.005' | D='Speed Infusion (Bucc buff)' | E='1.0' | G='Mag Atk food' | H='0.5' | J='Boss Atk %' | K='0.2' | M='Crit Rate %' | N='0.0' | P='Mag Atk %' | Q={F:B3+H3+35%*E2+14.7%*E7+21.6%*E6+10%*H11+K2 | V:2.318}
+R4: A='Mag Dmg %' | B='0.372' | D='Combat Orders (Pally buff)' | E='1.0' | G='Candy Cane' | H='1.0' | J='Crit Dmg %' | K='0.2' | M='Boss Atk %' | N='0.0' | P='Mag Dmg %' | Q={F:B4+30%*H4+20%*H9+15%*E4+15%*E8+10%*E5+N2 | V:1.272}
+R5: A='Boss Atk %' | B='0.927' | D='Meditation (IL/FP buff)' | E='1.0' | G='Chestnut' | H='1.0' | J='Final Dmg %' | K='0.2' | M='Crit Dmg %' | N='0.0' | P='Boss Atk %' | Q={F:B5+H2+20%*H8+50%*H10+15%*E2+9.6%*E3+K3+N4 | V:2.573}
+R6: A='Crit Rate %' | B='0.45' | D='Photic Meditation (Lumi buff)' | E='1.0' | G='Carrot Juice' | H='1.0' | J='Hyper skill' | M='Final Dmg %' | N='0.15' | P='Crit Rate %' | Q={F:IF(B6+30%*H6+20%*H7+10%*H11+N3<=90%,B6+30%*H6+20%*H7+10%*H11+N3,90%) | V:0.9}
+R7: A='Crit Dmg %' | B='2.832' | D='Call of the Wild (WH buff)' | E='1.0' | G='Noodle Soup' | H='1.0' | M='Hyper stat' | P='CR % HARD CAP' | Q={F:IF(B6+30%*H6+20%*H7+10%*H11+N3<=100%,B6+30%*H6+20%*H7+10%*H11+N3,100%) | V:1}
+R8: A='Skill %' | B='2.266' | D='Evan buff' | E='1.0' | G='Jellyfish' | H='1.0' | P='Crit Dmg %' | Q={F:B7+30%*H5+30%*E9+20%*H11+K4+N5 | V:3.532}
+R9: A='Final Dmg %' | B='0.15' | D='Lv 200 buff' | E='0.0' | G='Snail' | H='1.0' | P='Skill %' | Q={F:B8 | V:2.266}
+R10: A='Max Dmg' | B='5149999.0' | D='Party buffs. Please pick buffs which correspond and benefit with your class' | G='Boss Rush' | H='1.0' | P='Final Dmg %' | Q={F:B9+K5+N6 | V:0.5}
+R11: A='Input base stats here. Exclude any food buffs & party buffs. Include self buffs.' | G='Fever (maxed)' | H='1.0' | P='Buffed stats'
+R12: G='Food buffs'
+R14: A='Emblem swap calculator' | J='Damage calculator' | P='Credits'
+R15: B='Current emblems' | E='With chosen emblems' | L='Damage Output' | P='Paulpork' | Q='For Dmg Formula'
+R16: B='Crit Dmg %' | D='0.6' | E='Crit Dmg %' | G='0.8' | J='Non-Crit Line (Mobs)' | L={F:Q2*(1+Q4)*(1+Q3)*Q9*(1+Q10) | V:472904.5089} | P='櫻櫻美代套子' | Q='For the initial buffed stats calculator'
+R17: B='Boss Atk %' | D='0.28' | E='Boss Atk %' | G='0.4' | J='Crit Line (Mobs)' | L={F:L16*(1+20%+Q8) | V:2237784.136} | P='KaitouKiddo' | Q='For the initial dmg + emblem calculator'
+R18: B='Mag Atk %' | D='0.07' | E='Mag Atk %' | G='0.0' | J='Average Dmg (Mobs)' | L={F:L16*(1-Q6)+L17*Q6 | V:2061296.173} | P='殘風⎝( OωO)⎠' | Q='For Crit Rate + Cap tests'
+R19: J='Non-Crit Line (Boss)' | L={F:Q2*(1+Q4)*(1+Q3+Q9*Q5)*Q9*(1+Q10) | V:1303896.36} | P='Whaku' | Q='For this spreadsheet. Also similar CR test'
+R20: A='Non-Crit Line (Mobs)' | D={F:Q2*(1+Q4)*(1+Q3)*Q9*(1+Q10) | V:472904.5089} | E={F:Q2*(1+Q4)*(1+Q3-D18+G18)*Q9*(1+Q10) | V:462927.6205} | J='Crit Line (Boss)' | L={F:L19*(1+20%+Q8) | V:6170037.574}
+R21: A='Crit Line (Mobs)' | D={F:L16*(1+20%+Q8) | V:2237784.136} | E={F:L16*(1+20%+(Q8-D16+G16)) | V:2332365.038} | J='Average Dmg (Boss)' | L={F:L19*(1-Q6)+L20*Q6 | V:5683423.453} | P='Notes' | S='Last Updated: 09/08/20'
+R22: A='Average Dmg (Mobs)' | D={F:L16*(1-Q6)+L17*Q6 | V:2061296.173} | E={F:E20*(1-Q6)+E21*Q6 | V:2145421.296} | J='Average Dmg (Boss,Cap)' | L={F:L19*(1-Q6)+IF(B10>L20,L20,B10)*Q6 | V:4765388.736} | P='- Crit rate soft caps at 90% for bosses with no crit res'
+R23: A='Non-Crit Line (Boss)' | D={F:Q2*(1+Q4)*(1+Q3+Q9*Q5)*Q9*(1+Q10) | V:1303896.36} | E={F:Q2*(1+Q4)*(1+(Q3-D18+G18)+Q9*(Q5-D17+G17))*Q9*(1+Q10) | V:1332675.407} | J='^ Dmg dealt on enemies with no defense' | P="- CR HARDCAPS at 100%. CAN'T overbuff to compensate"
+R24: A='Crit Line (Boss)' | D={F:L19*(1+20%+Q8) | V:6170037.574} | E={F:L19*(1+20%+(Q8-D16+G16)) | V:6430816.846} | J='With Crit Res %' | K='0.35' | P='- Phys dmg cap REMOVED AS OF MAY UPDATE'
+R25: A='Average Dmg (Boss)' | D={F:L19*(1-Q6)+L20*Q6 | V:5683423.453} | E={F:E23*(1-Q6)+E24*Q6 | V:5921002.702} | J='Average Dmg (Boss)' | L={F:IF(K24>Q7,L19,IF((Q7-K24)>90%,L21,(L19*(1-(Q7-K24))+L20*(Q7-K24)))) | V:4466888.149} | P='- Make sure not to include duplicate self buffs in both the base stat and party buffs or hyper skill.'
+R26: A='Avg Dmg (Boss) + Crit Res' | D={F:IF(K24>Q7,L19,IF((Q7-K24)>90%,L21,(L19*(1-(Q7-K24))+L20*(Q7-K24)))) | V:4466888.149} | E={F:IF(K24>Q7,E23,IF((Q7-K24)>90%,E25,(E23*(1-(Q7-K24))+E24*(Q7-K24)))) | V:4646467.343} | J='Average Dmg (Boss,Cap)' | L={F:IF(K24>Q7,L19,IF((Q7-K24)>90%,L22,(L19*(1-(Q7-K24))+IF(B10>L20,L20,B10)*(Q7-K24)))) | V:3803863.076}
+R27: A='Avg Dmg (Boss,Cap) + Crit Res' | D={F:IF(K24>Q7,L19,IF((Q7-K24)>90%,L22,(L19*(1-(Q7-K24))+IF(B10>L20,L20,B10)*(Q7-K24)))) | V:3803863.076} | E={F:IF(K24>Q7,E23,IF((Q7-K24)>90%,A32,(E23*(1-(Q7-K24))+IF(B10>E24,E24,B10)*(Q7-K24)))) | V:3813935.742} | P='- If you want to change "current emblems", then please change your base stats to reflect it first'
+R29: P='- No def bosses: GD, WEB and some parts of GHB'
+R31: A='Hidden cells (required for calculation)'
+R32: A={F:IF(B10>E24,E24,B10)*Q6 | V:4634999.1}
+
+===== Change Log (xl/worksheets/sheet3.xml) =====
+R1: A='Date' | B='Changes'
+R2: A='May 26th 2020' | B='Damage & Emblem calculator released'
+R3: A='May 26th 2020' | B="Fixed issue where adding BA% in hyperstats didn't do anything"
+R4: A='July 14th 2020' | B='Changed the way crit res behaves as crit rate hard caps at 100%'
+R5: A='August 3rd 2020' | B='Added Wild Hunter buff and Lv 200 buff options, removed Pink Bean buffs'
+R6: A='August 9th 2020' | B='Fixed a minor issue with crit res calculation where abnormal 0% crit rate was applying at times. Added damage cap calculations'
