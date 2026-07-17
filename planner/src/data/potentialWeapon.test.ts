@@ -82,9 +82,28 @@ describe('potential / bonus on gloves', () => {
     )
   })
 
-  it('does not treat other armor slots as potential slots', () => {
-    expect(isPotentialSlot('outfitTop')).toBe(false)
-    expect(potentialOptionsForSlot('outfitTop')).toEqual([])
-    expect(bonusPotentialOptionsForSlot('outfitTop')).toEqual([])
+  it('does not treat remaining armor slots as potential slots', () => {
+    expect(isPotentialSlot('shoes')).toBe(false)
+    expect(potentialOptionsForSlot('shoes')).toEqual([])
+    expect(bonusPotentialOptionsForSlot('shoes')).toEqual([])
+  })
+})
+
+describe('potential / bonus on outfit', () => {
+  it('treats outfitTop/outfitBottom as potential slots with distinct pool refs', () => {
+    expect(isPotentialSlot('outfitTop')).toBe(true)
+    expect(isPotentialSlot('outfitBottom')).toBe(true)
+    expect(potentialOptionsForSlot('outfitTop').length).toBeGreaterThan(0)
+    expect(potentialOptionsForSlot('outfitBottom').length).toBeGreaterThan(0)
+    expect(potentialOptionsForSlot('outfitTop')).not.toBe(
+      potentialOptionsForSlot('outfitBottom'),
+    )
+    expect(bonusPotentialOptionsForSlot('outfitTop').length).toBeGreaterThan(0)
+    expect(
+      bonusPotentialOptionsForSlot('outfitBottom').length,
+    ).toBeGreaterThan(0)
+    expect(bonusPotentialOptionsForSlot('outfitTop')).not.toBe(
+      bonusPotentialOptionsForSlot('outfitBottom'),
+    )
   })
 })

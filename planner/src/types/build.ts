@@ -119,6 +119,11 @@ export function ranksForSlot(
     return ['Root Abyss']
   }
 
+  // Outfit Bottom is Root Abyss-only for now.
+  if (slot === 'outfitBottom') {
+    return ['Root Abyss']
+  }
+
   if (slot === 'secondary') {
     return [...SECONDARY_RANKS]
   }
@@ -136,7 +141,7 @@ export function ranksForSlot(
   }
 
   // Genesis is main-weapon only.
-  if (slot === 'hat' || slot === 'gloves') {
+  if (slot !== 'mainWeapon') {
     ranks = ranks.filter((r) => r !== 'Genesis')
   }
 

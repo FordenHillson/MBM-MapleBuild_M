@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import type { GearSlotId } from '../types/build'
 import {
   slotCategory,
   slotProfile,
@@ -54,6 +55,15 @@ describe('equipCategory', () => {
     expect(isFlameSlot('gloves')).toBe(true)
     expect(isPotentialSlot('gloves')).toBe(true)
     expect(slotProfile('gloves').flame.enabled).toBe(false)
+  })
+
+  it('outfit Top/Bottom override enables flame/pot without changing armor profile', () => {
+    expect(isFlameSlot('outfitTop')).toBe(true)
+    expect(isFlameSlot('outfitBottom')).toBe(true)
+    expect(isPotentialSlot('outfitTop')).toBe(true)
+    expect(isPotentialSlot('outfitBottom')).toBe(true)
+    expect(slotProfile('outfitTop').flame.enabled).toBe(false)
+    expect(slotProfile('outfitBottom').potential.enabled).toBe(false)
   })
 
   it('categoryProfile matches slotProfile for each category', () => {

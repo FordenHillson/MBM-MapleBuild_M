@@ -3,6 +3,8 @@ import { isPotentialSlot } from './potentialWeapon'
 import type { PotentialOptionDef } from './potentialWeapon'
 import { BONUS_POTENTIAL_GLOVES_OPTIONS } from './bonusPotentialGloves'
 import { BONUS_POTENTIAL_HAT_OPTIONS } from './bonusPotentialHat'
+import { BONUS_POTENTIAL_OUTFIT_BOTTOM_OPTIONS } from './bonusPotentialOutfitBottom'
+import { BONUS_POTENTIAL_OUTFIT_TOP_OPTIONS } from './bonusPotentialOutfitTop'
 
 /** Bonus Potential ranks for Weapon / Secondary — Nexon table 6438. */
 export const BONUS_POTENTIAL_RANKS: PotentialGrade[] = [
@@ -108,6 +110,8 @@ export function bonusPotentialOptionsForSlot(slot: GearSlotId): PotentialOptionD
   if (!isPotentialSlot(slot)) return []
   if (slot === 'hat') return BONUS_POTENTIAL_HAT_OPTIONS
   if (slot === 'gloves') return BONUS_POTENTIAL_GLOVES_OPTIONS
+  if (slot === 'outfitTop') return BONUS_POTENTIAL_OUTFIT_TOP_OPTIONS
+  if (slot === 'outfitBottom') return BONUS_POTENTIAL_OUTFIT_BOTTOM_OPTIONS
   return BONUS_POTENTIAL_WEAPON_OPTIONS
 }
 

@@ -821,7 +821,7 @@ export function GearEditModal({
                       <select
                         value={
                           item.highTierOption?.optionId ??
-                          armorMainOptionOptions(slot)[0]!.optionId
+                          armorMainOptionOptions(slot, item.rank)[0]!.optionId
                         }
                         onChange={(e) => {
                           const optionId = e.target.value
@@ -831,11 +831,12 @@ export function GearEditModal({
                               slot,
                               optionId || undefined,
                               item.highTierOption?.value ?? 0,
+                              item.rank,
                             ),
                           })
                         }}
                       >
-                        {armorMainOptionOptions(slot).map((opt) => (
+                        {armorMainOptionOptions(slot, item.rank).map((opt) => (
                           <option key={opt.optionId} value={opt.optionId}>
                             {opt.label}
                           </option>
@@ -854,7 +855,12 @@ export function GearEditModal({
                             ...item,
                             highTierOption: {
                               ...(item.highTierOption ??
-                                emptyArmorMainOption(slot, undefined, 0)),
+                                emptyArmorMainOption(
+                                  slot,
+                                  undefined,
+                                  0,
+                                  item.rank,
+                                )),
                               value: Number(e.target.value),
                             },
                           })

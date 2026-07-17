@@ -28,3 +28,19 @@ describe('ranksForSlot gloves', () => {
     expect(ranks).toContain('Legendary')
   })
 })
+
+describe('ranksForSlot outfit', () => {
+  it('outfitTop excludes Genesis and keeps Root Abyss / Necro / Absolab / Arcane', () => {
+    const ranks = ranksForSlot('outfitTop')
+    expect(ranks).not.toContain('Genesis')
+    expect(ranks).toContain('Root Abyss')
+    expect(ranks).toContain('Necro')
+    expect(ranks).toContain('Absolab')
+    expect(ranks).toContain('Arcane')
+    expect(ranks).toContain('Legendary')
+  })
+
+  it('outfitBottom is Root Abyss only for now', () => {
+    expect(ranksForSlot('outfitBottom')).toEqual(['Root Abyss'])
+  })
+})
