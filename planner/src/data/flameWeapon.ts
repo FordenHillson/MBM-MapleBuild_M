@@ -261,7 +261,8 @@ export function flameValues(
   optionId: string,
   rank: FlameRank,
 ): number[] {
-  return flameOptionById(slot, optionId)?.valuesByRank[rank] ?? []
+  const values = flameOptionById(slot, optionId)?.valuesByRank[rank] ?? []
+  return [...values].sort((a, b) => b - a)
 }
 
 export function flameOptionsAvailable(

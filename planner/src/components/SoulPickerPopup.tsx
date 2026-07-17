@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import type { GearSlotId, SoulBlock } from '../types/build'
+import { SLOT_LABELS, type GearSlotId, type SoulBlock } from '../types/build'
 import {
   SOUL_BOSSES,
   buildSoulBlock,
@@ -43,7 +43,7 @@ export function SoulPickerPopup({
 
   const fixed = options.filter((o) => !o.magnificent)
   const magnificent = options.filter((o) => o.magnificent)
-  const slotLabel = slot === 'secondary' ? 'Second Weapon' : 'Weapon'
+  const slotLabel = SLOT_LABELS[slot]
 
   return (
     <div

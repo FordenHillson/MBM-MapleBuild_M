@@ -18,7 +18,7 @@ import {
   supportsArmorMainOption,
   usesArmorMpBase,
 } from '../data/armorBaseGear'
-import { parseSoulId, soulBossById } from '../data/souls'
+import { isSoulSlot, parseSoulId, soulBossById } from '../data/souls'
 import { flameRankFrameClass, isFlameSlot } from '../data/flameWeapon'
 import { supportsHighTierOption } from '../data/highTierOption'
 import {
@@ -29,6 +29,8 @@ import { supportsSharenianAbility } from '../data/sharenianAbility'
 import { rankFrameClass } from '../data/itemRankStyle'
 import { resolveItemRankFrameLayers } from '../data/itemRankTextures'
 import { SlotSilhouette } from './SlotSilhouette'
+import { SoulSetPopup } from './SoulSetPopup'
+import { useState } from 'react'
 import './Popup.css'
 
 function potGradeLetter(grade: PotentialGrade): string {
@@ -76,16 +78,19 @@ function activeLines(lines: StatLine[]): StatLine[] {
 export function GearSummaryPopup({
   slot,
   item,
+  gear,
   onClose,
   onEdit,
   onClear,
 }: {
   slot: GearSlotId
   item: GearItem
+  gear: Partial<Record<GearSlotId, GearItem | null | undefined>>
   onClose: () => void
   onEdit: () => void
   onClear: () => void
 }) {
+  const [soulSetOpen, setSoulSetOpen] = useState(false)
   const total = item.atkBase + item.atkBonus
   const title = item.itemName || SLOT_LABELS[slot]
   const soulSuffix = item.soul
@@ -115,6 +120,7 @@ export function GearSummaryPopup({
   const layers = resolveItemRankFrameLayers(item.rank, 'summary', {
     hasEmblem: Boolean(item.emblem),
   })
+  const showSoulSetButton = isSoulSlot(slot) && Boolean(item.soul)
 
   return (
     <div
@@ -468,8 +474,24 @@ export function GearSummaryPopup({
                   )}
                 </div>
               </div>
+              {showSoulSetButton && (
+                <button
+                  type="button"
+                  className="soul-set-option-btn"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setSoulSetOpen(true)
+                  }}
+                >
+                  ออปชันเซ็ต
+                  <span className="soul-set-help" aria-hidden>
+                    ?
+                  </span>
+                </button>
+              )}
             </section>
           )}
+
           {supportsWeaponRankSkill(item.slotId, item.rank) && (
             <section
               className="dossier-section weapon-rank-skill-sec"
@@ -495,7 +517,6 @@ export function GearSummaryPopup({
               </div>
             </section>
           )}
-
         </div>
 
         <footer className="dossier-footer">
@@ -507,6 +528,10 @@ export function GearSummaryPopup({
           </button>
         </footer>
       </div>
+
+      {soulSetOpen && (
+        <SoulSetPopup gear={gear} onClose={() => setSoulSetOpen(false)} />
+      )}
     </div>
   )
 }

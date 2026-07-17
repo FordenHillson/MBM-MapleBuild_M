@@ -155,9 +155,7 @@ export function ranksForSlot(
     ranks = ranks.filter((r) => r !== 'Root Abyss')
   }
 
-  if (slot !== 'belt') {
-    ranks = ranks.filter((r) => r !== 'Dreamy Belt')
-  }
+  ranks = ranks.filter((r) => r !== 'Dreamy Belt')
 
   // Genesis is main-weapon only.
   if (slot !== 'mainWeapon') {

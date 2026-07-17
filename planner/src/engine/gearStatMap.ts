@@ -7,6 +7,7 @@ import type {
 } from '../types/build'
 import { ATK_STAT_KEYS } from '../types/build'
 import { isFlameSlot } from '../data/flameWeapon'
+import { resolveSoulSet } from '../data/souls'
 import { weaponRankSkillBonus } from '../data/weaponRankSkill'
 
 /** Central optionId → PlayerStatKey map. Future gear systems register here. */
@@ -166,6 +167,12 @@ export function aggregateGearPlayerStats(
     if (item.soul) contributeLines(bag, [item.soul.stat])
     if (item.highTierOption) contributeLines(bag, [item.highTierOption])
     if (item.sharenianAbility) contributeLines(bag, item.sharenianAbility)
+  }
+
+  const soulSet = resolveSoulSet(gear)
+  if (soulSet.atkBonus > 0) {
+    bag.phyAtk = (bag.phyAtk ?? 0) + soulSet.atkBonus
+    bag.magAtk = (bag.magAtk ?? 0) + soulSet.atkBonus
   }
 
   const mainWeapon = gear.mainWeapon

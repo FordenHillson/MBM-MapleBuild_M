@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { demoMainWeapon } from '../data/seed'
+import { buildSoulBlock } from '../data/souls'
 import type { GearItem } from '../types/build'
 import {
   aggregateGearPlayerStats,
@@ -45,11 +46,59 @@ describe('aggregateGearPlayerStats', () => {
 
     const piece = weapon.atkBase + weapon.atkBonus
     const emblemBoost = piece * (weapon.emblem!.baseOptionBoostPercent / 100)
-    expect(bag.phyAtk).toBeCloseTo(piece + emblemBoost, 5)
+    // Demo weapon has Will Hearty soul → Soul Set 1 adds +270 PHY/MAG ATK
+    const soulSetAtk = 270
+    expect(bag.phyAtk).toBeCloseTo(piece + emblemBoost + soulSetAtk, 5)
+    expect(bag.magAtk).toBeCloseTo(soulSetAtk, 5)
 
     const atk = pickAtkBag(bag)
     expect(atk.critDmgPercent).toBeCloseTo(9.5 + 2.84 + 5, 5)
-    expect(atk.phyAtk).toBeCloseTo(piece + emblemBoost, 5)
+    expect(atk.phyAtk).toBeCloseTo(piece + emblemBoost + soulSetAtk, 5)
+  })
+
+  it('adds Will set 2 PHY/MAG ATK (+540) and ignores other boss groups', () => {
+    const weapon = {
+      ...demoMainWeapon(),
+      soul: buildSoulBlock('will', 'hearty', 'mainWeapon'),
+    }
+    const secondary: GearItem = {
+      slotId: 'secondary',
+      itemName: 'Second',
+      iconUrl: '',
+      rank: 'Mythic',
+      level: 1,
+      star: 0,
+      atkBase: 0,
+      atkBonus: 0,
+      phyDefBase: 0,
+      magDefBase: 0,
+      maxHpBase: 0,
+      maxMpBase: 0,
+      maxDamageBase: 0,
+      flameRank: null,
+      mainLines: [],
+      highTierOption: null,
+      sharenianAbility: null,
+      potential: null,
+      bonusPotential: null,
+      emblem: null,
+      soul: buildSoulBlock('will', 'beefy', 'secondary'),
+    }
+    const cape: GearItem = {
+      ...secondary,
+      slotId: 'cape',
+      itemName: 'Cape',
+      soul: buildSoulBlock('lucid', 'hearty', 'cape'),
+    }
+    const bag = aggregateGearPlayerStats({
+      mainWeapon: weapon,
+      secondary,
+      cape,
+    })
+    const piece = weapon.atkBase + weapon.atkBonus
+    const emblemBoost = piece * (weapon.emblem!.baseOptionBoostPercent / 100)
+    expect(bag.phyAtk).toBeCloseTo(piece + emblemBoost + 540, 5)
+    expect(bag.magAtk).toBeCloseTo(540, 5)
   })
 
   it('ignores flame / potential / bonus when set to None', () => {
@@ -123,6 +172,7 @@ describe('aggregateGearPlayerStats', () => {
     expect(bases.maxMp).toBe(0)
     expect(bases.expPercent).toBe(50)
   })
+
   it('adds Fair Trade critRate +100 for Absolab mainWeapon', () => {
     const weapon = {
       ...demoMainWeapon(),
@@ -142,5 +192,4 @@ describe('aggregateGearPlayerStats', () => {
     const bag = aggregateGearPlayerStats({ mainWeapon: weapon })
     expect(bag.critRate).toBe(100)
   })
-
 })

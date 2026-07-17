@@ -189,6 +189,7 @@ export function GearDoll() {
         <GearSummaryPopup
           slot={summarySlot}
           item={summaryItem}
+          gear={active.gear}
           onClose={() => setSummarySlot(null)}
           onEdit={() => {
             setSummarySlot(null)

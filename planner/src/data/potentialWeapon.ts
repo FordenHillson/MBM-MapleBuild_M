@@ -196,7 +196,8 @@ export function potentialValues(
 ): number[] {
   const opt = potentialOptionById(slot, optionId)
   if (!opt) return []
-  return lineIndex === 0 ? opt.firstByRank[grade] : opt.laterByRank[grade]
+  const values = lineIndex === 0 ? opt.firstByRank[grade] : opt.laterByRank[grade]
+  return [...values].sort((a, b) => b - a)
 }
 
 export function potentialOptionsAvailable(

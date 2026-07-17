@@ -1,5 +1,4 @@
-import type { GearSlotId, SoulBlock, StatLine } from '../types/build'
-import { slotProfile } from './equipCategory'
+import type { GearItem, GearSlotId, SoulBlock, StatLine } from '../types/build'
 
 /** Bosses ordered highest → lowest (UI pick order). */
 export type SoulBossId =
@@ -666,12 +665,128 @@ export const SOUL_SECONDARY_OPTIONS: SoulOptionDef[] = [
   },
 ]
 
+const SECONDARY_SOUL_SLOTS: GearSlotId[] = [
+  'secondary',
+  'shoulder',
+  'belt',
+  'cape',
+]
+
+function usesSecondarySoulChart(slot: GearSlotId): boolean {
+  return SECONDARY_SOUL_SLOTS.includes(slot)
+}
+
+/** Slots that participate in Soul Set (UI order). */
+export const SOUL_SET_SLOTS: GearSlotId[] = [
+  'mainWeapon',
+  'secondary',
+  'shoulder',
+  'belt',
+  'cape',
+]
+
+/**
+ * Flat PHY/MAG ATK for Set 1 — multiplied by matching piece count.
+ * Source: 2024.09 Soul chart (Set Bonus row).
+ */
+export const SOUL_SET_BASE_ATK: Record<SoulBossId, number> = {
+  zakum: 60,
+  pinkBean: 84,
+  cygnus: 120,
+  vonLeon: 150,
+  vonBon: 180,
+  pierre: 180,
+  hilla: 180,
+  crimsonQueen: 180,
+  vellum: 180,
+  magnus: 204,
+  arkarium: 212,
+  lotus: 240,
+  damien: 250,
+  lucid: 260,
+  will: 270,
+}
+
+export interface SoulSetSlotStatus {
+  slot: GearSlotId
+  matched: boolean
+}
+
+export interface SoulSetResult {
+  active: boolean
+  bossId: SoulBossId | null
+  bossName: string | null
+  setLevel: number
+  /** Flat ATK added to both PHY and MAG. */
+  atkBonus: number
+  slots: SoulSetSlotStatus[]
+}
+
+/**
+ * Resolve Soul Set from equipped gear.
+ * Anchors on Main Weapon boss; counts same-boss souls across SOUL_SET_SLOTS.
+ */
+export function resolveSoulSet(
+  gear: Partial<Record<GearSlotId, GearItem | null | undefined>>,
+): SoulSetResult {
+  const emptySlots: SoulSetSlotStatus[] = SOUL_SET_SLOTS.map((slot) => ({
+    slot,
+    matched: false,
+  }))
+
+  const mainSoul = gear.mainWeapon?.soul
+  if (!mainSoul) {
+    return {
+      active: false,
+      bossId: null,
+      bossName: null,
+      setLevel: 0,
+      atkBonus: 0,
+      slots: emptySlots,
+    }
+  }
+
+  const mainParsed = parseSoulId(mainSoul.soulId, 'mainWeapon')
+  if (!mainParsed) {
+    return {
+      active: false,
+      bossId: null,
+      bossName: null,
+      setLevel: 0,
+      atkBonus: 0,
+      slots: emptySlots,
+    }
+  }
+
+  const bossId = mainParsed.bossId
+  const boss = soulBossById(bossId)
+  const slots: SoulSetSlotStatus[] = SOUL_SET_SLOTS.map((slot) => {
+    const soul = gear[slot]?.soul
+    if (!soul) return { slot, matched: false }
+    const parsed = parseSoulId(soul.soulId, slot)
+    return { slot, matched: parsed?.bossId === bossId }
+  })
+
+  const setLevel = slots.filter((s) => s.matched).length
+  const base = SOUL_SET_BASE_ATK[bossId] ?? 0
+  const atkBonus = base * setLevel
+
+  return {
+    active: true,
+    bossId,
+    bossName: boss?.name ?? bossId,
+    setLevel,
+    atkBonus,
+    slots,
+  }
+}
+
 export function isSoulSlot(slot: GearSlotId): boolean {
-  return slotProfile(slot).soul.enabled
+  return slot === 'mainWeapon' || usesSecondarySoulChart(slot)
 }
 
 export function soulOptionsForSlot(slot: GearSlotId): SoulOptionDef[] {
-  if (slot === 'secondary') return SOUL_SECONDARY_OPTIONS
+  if (usesSecondarySoulChart(slot)) return SOUL_SECONDARY_OPTIONS
   if (slot === 'mainWeapon') return SOUL_WEAPON_OPTIONS
   return []
 }
@@ -764,8 +879,8 @@ export function normalizeSoul(
   if (parsed) {
     return buildSoulBlock(parsed.bossId, parsed.optionId, slot) ?? soul
   }
-  // Legacy soul ids from weapon catalog applied on secondary — remap if possible.
-  if (slot === 'secondary') {
+  // Legacy soul ids from weapon catalog applied on secondary-chart slots — remap if possible.
+  if (usesSecondarySoulChart(slot)) {
     const asWeapon = parseSoulId(soul.soulId, 'mainWeapon')
     if (asWeapon) {
       return buildSoulBlock(asWeapon.bossId, asWeapon.optionId, slot) ?? soul

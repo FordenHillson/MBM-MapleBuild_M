@@ -8,6 +8,7 @@ import {
 } from './equipCategory'
 import { isFlameSlot } from './flameWeapon'
 import { isPotentialSlot } from './potentialWeapon'
+import { isSoulSlot } from './souls'
 
 describe('equipCategory', () => {
   it('maps core slots to flat categories', () => {
@@ -69,8 +70,10 @@ describe('equipCategory', () => {
   it('shoulder override enables flame/pot without changing armor profile', () => {
     expect(isFlameSlot('shoulder')).toBe(true)
     expect(isPotentialSlot('shoulder')).toBe(true)
+    expect(isSoulSlot('shoulder')).toBe(true)
     expect(slotProfile('shoulder').flame.enabled).toBe(false)
     expect(slotProfile('shoulder').potential.enabled).toBe(false)
+    expect(slotProfile('shoulder').soul.enabled).toBe(false)
   })
 
   it('shoes override enables flame/pot without changing armor profile', () => {
@@ -84,15 +87,19 @@ describe('equipCategory', () => {
     expect(slotCategory('belt')).toBe('accessory')
     expect(isFlameSlot('belt')).toBe(true)
     expect(isPotentialSlot('belt')).toBe(true)
+    expect(isSoulSlot('belt')).toBe(true)
     expect(slotProfile('belt').flame.enabled).toBe(false)
     expect(slotProfile('belt').potential.enabled).toBe(false)
+    expect(slotProfile('belt').soul.enabled).toBe(false)
   })
 
   it('cape override enables flame/pot without changing armor profile', () => {
     expect(isFlameSlot('cape')).toBe(true)
     expect(isPotentialSlot('cape')).toBe(true)
+    expect(isSoulSlot('cape')).toBe(true)
     expect(slotProfile('cape').flame.enabled).toBe(false)
     expect(slotProfile('cape').potential.enabled).toBe(false)
+    expect(slotProfile('cape').soul.enabled).toBe(false)
   })
 
   it('categoryProfile matches slotProfile for each category', () => {
