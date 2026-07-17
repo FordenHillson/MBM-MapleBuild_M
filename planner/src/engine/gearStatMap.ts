@@ -47,11 +47,16 @@ export const GEAR_OPTION_TO_STAT: Record<string, PlayerStatKey> = {
   ignoreDefPercent: 'ignoreDefPercent',
   maxDamage: 'maxDamage',
 
-  // DEF (emblem / soul)
+  // DEF (emblem / soul / potential)
+  phyDef: 'phyDef',
+  'PHY DEF': 'phyDef',
+  magDef: 'magDef',
+  'MAG DEF': 'magDef',
   phyDefPercent: 'phyDefPercent',
   magDefPercent: 'magDefPercent',
   bossDefPercent: 'bossDefPercent',
   'Boss DEF%': 'bossDefPercent',
+  'Boss DEF Increase': 'bossDefPercent',
 
   // Chance — potential ACC / soul EVD
   acc: 'accPercent',

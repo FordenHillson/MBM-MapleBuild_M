@@ -66,6 +66,13 @@ describe('equipCategory', () => {
     expect(slotProfile('outfitBottom').potential.enabled).toBe(false)
   })
 
+  it('shoulder override enables flame/pot without changing armor profile', () => {
+    expect(isFlameSlot('shoulder')).toBe(true)
+    expect(isPotentialSlot('shoulder')).toBe(true)
+    expect(slotProfile('shoulder').flame.enabled).toBe(false)
+    expect(slotProfile('shoulder').potential.enabled).toBe(false)
+  })
+
   it('categoryProfile matches slotProfile for each category', () => {
     const cats: EquipCategory[] = [
       'weapon',

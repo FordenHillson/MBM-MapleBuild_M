@@ -87,6 +87,18 @@ describe('potential / bonus on gloves', () => {
     expect(potentialOptionsForSlot('shoes')).toEqual([])
     expect(bonusPotentialOptionsForSlot('shoes')).toEqual([])
   })
+
+  it('treats shoulder as a potential slot with its own pools', () => {
+    expect(isPotentialSlot('shoulder')).toBe(true)
+    expect(potentialOptionsForSlot('shoulder').length).toBeGreaterThan(0)
+    expect(bonusPotentialOptionsForSlot('shoulder').length).toBeGreaterThan(0)
+    expect(potentialOptionsForSlot('shoulder')).not.toEqual(
+      potentialOptionsForSlot('mainWeapon'),
+    )
+    expect(potentialOptionsForSlot('shoulder')).not.toEqual(
+      potentialOptionsForSlot('gloves'),
+    )
+  })
 })
 
 describe('potential / bonus on outfit', () => {
