@@ -1,0 +1,913 @@
+{
+  "source": "nexon-open-api",
+  "game": "maplestorym",
+  "harvestedAt": "2026-07-17T18:23:46.894624+00:00",
+  "rankingDate": "2026-07-17",
+  "harvest": {
+    "mode": "by-class",
+    "scanPages": 20,
+    "poolCharacters": 4000,
+    "classesFound": 48,
+    "classNames": [
+      "나이트로드",
+      "나이트워커",
+      "다크나이트",
+      "데몬슬레이어",
+      "데몬어벤져",
+      "듀얼블레이드",
+      "라라",
+      "루미너스",
+      "메르세데스",
+      "메카닉",
+      "미하일",
+      "바이퍼",
+      "배틀메이지",
+      "보우마스터",
+      "블래스터",
+      "비숍",
+      "섀도어",
+      "소울마스터",
+      "스트라이커",
+      "시아",
+      "신궁",
+      "아델",
+      "아란",
+      "아이엘",
+      "아크",
+      "아크메이지(불,독)",
+      "아크메이지(썬,콜)",
+      "에릴",
+      "에반",
+      "엔젤릭버스터",
+      "와일드헌터",
+      "윈드브레이커",
+      "은월",
+      "일리움",
+      "제논",
+      "카데나",
+      "카이저",
+      "카인",
+      "칼리",
+      "캐논슈터",
+      "캡틴",
+      "키네시스",
+      "팔라딘",
+      "패스파인더",
+      "팬텀",
+      "플레임위자드",
+      "호영",
+      "히어로"
+    ],
+    "perClass": 6,
+    "selectedCharacters": 288
+  },
+  "charactersInspected": 288,
+  "uniqueWeaponsBefore": 95,
+  "uniqueWeapons": 95,
+  "newWeapons": 0,
+  "weaponsAddedByClass": {},
+  "errors": [
+    "숑디/유니온: HTTP 429 /maplestorym/v1/character/item-equipment: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "맘마/루나: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "옥길/크로아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "따긔/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "웅웅/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "전붕쉘/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "데몬/루나: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "최강/크로아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "계급/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "브룩/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "딤콩/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "결론/유니온: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "포로/루나: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "위증/루나: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "니츠/루나: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "디올/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "우니/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "기철/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "신비/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "천둥/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "킬러/크로아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "비밀창고2/유니온: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "삐핑/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "라라/루나: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "뼓뜗/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "기부/엘리시움: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "조쪼구/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "쌀사요/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "룸큡/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "지배/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "쵸나/엘리시움: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "소주/제니스: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "사황/루나: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "정령제왕/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "세균/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "젤로/제니스: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "현이로미/루나: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "오뎅/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "뜨구/루나: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "우문노답/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "쿨럭/루나: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "데흐헤/유니온: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "으카닉/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "알리사르/크로아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "이재/엘리시움: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "미햐일/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "노쇼/루나: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "무패/루나: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "밎하일/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "우기/유니온: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "타우린/크로아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "캐슬/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "다남/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "한숨/루나: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "결말/루나: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "강적/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "일구/루나: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "오이/루나: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "꼰베/루나: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "밤대추/엘리시움: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "싸이월드/제니스: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "지팡이스냅걸/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "환령투사/엘리시움: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "흑인/루나: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "초롱/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "qlv/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "Cstory/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "봉두/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "밀감/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "황쯔/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "힝초/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "참새/엘리시움: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "루피/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "로즈/유니온: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "기체/루나: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "잉뿌/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "한고은/크로아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "천국/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "기도/스카니아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}",
+    "딸기/크로아: HTTP 429 /maplestorym/v1/id: {\"error\":{\"name\":\"OPENAPI00007\",\"message\":\"Please try again later\"}}"
+  ],
+  "weapons": [
+    {
+      "itemName": "[프리미엄] 파프니르 ESP리미터",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf27dfe411a1c69dafaa24360dcb328dc62affe407b7304fa17d23475e046b75e09a54d6da99c394e159440b2b36d763ec4e93af75459d86fc71b98019f885498c279d61022284299e17802d90e86812209",
+      "grade": "유니크",
+      "weaponType": "ESP리미터",
+      "slotName": "무기",
+      "sampleClass": "키네시스"
+    },
+    {
+      "itemName": "[프리미엄] 파프니르 리스크홀더",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf28aaa0dcf557bff9b58ba9e931fec0f5ba44c8f2acd57b6e87a9eb6d5c310774afe1f664dc7b1af9a1274239e30173b80",
+      "grade": "유니크",
+      "weaponType": "아대",
+      "slotName": "무기",
+      "sampleClass": "나이트로드"
+    },
+    {
+      "itemName": "[프리미엄] 파프니르 용선",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2ea0408125b8eba9f4ec9a15fcf86e7fc78de9ff40dbebf455e0b40dedd8b2058e3a9ce4698ba4de746177c49271848627450e8a0803f34de81da5cb918e3be9e8204befd28abdb52f8c16bf67175d35c",
+      "grade": "유니크",
+      "weaponType": "부채",
+      "slotName": "무기",
+      "sampleClass": "호영"
+    },
+    {
+      "itemName": "[프리미엄] 파프니르 컨스텔레이션",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2cb8c7c69dae39f4a17f56582ab9f8387fc31a7cf1dd499ad61cf9ff16662b38c795e571b10680911bc3ef8cc63d231fdbd33f5acbb5e7aded816af09d132fcd67a8c85632a1452174e47088dc32b0a64",
+      "grade": "유니크",
+      "weaponType": "셀레스티얼 라이트",
+      "slotName": "무기",
+      "sampleClass": "시아"
+    },
+    {
+      "itemName": "[프리미엄] 파프니르 포기브니스",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2a3a295db09a03678049ca21861c1722eb651d68dd2696eb43b32a657f26ce951d7eaff1024cd0fd37c73d0cc9e62f456ca349710df4035c8ecd4a51018d73f7816be2f984e0b32801defecf049a2707f",
+      "grade": "유니크",
+      "weaponType": "튜너",
+      "slotName": "무기",
+      "sampleClass": "아델"
+    },
+    {
+      "itemName": "아케인셰이드 ESP리미터",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf27dfe411a1c69dafaa24360dcb328dc62affe407b7304fa17d23475e046b75e0928d5f8cd73ae3945bd82c7c20c3e50967633345ab4e07f448f534554becaad48",
+      "grade": "레전더리",
+      "weaponType": "ESP리미터",
+      "slotName": "무기",
+      "sampleClass": "키네시스"
+    },
+    {
+      "itemName": "아케인셰이드 가즈",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf28aaa0dcf557bff9b58ba9e931fec0f5b87deccc8dddb6ee449fe60d71b55b72eac8c23612ccc338cdd7310830ba720d58feac2a6a892c749723bacb52ee1486d",
+      "grade": "레전더리",
+      "weaponType": "아대",
+      "slotName": "무기",
+      "sampleClass": "나이트로드"
+    },
+    {
+      "itemName": "아케인셰이드 그람",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2e8dc53cdbd5397de019f0ef4cf595f6291704b9b226b7692dcf723cc38af05c50d8e88fb5b0d31c3a46179f974c15078a4a07cf5bcaebabcd09b6467f7c90891",
+      "grade": "레전더리",
+      "weaponType": "그람",
+      "slotName": "무기",
+      "sampleClass": "에릴"
+    },
+    {
+      "itemName": "아케인셰이드 대거",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2078df85b165beabad5de6e6aabc7ab1b2be9107e7828d015915e649932c85cef0ff02e38696bfae98fc45bc8b0b8c8eb588e02976d0d822fea504156034860c2",
+      "grade": "레전더리",
+      "weaponType": "단검",
+      "slotName": "무기",
+      "sampleClass": "듀얼블레이드"
+    },
+    {
+      "itemName": "아케인셰이드 듀얼보우건",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf26e6a81613a5548613a7145e97a4f33a0bfb080d6fcbe20553b8140318e9c6108999f3dcdf77f044cd92d6102bb94d547765a4c7f8b8588d83cff741f1649468c",
+      "grade": "레전더리",
+      "weaponType": "듀얼 보우건",
+      "slotName": "무기",
+      "sampleClass": "메르세데스"
+    },
+    {
+      "itemName": "아케인셰이드 보우",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf278b7fc8d5ae44f751e671a32bbca0e140bdc3e1a175dea4ecf7b161bef7cf09b5d0a6c8b2f10d33b215a7e4e2329130b",
+      "grade": "레전더리",
+      "weaponType": "활",
+      "slotName": "무기",
+      "sampleClass": "보우마스터"
+    },
+    {
+      "itemName": "아케인셰이드 브레스 슈터",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf25132d8895eb5a96e3a55ce196cb63e8be1fdf1d587ae9e5b7b7d47e9f6f18d037723d932e945cede7a6cfee84bb363ab4415dc143d2412c4eafa55b5e278df15",
+      "grade": "레전더리",
+      "weaponType": "브레스 슈터",
+      "slotName": "무기",
+      "sampleClass": "카인"
+    },
+    {
+      "itemName": "아케인셰이드 세이버",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf246f7323be6b62111de557660734b42b45284914bdea0e7c6c2bbd935db32f57e0be5b9c44698bcad7288ada74884a0395070c5dd1825b8c37ccdb79ede9c99f6",
+      "grade": "레전더리",
+      "weaponType": "한손검",
+      "slotName": "무기",
+      "sampleClass": "팔라딘"
+    },
+    {
+      "itemName": "아케인셰이드 셀레스티얼 라이트",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2cb8c7c69dae39f4a17f56582ab9f8387fc31a7cf1dd499ad61cf9ff16662b38c795e571b10680911bc3ef8cc63d231fdd0047c7c8f4b82fb4d9ac4f26c64640d6c83342e49de9132e12b883e0cae08d2",
+      "grade": "레전더리",
+      "weaponType": "셀레스티얼 라이트",
+      "slotName": "무기",
+      "sampleClass": "시아"
+    },
+    {
+      "itemName": "아케인셰이드 소울슈터",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf22c759d9bca535151c6f2d3f7ab4a36681283d12fed9ffa8c6faf9a541f2eaf6f18904185aeb0ef6c35a63e6065e05bb023bfaee086d63b44fd1e6fde09d2e216",
+      "grade": "레전더리",
+      "weaponType": "소울슈터",
+      "slotName": "무기",
+      "sampleClass": "엔젤릭버스터"
+    },
+    {
+      "itemName": "아케인셰이드 스태프",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2458fa950824562c5c905969303ee631b34f16e2a284ed5c95257ef08942e719c3349e5ea5a0cfc60a9fd2bb304527781fd0e0fcf7ffa179c2fd544ac3ba289fb",
+      "grade": "레전더리",
+      "weaponType": "스태프",
+      "slotName": "무기",
+      "sampleClass": "플레임위자드"
+    },
+    {
+      "itemName": "아케인셰이드 스피어",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf27630b427f8bae5e1dcb71b99044f7e825954717e0fdcccaf3272a1a0776687f44cdeeac77b5b54b347d285afc76a51201312acb173d727d0aced9b5ed7de0024",
+      "grade": "레전더리",
+      "weaponType": "창",
+      "slotName": "무기",
+      "sampleClass": "다크나이트"
+    },
+    {
+      "itemName": "아케인셰이드 시즈건",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf28360696d0ed2147c77e414fe7292157d6dd9d7e93cc73e12b35500c503750506a93c35a1bee41193d53428c8b9a864bd43435b39dc5fed4d534fe8e5f167aeef",
+      "grade": "레전더리",
+      "weaponType": "핸드캐논",
+      "slotName": "무기",
+      "sampleClass": "캐논슈터"
+    },
+    {
+      "itemName": "아케인셰이드 에너지체인",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2e9fab636002089241a053ccf14383ad13f9e9b8b7d12416d1320c7f69f03cf37806c4daad8b74d7e41f50757c8c609cdebec2da2ca1539c242234582a0718b91",
+      "grade": "레전더리",
+      "weaponType": "에너지소드",
+      "slotName": "무기",
+      "sampleClass": "제논"
+    },
+    {
+      "itemName": "아케인셰이드 에인션트 보우",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf24535f82882ca11f2e47d26d7f92863e43fd883e699f244601b77b0ec12635d4882de5942d303c2d003d3680376a932893308c4e49fc5170fa09c72e3a251d441",
+      "grade": "레전더리",
+      "weaponType": "에인션트 보우",
+      "slotName": "무기",
+      "sampleClass": "패스파인더"
+    },
+    {
+      "itemName": "아케인셰이드 엘라하",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf27b3ecda8646015b4c0d65a4b2ddfb475c2d9f096984b47b560d4b66f599e87c95aa62bf7c2426351236a546bd2d52869838022f91c7e8da120cca9f2af12d003",
+      "grade": "레전더리",
+      "weaponType": "건틀렛 리볼버",
+      "slotName": "무기",
+      "sampleClass": "블래스터"
+    },
+    {
+      "itemName": "아케인셰이드 완드",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2adc8e3f31461072f1cca57f33837aa000c54954c33d8b9e9db6d84cf8d35a38778735cbc9dee0b750412aadd96ed702c5df11d15893a611424f06680469e9c34",
+      "grade": "레전더리",
+      "weaponType": "완드",
+      "slotName": "무기",
+      "sampleClass": "비숍"
+    },
+    {
+      "itemName": "아케인셰이드 이클립스 펜듈럼",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf26489a7723962d5c236bad8ec755595731385fb9c1020d6ff3ce786712c9fd33b57a7396aa23391397cded3f5a3cc300c755197225f390783528b63f01b21d167884bfa2e12e208c9236b7b1569725aed",
+      "grade": "레전더리",
+      "weaponType": "이클립스 펜듈럼",
+      "slotName": "무기",
+      "sampleClass": "아이엘"
+    },
+    {
+      "itemName": "아케인셰이드 차크람",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf20a0268df860bfc2f00cd4e1346de9ef73c79ff1e10b485e5d789dd4620a0395867ca3d07f151e033e214696c9b196ee2",
+      "grade": "레전더리",
+      "weaponType": "차크람",
+      "slotName": "무기",
+      "sampleClass": "칼리"
+    },
+    {
+      "itemName": "아케인셰이드 체인",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2f034b1f9ad94a29fa0b9d30598c0b307a8569fa4c57b6af277b5080fbdd65a4aa2c7ad5f5e74e3485b4173504157261b91996e6cefdc00da6fa12bc231a0ffa8",
+      "grade": "레전더리",
+      "weaponType": "체인",
+      "slotName": "무기",
+      "sampleClass": "카데나"
+    },
+    {
+      "itemName": "아케인셰이드 초선",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2ea0408125b8eba9f4ec9a15fcf86e7fc78de9ff40dbebf455e0b40dedd8b2058ce5baaea56642a7d59bfaba150d2911dd1188a60b0782d164d4576ffd00739d3",
+      "grade": "레전더리",
+      "weaponType": "부채",
+      "slotName": "무기",
+      "sampleClass": "호영"
+    },
+    {
+      "itemName": "아케인셰이드 케인",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2d944bac846ca9a87f3e442d2530f15c8efc38d8effca0839bf0bd0bbccc04d925ac6d7a3507e4226e38a37385be5b39afa9d570d9c6b6c736aa019c86bea0074",
+      "grade": "레전더리",
+      "weaponType": "케인",
+      "slotName": "무기",
+      "sampleClass": "팬텀"
+    },
+    {
+      "itemName": "아케인셰이드 크로스보우",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf21daff325bd2c39a1f4a87d15e57cc5abcc28833563ef71b2c1a1a74bbb0c4b15e3957a85ef556b134c1cc785b4e3dbbc46cf4fa41530fc1ac68b66c83aa91c1b",
+      "grade": "레전더리",
+      "weaponType": "석궁",
+      "slotName": "무기",
+      "sampleClass": "신궁"
+    },
+    {
+      "itemName": "아케인셰이드 클로",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2d3b5cd4a30583712a8521fc400349a6139a5fdcf1571947c21c95c71ac230fd9d86c91241a726c83142ec5732caa4918cf7859bc9fc804064ba0e51cc6dc466a",
+      "grade": "레전더리",
+      "weaponType": "너클",
+      "slotName": "무기",
+      "sampleClass": "은월"
+    },
+    {
+      "itemName": "아케인셰이드 튜너",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2a3a295db09a03678049ca21861c1722eb651d68dd2696eb43b32a657f26ce951459dc744bff43ea979d64ac13e8709822b08ff39fe2d9434e7ad0d32ed0fbf76",
+      "grade": "레전더리",
+      "weaponType": "튜너",
+      "slotName": "무기",
+      "sampleClass": "아델"
+    },
+    {
+      "itemName": "아케인셰이드 해머",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2486cfab31e03272256d68cebfb077e38affe550c311d9ca9528c310014270e584b41d59162a1a75ab0b1ea399c79336173f3c737432583276809c335081eff02",
+      "grade": "레전더리",
+      "weaponType": "한손둔기",
+      "slotName": "무기",
+      "sampleClass": "데몬슬레이어"
+    },
+    {
+      "itemName": "앱솔랩스 ESP리미터",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf27dfe411a1c69dafaa24360dcb328dc62affe407b7304fa17d23475e046b75e095d965c6227d57355039ad6f5674025ed1c50ef5fdfee14aba8eb7f4c214aa86b2858309d4975b95000b986f1c252ccc8",
+      "grade": "레전더리",
+      "weaponType": "ESP리미터",
+      "slotName": "무기",
+      "sampleClass": "키네시스"
+    },
+    {
+      "itemName": "앱솔랩스 괴선",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2ea0408125b8eba9f4ec9a15fcf86e7fc78de9ff40dbebf455e0b40dedd8b2058cba0c519990499980ead79d1597186c2fa25d34c4a94471d68098248055f87b36dd70f3501261c0599902cad641850ef",
+      "grade": "레전더리",
+      "weaponType": "부채",
+      "slotName": "무기",
+      "sampleClass": "호영"
+    },
+    {
+      "itemName": "앱솔랩스 그람",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2e8dc53cdbd5397de019f0ef4cf595f6291704b9b226b7692dcf723cc38af05c54142b5c3c0ef38efcbdbbeafffa789b6983cd8a7007220b7bda39e0bb67a1a22",
+      "grade": "레전더리",
+      "weaponType": "그람",
+      "slotName": "무기",
+      "sampleClass": "에릴"
+    },
+    {
+      "itemName": "앱솔랩스 데스페라도",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2703724ed913b8f8b49756d63d01635b066bca4c1e683dfedcc4ccb8cce0c52dd30e74dfa8dcbae02f125171c69841b88cbd9598fbc014f7c19e980fb76701fb0911af03bad5a1451fb78cb23c34cb400",
+      "grade": "레전더리",
+      "weaponType": "데스페라도",
+      "slotName": "무기",
+      "sampleClass": "데몬어벤져"
+    },
+    {
+      "itemName": "앱솔랩스 듀얼보우건",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf26e6a81613a5548613a7145e97a4f33a0bfb080d6fcbe20553b8140318e9c610820c71560a25df13df50829e5fd6de0d9f5dbad30520ee883a3c62c6d506609df8d55e50852630de276166d803db600d5",
+      "grade": "레전더리",
+      "weaponType": "듀얼 보우건",
+      "slotName": "무기",
+      "sampleClass": "메르세데스"
+    },
+    {
+      "itemName": "앱솔랩스 리벤지가즈",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf28aaa0dcf557bff9b58ba9e931fec0f5b3dac4b62d5b4b676d94b96f036ed2ef55ef9eb60df58bda0e8fafa69bc43bf1db16995959a40b88ec4d286f04a2b3110",
+      "grade": "레전더리",
+      "weaponType": "아대",
+      "slotName": "무기",
+      "sampleClass": "나이트로드"
+    },
+    {
+      "itemName": "앱솔랩스 브레스 슈터",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf25132d8895eb5a96e3a55ce196cb63e8be1fdf1d587ae9e5b7b7d47e9f6f18d03bd4c497d26b2f488a22984e3f68653caf711824ab5310283e2e1c4740c63637d6d5cf55e2e91a3b76a8522a86756cacc",
+      "grade": "레전더리",
+      "weaponType": "브레스 슈터",
+      "slotName": "무기",
+      "sampleClass": "카인"
+    },
+    {
+      "itemName": "앱솔랩스 브로드세이버",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2363a5142c15d95ebda8322c3f078ec28263b99318e4494ea81859b1408a383491f94cf5c0d82faa4efcb803e1552263c774c42eddd8362b358f9068f6bfb7eb6",
+      "grade": "레전더리",
+      "weaponType": "두손검",
+      "slotName": "무기",
+      "sampleClass": "히어로"
+    },
+    {
+      "itemName": "앱솔랩스 블로우너클",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2d3b5cd4a30583712a8521fc400349a6139a5fdcf1571947c21c95c71ac230fd980c1429618b4534ac03525d304eed7b1a57d2698279b121a002e8fbb4542ac729cf770fdd97f97dd3959a807bc68a98c",
+      "grade": "레전더리",
+      "weaponType": "너클",
+      "slotName": "무기",
+      "sampleClass": "은월"
+    },
+    {
+      "itemName": "앱솔랩스 비트해머",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2486cfab31e03272256d68cebfb077e38affe550c311d9ca9528c310014270e586aa7c8563adac5382ffd1438374bcea1e63a3c30cd96b0b38d8371fd98c44061",
+      "grade": "레전더리",
+      "weaponType": "한손둔기",
+      "slotName": "무기",
+      "sampleClass": "팔라딘"
+    },
+    {
+      "itemName": "앱솔랩스 세이버",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf246f7323be6b62111de557660734b42b45284914bdea0e7c6c2bbd935db32f57e3b5750a8ff2171097b3c2b31f8710943658611df4feedcd3f7a6772e0abe90c9",
+      "grade": "레전더리",
+      "weaponType": "한손검",
+      "slotName": "무기",
+      "sampleClass": "팔라딘"
+    },
+    {
+      "itemName": "앱솔랩스 셀레스티얼 라이트",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2cb8c7c69dae39f4a17f56582ab9f8387fc31a7cf1dd499ad61cf9ff16662b38c795e571b10680911bc3ef8cc63d231fd2446db2b59d751b8b1c7d909a12772b53623663237cd0c7aec0dd40886a8cb2a",
+      "grade": "레전더리",
+      "weaponType": "셀레스티얼 라이트",
+      "slotName": "무기",
+      "sampleClass": "시아"
+    },
+    {
+      "itemName": "앱솔랩스 소울슈터",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf22c759d9bca535151c6f2d3f7ab4a36681283d12fed9ffa8c6faf9a541f2eaf6f806ce3065b620f48aff26a54afc1b7dd0496fade28bb117f75cf8428a01bbded54e2aa37757024120edbd6d2cfac78f4",
+      "grade": "레전더리",
+      "weaponType": "소울슈터",
+      "slotName": "무기",
+      "sampleClass": "엔젤릭버스터"
+    },
+    {
+      "itemName": "앱솔랩스 슈팅보우",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf278b7fc8d5ae44f751e671a32bbca0e14d347baae7b466c623d2f1820759495ec6bd161cd90197511fc21c4295448e8638dcae959dc362c592e9853e44aa985df",
+      "grade": "레전더리",
+      "weaponType": "활",
+      "slotName": "무기",
+      "sampleClass": "보우마스터"
+    },
+    {
+      "itemName": "앱솔랩스 스펠링스태프",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2458fa950824562c5c905969303ee631b34f16e2a284ed5c95257ef08942e719c0a1ed575eedc5c0a2454b94043463ac1471998cba15919027f0d81d72ec90f54",
+      "grade": "레전더리",
+      "weaponType": "스태프",
+      "slotName": "무기",
+      "sampleClass": "아크메이지(불,독)"
+    },
+    {
+      "itemName": "앱솔랩스 스펠링완드",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2adc8e3f31461072f1cca57f33837aa00beb6cc79b47b6623b58de70f2057041a91adf00163ba2fcabd83343c0fe6b5d6a9ee4ac67d97e32d21e28511dcf12065",
+      "grade": "레전더리",
+      "weaponType": "완드",
+      "slotName": "무기",
+      "sampleClass": "비숍"
+    },
+    {
+      "itemName": "앱솔랩스 슬래셔",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2078df85b165beabad5de6e6aabc7ab1b2be9107e7828d015915e649932c85cef844bf15f3ea5cddbd515c0dff5c51d67b7f040e7305044506b269d6ca5486b1f",
+      "grade": "레전더리",
+      "weaponType": "단검",
+      "slotName": "무기",
+      "sampleClass": "듀얼블레이드"
+    },
+    {
+      "itemName": "앱솔랩스 에너지소드",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2e9fab636002089241a053ccf14383ad13f9e9b8b7d12416d1320c7f69f03cf37988d131f24dd938d0146a9c1f541a1a20ae4ba8d2d93687df34fa3e76d99c170a7a8b551a1e6189dbb275d9008bed38c",
+      "grade": "레전더리",
+      "weaponType": "에너지소드",
+      "slotName": "무기",
+      "sampleClass": "제논"
+    },
+    {
+      "itemName": "앱솔랩스 튜너",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2a3a295db09a03678049ca21861c1722eb651d68dd2696eb43b32a657f26ce95175f8b1832587b5144514dfec68637490f7a670569b3a41e9b3cdebb528c24bfc68b92c3f6fc6e0fbc21354d90025bdd7",
+      "grade": "레전더리",
+      "weaponType": "튜너",
+      "slotName": "무기",
+      "sampleClass": "아델"
+    },
+    {
+      "itemName": "앱솔랩스 포인팅건",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf25f4ad6befb93c92becefa2cb02c7faf83181eacaf3ce27782a460b6d24ca8448859e360c5d7bda9e9ad12b7ddce54dc9dd6b7392fb66d6a9e0f9eb18b4da003d",
+      "grade": "레전더리",
+      "weaponType": "총",
+      "slotName": "무기",
+      "sampleClass": "캡틴"
+    },
+    {
+      "itemName": "앱솔랩스 핀쳐케인",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2d944bac846ca9a87f3e442d2530f15c8b8bb178cc7d3da68d6eec9f593a315cf3cd865b1f2c86ff780e3fc172488b19a052b99151a50f49e1af0fd0256edcf8e",
+      "grade": "레전더리",
+      "weaponType": "케인",
+      "slotName": "무기",
+      "sampleClass": "팬텀"
+    },
+    {
+      "itemName": "우트가르드 거선",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2ea0408125b8eba9f4ec9a15fcf86e7fc78de9ff40dbebf455e0b40dedd8b2058e52c7edd9438b6bc3f65075f1be15fdca6e38496272009b8cfe9350a146708f66632266f253a3663d96fbc0af7b4193f",
+      "grade": "에픽",
+      "weaponType": "부채",
+      "slotName": "무기",
+      "sampleClass": "호영"
+    },
+    {
+      "itemName": "우트가르드 대거",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2078df85b165beabad5de6e6aabc7ab1be91579d3ed45960de0fbdf29feac891db294a39f29636ff9d7c9df5bda4caf47",
+      "grade": "에픽",
+      "weaponType": "단검",
+      "slotName": "무기",
+      "sampleClass": "섀도어"
+    },
+    {
+      "itemName": "우트가르드 듀얼보우건",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf26e6a81613a5548613a7145e97a4f33a0e20159edadb2e2786803f67da6d9ec25b1b8c4ca1b3556027656d284a95311e7d92a28a84cc66167a004d841a28acbf4",
+      "grade": "레전더리",
+      "weaponType": "듀얼 보우건",
+      "slotName": "무기",
+      "sampleClass": "메르세데스"
+    },
+    {
+      "itemName": "우트가르드 리스트레인트",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2a3a295db09a03678049ca21861c1722eb651d68dd2696eb43b32a657f26ce951859843b347966b6fddf381a10ca8cf00fc2d9111742213f70596e6aad7e1b6904266265c5cac546d4004f5700ae38dc6",
+      "grade": "유니크",
+      "weaponType": "튜너",
+      "slotName": "무기",
+      "sampleClass": "아델"
+    },
+    {
+      "itemName": "우트가르드 케인",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2d944bac846ca9a87f3e442d2530f15c85cf4dc63dd18e344a23ebd2ab58c68b93fc79c263eb65d8dbd56ccf2813a03cf981b2e99e68bcd88a2a61ce2632c13bf",
+      "grade": "유니크",
+      "weaponType": "케인",
+      "slotName": "무기",
+      "sampleClass": "팬텀"
+    },
+    {
+      "itemName": "제네시스 가즈",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf28aaa0dcf557bff9b58ba9e931fec0f5b87deccc8dddb6ee449fe60d71b55b72ee6c98276192c12bd1c44c3a2e58c1c34",
+      "grade": "레전더리",
+      "weaponType": "아대",
+      "slotName": "무기",
+      "sampleClass": "나이트워커"
+    },
+    {
+      "itemName": "제네시스 그람",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2e8dc53cdbd5397de019f0ef4cf595f6291704b9b226b7692dcf723cc38af05c5edc51ae1ba2cf6e5e3a48383db64db68",
+      "grade": "레전더리",
+      "weaponType": "그람",
+      "slotName": "무기",
+      "sampleClass": "에릴"
+    },
+    {
+      "itemName": "제네시스 대거",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2078df85b165beabad5de6e6aabc7ab1b2be9107e7828d015915e649932c85cef423e6e1df486a78961e83abba06039f677f8f859e59df8eb8c42c345c7ed2383",
+      "grade": "레전더리",
+      "weaponType": "단검",
+      "slotName": "무기",
+      "sampleClass": "듀얼블레이드"
+    },
+    {
+      "itemName": "제네시스 데스페라도",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2703724ed913b8f8b49756d63d01635b066bca4c1e683dfedcc4ccb8cce0c52ddeeefc2d6cafc284d7de4f44780e8398a0ca8b8b867b479fc39484299cc0c189d",
+      "grade": "레전더리",
+      "weaponType": "데스페라도",
+      "slotName": "무기",
+      "sampleClass": "데몬어벤져"
+    },
+    {
+      "itemName": "제네시스 듀얼보우건",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf26e6a81613a5548613a7145e97a4f33a0bfb080d6fcbe20553b8140318e9c610808140fc081156fb2bbff140866e8539df9cf469c58a8696f9b2401872abd1ac7",
+      "grade": "레전더리",
+      "weaponType": "듀얼 보우건",
+      "slotName": "무기",
+      "sampleClass": "메르세데스"
+    },
+    {
+      "itemName": "제네시스 보우",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf278b7fc8d5ae44f751e671a32bbca0e140bdc3e1a175dea4ecf7b161bef7cf09bd05f5419dfd57f90c287b708cce86786",
+      "grade": "레전더리",
+      "weaponType": "활",
+      "slotName": "무기",
+      "sampleClass": "보우마스터"
+    },
+    {
+      "itemName": "제네시스 브레스 슈터",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf25132d8895eb5a96e3a55ce196cb63e8be1fdf1d587ae9e5b7b7d47e9f6f18d037723d932e945cede7a6cfee84bb363ab392c2513821aa2d2536b9a557154c419",
+      "grade": "레전더리",
+      "weaponType": "브레스 슈터",
+      "slotName": "무기",
+      "sampleClass": "카인"
+    },
+    {
+      "itemName": "제네시스 세이버",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf246f7323be6b62111de557660734b42b45284914bdea0e7c6c2bbd935db32f57e81baa97830945fb48dc81cad347fa01bd5628a8552aad1f0919237ad74b0e0e8",
+      "grade": "레전더리",
+      "weaponType": "한손검",
+      "slotName": "무기",
+      "sampleClass": "팔라딘"
+    },
+    {
+      "itemName": "제네시스 셀레스티얼 라이트",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2cb8c7c69dae39f4a17f56582ab9f8387fc31a7cf1dd499ad61cf9ff16662b38c795e571b10680911bc3ef8cc63d231fd245b3c5c8e5022ae36fc903eb01f1f53b27bc55270e346ced5f394b8eb47ee86",
+      "grade": "레전더리",
+      "weaponType": "셀레스티얼 라이트",
+      "slotName": "무기",
+      "sampleClass": "시아"
+    },
+    {
+      "itemName": "제네시스 스태프",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2458fa950824562c5c905969303ee631b34f16e2a284ed5c95257ef08942e719ceaa9b98fd0cf80d94b5abab4ea0abd63",
+      "grade": "레전더리",
+      "weaponType": "스태프",
+      "slotName": "무기",
+      "sampleClass": "배틀메이지"
+    },
+    {
+      "itemName": "제네시스 스피어",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf27630b427f8bae5e1dcb71b99044f7e825954717e0fdcccaf3272a1a0776687f42cc13819ca4d40124770c2cbea2778aa",
+      "grade": "레전더리",
+      "weaponType": "창",
+      "slotName": "무기",
+      "sampleClass": "다크나이트"
+    },
+    {
+      "itemName": "제네시스 시즈건",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf28360696d0ed2147c77e414fe7292157d6dd9d7e93cc73e12b35500c50375050689d54fefbc433d367ed80af1a9caed5088ec9a578d4f0478abdd53284b8f82f2",
+      "grade": "레전더리",
+      "weaponType": "핸드캐논",
+      "slotName": "무기",
+      "sampleClass": "캐논슈터"
+    },
+    {
+      "itemName": "제네시스 에너지체인",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2e9fab636002089241a053ccf14383ad13f9e9b8b7d12416d1320c7f69f03cf3749bc82c826c950abfb07c65e96e45b6d334ddebb56efe0f9f33481fb30597414",
+      "grade": "레전더리",
+      "weaponType": "에너지소드",
+      "slotName": "무기",
+      "sampleClass": "제논"
+    },
+    {
+      "itemName": "제네시스 에인션트 보우",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf24535f82882ca11f2e47d26d7f92863e43fd883e699f244601b77b0ec12635d48bd935df20c85b59d7b762fccf19db034cbea5ac6c71b2a44c3891f2a4739b1fc",
+      "grade": "레전더리",
+      "weaponType": "에인션트 보우",
+      "slotName": "무기",
+      "sampleClass": "패스파인더"
+    },
+    {
+      "itemName": "제네시스 엘라하",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf27b3ecda8646015b4c0d65a4b2ddfb475c2d9f096984b47b560d4b66f599e87c9f5057d7770cf5860bee29f288ab23cd556c06c471d427b128451eb397b8cbd62",
+      "grade": "레전더리",
+      "weaponType": "건틀렛 리볼버",
+      "slotName": "무기",
+      "sampleClass": "블래스터"
+    },
+    {
+      "itemName": "제네시스 완드",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2adc8e3f31461072f1cca57f33837aa000c54954c33d8b9e9db6d84cf8d35a387237d355e4c1df5070768486e2ac6254d",
+      "grade": "레전더리",
+      "weaponType": "완드",
+      "slotName": "무기",
+      "sampleClass": "비숍"
+    },
+    {
+      "itemName": "제네시스 케인",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2d944bac846ca9a87f3e442d2530f15c8efc38d8effca0839bf0bd0bbccc04d92cb17038c57a21c4c35b651ad78ac270c",
+      "grade": "레전더리",
+      "weaponType": "케인",
+      "slotName": "무기",
+      "sampleClass": "팬텀"
+    },
+    {
+      "itemName": "제네시스 클로",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2d3b5cd4a30583712a8521fc400349a6139a5fdcf1571947c21c95c71ac230fd9c56eebff8e78f35c4898d5186c6c809ae221f64a68fce099a00479ba9883720c",
+      "grade": "레전더리",
+      "weaponType": "너클",
+      "slotName": "무기",
+      "sampleClass": "은월"
+    },
+    {
+      "itemName": "제네시스 투핸드소드",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2363a5142c15d95ebda8322c3f078ec28263b99318e4494ea81859b1408a383491491bbdff174b2aff922b043b121c142d782a51e9b4c7ab8855fb0ab51ec966c",
+      "grade": "레전더리",
+      "weaponType": "두손검",
+      "slotName": "무기",
+      "sampleClass": "히어로"
+    },
+    {
+      "itemName": "제네시스 튜너",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2a3a295db09a03678049ca21861c1722eb651d68dd2696eb43b32a657f26ce951459dc744bff43ea979d64ac13e870982706d0cbba69db095a46a608cdb463030",
+      "grade": "레전더리",
+      "weaponType": "튜너",
+      "slotName": "무기",
+      "sampleClass": "아델"
+    },
+    {
+      "itemName": "제네시스 해머",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2486cfab31e03272256d68cebfb077e38affe550c311d9ca9528c310014270e580308a9486f9295c6da457b27a80490a264875bde9801421e0f1f41e5440b2b98",
+      "grade": "레전더리",
+      "weaponType": "한손둔기",
+      "slotName": "무기",
+      "sampleClass": "데몬슬레이어"
+    },
+    {
+      "itemName": "파프니르 골디언해머",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2486cfab31e03272256d68cebfb077e382c777ab282eae4a5d23500ddfd0c76490a5670623e333f4039c21dcbc9a66f32924c062ca9da59502200315bfd2fd65e",
+      "grade": "유니크",
+      "weaponType": "한손둔기",
+      "slotName": "무기",
+      "sampleClass": "데몬슬레이어"
+    },
+    {
+      "itemName": "파프니르 다마스커스",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2078df85b165beabad5de6e6aabc7ab1bdba12a65f3eb35179b7391e4ca138fd592b2022e2f74dbdb10516223b078320cc2908d90d1e48661457d053271368b54",
+      "grade": "레전더리",
+      "weaponType": "단검",
+      "slotName": "무기",
+      "sampleClass": "듀얼블레이드"
+    },
+    {
+      "itemName": "파프니르 데스브링어",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2703724ed913b8f8b49756d63d01635b0e44110d2a7b66feb35223cac6d3ac4712f4e061e3bbb0cd26dfe0e5681b7b80524bb034b8f160532f0352b2d0c045163",
+      "grade": "레전더리",
+      "weaponType": "데스페라도",
+      "slotName": "무기",
+      "sampleClass": "데몬어벤져"
+    },
+    {
+      "itemName": "파프니르 리베르타스",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2e8dc53cdbd5397de019f0ef4cf595f6291704b9b226b7692dcf723cc38af05c59e6fb26cdf3b63f264b548971cac8e3b75be277f0b56d5bbfb7bd0c74f783e55",
+      "grade": "유니크",
+      "weaponType": "그람",
+      "slotName": "무기",
+      "sampleClass": "에릴"
+    },
+    {
+      "itemName": "파프니르 리스크홀더",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf28aaa0dcf557bff9b58ba9e931fec0f5ba44c8f2acd57b6e87a9eb6d5c310774afe1f664dc7b1af9a1274239e30173b80",
+      "grade": "레전더리",
+      "weaponType": "아대",
+      "slotName": "무기",
+      "sampleClass": "나이트워커"
+    },
+    {
+      "itemName": "파프니르 마나크라운",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf244f237f8932a938aaa510b2a9d7546bcc0242dfef20aae28517b9d87168a0715fc3374a1b11d4fd875b0166f7ec594e7",
+      "grade": "레전더리",
+      "weaponType": "스태프",
+      "slotName": "무기",
+      "sampleClass": "아크메이지(불,독)"
+    },
+    {
+      "itemName": "파프니르 마나테이커",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2adc8e3f31461072f1cca57f33837aa008f3ee2084feb0f653690044eca9e91aa09b653e0f8a60cb7407b883d86731d5e",
+      "grade": "레전더리",
+      "weaponType": "완드",
+      "slotName": "무기",
+      "sampleClass": "비숍"
+    },
+    {
+      "itemName": "파프니르 브류나크",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf27630b427f8bae5e1dcb71b99044f7e822f0669bb8403d1f24f24554ae5a806085b02a29995102dab2e1251918dc895f0",
+      "grade": "유니크",
+      "weaponType": "창",
+      "slotName": "무기",
+      "sampleClass": "다크나이트"
+    },
+    {
+      "itemName": "파프니르 스플릿엣지",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2e9fab636002089241a053ccf14383ad14645a94e08a6541176f13c5f68f025d08bef0e146d45668a48ad5ed73ea0fb7152571418712ea6f11c117bf2a536961c",
+      "grade": "레전더리",
+      "weaponType": "에너지소드",
+      "slotName": "무기",
+      "sampleClass": "제논"
+    },
+    {
+      "itemName": "파프니르 엔젤릭슈터",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf22c759d9bca535151c6f2d3f7ab4a36680475d3ccab704fa603e27e14c726b211887e55fef39a9c3406c527b0115297d1a2fb18ccc0863508cbbf654fe658f245c30f21871f2da1bc33dabf39f3514be8",
+      "grade": "유니크",
+      "weaponType": "소울슈터",
+      "slotName": "무기",
+      "sampleClass": "엔젤릭버스터"
+    },
+    {
+      "itemName": "파프니르 용선",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2ea0408125b8eba9f4ec9a15fcf86e7fc78de9ff40dbebf455e0b40dedd8b2058e3a9ce4698ba4de746177c49271848627450e8a0803f34de81da5cb918e3be9e8204befd28abdb52f8c16bf67175d35c",
+      "grade": "유니크",
+      "weaponType": "부채",
+      "slotName": "무기",
+      "sampleClass": "호영"
+    },
+    {
+      "itemName": "파프니르 체인",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2f034b1f9ad94a29fa0b9d30598c0b307a8569fa4c57b6af277b5080fbdd65a4a76c59e54c90d4711fd477a3646b860abca3a36340fe90ff308f4dff108a336a1",
+      "grade": "유니크",
+      "weaponType": "체인",
+      "slotName": "무기",
+      "sampleClass": "카데나"
+    },
+    {
+      "itemName": "파프니르 컨스텔레이션",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2cb8c7c69dae39f4a17f56582ab9f8387fc31a7cf1dd499ad61cf9ff16662b38c795e571b10680911bc3ef8cc63d231fdbd33f5acbb5e7aded816af09d132fcd67a8c85632a1452174e47088dc32b0a64",
+      "grade": "유니크",
+      "weaponType": "셀레스티얼 라이트",
+      "slotName": "무기",
+      "sampleClass": "시아"
+    },
+    {
+      "itemName": "파프니르 클레르시엘",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2d944bac846ca9a87f3e442d2530f15c88903043dfccef1b59f4d427e0859b256f4f3649af9286f1430eeff4098189c2314b040a6b1a8b21cd22193cae00f407e",
+      "grade": "유니크",
+      "weaponType": "케인",
+      "slotName": "무기",
+      "sampleClass": "팬텀"
+    },
+    {
+      "itemName": "파프니르 페니텐시아",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2fc53006f13c781af01ce9de57a2ac4b5de093d28eaab036e3128cd1cfce4e1df81c3324dafb59bd713dd5f652d064e10",
+      "grade": "레전더리",
+      "weaponType": "두손검",
+      "slotName": "무기",
+      "sampleClass": "카이저"
+    },
+    {
+      "itemName": "파프니르 펜리르탈론",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf279e59b7287596b01d63fcf196d159d59d86312895d614a55dfb72d9168d54d3bd5adefbe3e51fbe969973431448a93c3",
+      "grade": "유니크",
+      "weaponType": "너클",
+      "slotName": "무기",
+      "sampleClass": "은월"
+    },
+    {
+      "itemName": "파프니르 포기브니스",
+      "iconUrl": "https://open.api.nexon.com/static/maplestorym/asset/icon/9c2c9f28adce985e3d061966899c8cf2a3a295db09a03678049ca21861c1722eb651d68dd2696eb43b32a657f26ce951d7eaff1024cd0fd37c73d0cc9e62f456ca349710df4035c8ecd4a51018d73f7816be2f984e0b32801defecf049a2707f",
+      "grade": "유니크",
+      "weaponType": "튜너",
+      "slotName": "무기",
+      "sampleClass": "아델"
+    }
+  ]
+}

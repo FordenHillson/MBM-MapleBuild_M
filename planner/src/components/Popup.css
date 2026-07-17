@@ -1415,6 +1415,96 @@
   margin-top: auto;
 }
 
+/* —— Weapon icon picker —— */
+.weapon-icon-picker {
+  width: min(640px, 96%);
+  max-height: min(88vh, 720px);
+}
+
+.weapon-icon-stale-banner {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: #5c4a12;
+  background: #fff3cd;
+  border-bottom: 1px solid #e6d58a;
+}
+
+.weapon-icon-stale-banner code {
+  font-size: 10px;
+  background: rgba(0, 0, 0, 0.06);
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+.weapon-icon-rank-hint {
+  margin: 4px 0 0;
+  font-size: 11px;
+  color: #8b93a3;
+}
+
+.weapon-icon-picker-tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px 0;
+}
+
+.weapon-icon-search {
+  flex: 1;
+  min-width: 0;
+  padding: 7px 10px;
+  border: 1px solid #2e3542;
+  border-radius: 6px;
+  background: #1c212b;
+  color: #d7dbe3;
+  font: inherit;
+  font-size: 13px;
+}
+
+.weapon-icon-search:focus {
+  outline: 1px solid #6b8cae;
+}
+
+.weapon-icon-count {
+  flex-shrink: 0;
+  font-size: 11px;
+  color: #8b93a3;
+}
+
+.weapon-icon-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.weapon-icon-tile {
+  min-height: 96px;
+}
+
+.weapon-icon-thumb {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.weapon-icon-empty {
+  grid-column: 1 / -1;
+  margin: 12px 0;
+  text-align: center;
+  color: #8b93a3;
+  font-size: 13px;
+}
+
+.dossier-icon.weapon-icon-pickable {
+  cursor: pointer;
+}
+
+.dossier-icon.weapon-icon-pickable:focus-visible {
+  outline: 2px solid #3d5a80;
+  outline-offset: 2px;
+}
+
 .soul-option-panels {
   overflow: auto;
   padding: 10px 14px 14px;

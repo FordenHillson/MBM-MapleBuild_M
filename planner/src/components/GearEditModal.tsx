@@ -83,6 +83,7 @@ import { rankFrameClass } from '../data/itemRankStyle'
 import { resolveItemRankFrameLayers } from '../data/itemRankTextures'
 import { EmblemPickerPopup } from './EmblemPickerPopup'
 import { SoulPickerPopup } from './SoulPickerPopup'
+import { WeaponIconPickerPopup } from './WeaponIconPickerPopup'
 import { SlotSilhouette } from './SlotSilhouette'
 import './Popup.css'
 
@@ -432,6 +433,7 @@ export function GearEditModal({
 
   const [soulPickerOpen, setSoulPickerOpen] = useState(false)
   const [emblemPickerOpen, setEmblemPickerOpen] = useState(false)
+  const [weaponIconPickerOpen, setWeaponIconPickerOpen] = useState(false)
 
   const ranks = useMemo(
     () => ranksForSlot(slot, { rootAbyssLocked }),
@@ -442,6 +444,7 @@ export function GearEditModal({
   const emblemAllowed = emblemSupported && canEquipEmblem(slot, item.rank)
   const isAccessoryEmblem = defaultBaseBoost(slot) === 0 && emblemSupported
   const soulSupported = isSoulSlot(slot)
+  const canPickWeaponIcon = slot === 'mainWeapon'
   const soulBoss = item.soul
     ? soulBossById(parseSoulId(item.soul.soulId, slot)?.bossId ?? '')
     : undefined
@@ -585,7 +588,25 @@ export function GearEditModal({
           <div className="dossier-top">
             <div className="edit-dossier-icon-col">
               <div
-                className={`dossier-icon ${rankFrameClass(item.rank)} has-rank-tex${layers.emblem ? ' has-emblem-tex' : ''}`}
+                className={`dossier-icon ${rankFrameClass(item.rank)} has-rank-tex${layers.emblem ? ' has-emblem-tex' : ''}${canPickWeaponIcon ? ' weapon-icon-pickable' : ''}`}
+                role={canPickWeaponIcon ? 'button' : undefined}
+                tabIndex={canPickWeaponIcon ? 0 : undefined}
+                title={canPickWeaponIcon ? 'เลือกไอคอนอาวุธ' : undefined}
+                onClick={
+                  canPickWeaponIcon
+                    ? () => setWeaponIconPickerOpen(true)
+                    : undefined
+                }
+                onKeyDown={
+                  canPickWeaponIcon
+                    ? (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault()
+                          setWeaponIconPickerOpen(true)
+                        }
+                      }
+                    : undefined
+                }
                 style={{
                   ['--rank-frame' as string]: `url("${layers.frame}")`,
                   ...(layers.emblem
@@ -1358,6 +1379,24 @@ export function GearEditModal({
             onPick={(soul) => {
               setItem({ ...item, soul })
               setSoulPickerOpen(false)
+            }}
+          />
+        )}
+
+        {weaponIconPickerOpen && (
+          <WeaponIconPickerPopup
+            rank={item.rank}
+            selectedIconUrl={
+              item.iconUrl.startsWith('http') ? item.iconUrl : undefined
+            }
+            onClose={() => setWeaponIconPickerOpen(false)}
+            onPick={(entry) => {
+              setItem({
+                ...item,
+                iconUrl: entry.iconUrl,
+                itemName: entry.itemNameEn,
+              })
+              setWeaponIconPickerOpen(false)
             }}
           />
         )}

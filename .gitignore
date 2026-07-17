@@ -15,3 +15,9 @@ dump/
 # Heavy local tooling binaries
 tools/Il2CppDumper/*.exe
 tools/Il2CppDumper/*.zip
+
+# Secrets
+.env
+.env.*
+!.env.example
+
