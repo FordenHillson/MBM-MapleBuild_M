@@ -62,6 +62,10 @@ import {
   supportsHighTierOption,
 } from '../data/highTierOption'
 import {
+  WEAPON_RANK_SKILL,
+  supportsWeaponRankSkill,
+} from '../data/weaponRankSkill'
+import {
   armorMainOptionOptions,
   emptyArmorMainOption,
   isArmorBaseGearSlot,
@@ -1260,6 +1264,32 @@ export function GearEditModal({
               </button>
             )}
           </section>
+          {supportsWeaponRankSkill(slot, item.rank) && (
+            <section
+              className="dossier-section weapon-rank-skill-sec"
+              aria-label="Weapon skill"
+            >
+              <div className="weapon-rank-skill-row">
+                <img
+                  src={WEAPON_RANK_SKILL.iconUrl}
+                  alt=""
+                  className="dossier-mod-icon"
+                />
+                <div className="weapon-rank-skill-text">
+                  <strong className="weapon-rank-skill-name">
+                    {WEAPON_RANK_SKILL.name}
+                  </strong>
+                  <span className="weapon-rank-skill-effect">
+                    {WEAPON_RANK_SKILL.effectLabel}
+                  </span>
+                  <span className="weapon-rank-skill-note">
+                    {WEAPON_RANK_SKILL.note}
+                  </span>
+                </div>
+              </div>
+            </section>
+          )}
+
         </div>
 
         {soulPickerOpen && (

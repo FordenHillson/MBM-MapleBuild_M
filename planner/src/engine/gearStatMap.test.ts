@@ -123,4 +123,24 @@ describe('aggregateGearPlayerStats', () => {
     expect(bases.maxMp).toBe(0)
     expect(bases.expPercent).toBe(50)
   })
+  it('adds Fair Trade critRate +100 for Absolab mainWeapon', () => {
+    const weapon = {
+      ...demoMainWeapon(),
+      rank: 'Absolab' as const,
+      highTierOption: null,
+    }
+    const bag = aggregateGearPlayerStats({ mainWeapon: weapon })
+    expect(bag.critRate).toBe(100)
+  })
+
+  it('adds Fair Trade critRate +100 for Genesis mainWeapon', () => {
+    const weapon = {
+      ...demoMainWeapon(),
+      rank: 'Genesis' as const,
+      highTierOption: null,
+    }
+    const bag = aggregateGearPlayerStats({ mainWeapon: weapon })
+    expect(bag.critRate).toBe(100)
+  })
+
 })
