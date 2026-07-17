@@ -67,6 +67,7 @@ import {
   isArmorBaseGearSlot,
   normalizeArmorMainOption,
   supportsArmorMainOption,
+  usesArmorMpBase,
 } from '../data/armorBaseGear'
 import {
   normalizeSharenianAbility,
@@ -103,6 +104,7 @@ function emptyItem(slot: GearSlotId): GearItem {
     phyDefBase: 0,
     magDefBase: 0,
     maxHpBase: 0,
+    maxMpBase: 0,
     maxDamageBase: 0,
     flameRank: null,
     mainLines: isFlameSlot(slot)
@@ -802,16 +804,20 @@ export function GearEditModal({
                   />
                 </label>
                 <label>
-                  HP สูงสุด
+                  {usesArmorMpBase(slot) ? 'MP สูงสุด' : 'HP สูงสุด'}
                   <input
                     type="number"
-                    value={item.maxHpBase}
-                    onChange={(e) =>
-                      setItem({
-                        ...item,
-                        maxHpBase: Number(e.target.value),
-                      })
+                    value={
+                      usesArmorMpBase(slot) ? item.maxMpBase : item.maxHpBase
                     }
+                    onChange={(e) => {
+                      const n = Number(e.target.value)
+                      setItem(
+                        usesArmorMpBase(slot)
+                          ? { ...item, maxMpBase: n, maxHpBase: 0 }
+                          : { ...item, maxHpBase: n },
+                      )
+                    }}
                   />
                 </label>
                 {supportsArmorMainOption(slot, item.rank) ? (

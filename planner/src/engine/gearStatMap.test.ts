@@ -82,6 +82,7 @@ describe('aggregateGearPlayerStats', () => {
       phyDefBase: 100,
       magDefBase: 100,
       maxHpBase: 1000,
+      maxMpBase: 0,
       maxDamageBase: 50_000,
       flameRank: null,
       mainLines: [],

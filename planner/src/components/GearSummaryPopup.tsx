@@ -16,6 +16,7 @@ import {
 import {
   isArmorBaseGearSlot,
   supportsArmorMainOption,
+  usesArmorMpBase,
 } from '../data/armorBaseGear'
 import { parseSoulId, soulBossById } from '../data/souls'
 import { flameRankFrameClass, isFlameSlot } from '../data/flameWeapon'
@@ -240,9 +241,12 @@ export function GearSummaryPopup({
                 </strong>
               </div>
               <div className="dossier-opt-row">
-                <span>HP สูงสุด</span>
+                <span>{usesArmorMpBase(slot) ? 'MP สูงสุด' : 'HP สูงสุด'}</span>
                 <strong className="dossier-opt-value">
-                  {item.maxHpBase.toLocaleString('en-US')}
+                  {(usesArmorMpBase(slot)
+                    ? item.maxMpBase
+                    : item.maxHpBase
+                  ).toLocaleString('en-US')}
                 </strong>
               </div>
               {item.highTierOption &&

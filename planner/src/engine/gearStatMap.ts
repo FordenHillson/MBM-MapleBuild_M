@@ -57,6 +57,10 @@ export const GEAR_OPTION_TO_STAT: Record<string, PlayerStatKey> = {
   bossDefPercent: 'bossDefPercent',
   'Boss DEF%': 'bossDefPercent',
   'Boss DEF Increase': 'bossDefPercent',
+  phyDmgReducePercent: 'phyDmgReducePercent',
+  'PHY DMG Reduction': 'phyDmgReducePercent',
+  magDmgReducePercent: 'magDmgReducePercent',
+  'MAG DMG Reduction': 'magDmgReducePercent',
 
   // Chance — potential ACC / soul EVD
   acc: 'accPercent',
@@ -140,6 +144,7 @@ export function aggregateGearPlayerStats(
     bag.phyDef = (bag.phyDef ?? 0) + item.phyDefBase
     bag.magDef = (bag.magDef ?? 0) + item.magDefBase
     bag.maxHp = (bag.maxHp ?? 0) + item.maxHpBase
+    bag.maxMp = (bag.maxMp ?? 0) + (item.maxMpBase ?? 0)
     bag.maxDamage = (bag.maxDamage ?? 0) + item.maxDamageBase
 
     if (!isFlameSlot(item.slotId)) {

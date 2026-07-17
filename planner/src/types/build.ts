@@ -84,6 +84,19 @@ export const HIGH_TIER_SLOTS: ReadonlySet<GearSlotId> = new Set([
   'shoes',
 ])
 
+/** Belt ranks: Dreamy Belt on top; no Absolab / Arcane / Genesis / Root Abyss. */
+export const BELT_RANKS: ItemRank[] = [
+  'Dreamy Belt',
+  ...ITEM_RANKS_ORDERED.filter(
+    (r) =>
+      r !== 'Dreamy Belt' &&
+      r !== 'Genesis' &&
+      r !== 'Arcane' &&
+      r !== 'Absolab' &&
+      r !== 'Root Abyss',
+  ),
+]
+
 /** Second Weapon: capped ranks (Mythic … Rare). Labels: Mystic=Mythic, Magic=Epic. */
 export const SECONDARY_RANKS: ItemRank[] = [
   'Mythic',
@@ -124,6 +137,10 @@ export function ranksForSlot(
   // Outfit Bottom is Root Abyss-only for now.
   if (slot === 'outfitBottom') {
     return ['Root Abyss']
+  }
+
+  if (slot === 'belt') {
+    return [...BELT_RANKS]
   }
 
   if (slot === 'secondary') {
@@ -197,6 +214,8 @@ export interface GearItem {
   phyDefBase: number
   magDefBase: number
   maxHpBase: number
+  /** Max MP base — used by Shoulder / Belt / Cape instead of maxHpBase. */
+  maxMpBase: number
   maxDamageBase: number
   /**
    * Rebirth Flame grade — drives flame option pool.

@@ -68,3 +68,16 @@ describe('ranksForSlot shoes', () => {
     expect(ranks).toContain('Legendary')
   })
 })
+
+describe('ranksForSlot belt', () => {
+  it('puts Dreamy Belt first; keeps Necro; excludes Absolab/Arcane/Genesis/Root Abyss', () => {
+    const ranks = ranksForSlot('belt')
+    expect(ranks[0]).toBe('Dreamy Belt')
+    expect(ranks).toContain('Necro')
+    expect(ranks).toContain('Legendary')
+    expect(ranks).not.toContain('Absolab')
+    expect(ranks).not.toContain('Arcane')
+    expect(ranks).not.toContain('Genesis')
+    expect(ranks).not.toContain('Root Abyss')
+  })
+})

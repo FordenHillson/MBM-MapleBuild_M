@@ -80,6 +80,14 @@ describe('equipCategory', () => {
     expect(slotProfile('shoes').potential.enabled).toBe(false)
   })
 
+  it('belt override enables flame/pot without changing accessory profile', () => {
+    expect(slotCategory('belt')).toBe('accessory')
+    expect(isFlameSlot('belt')).toBe(true)
+    expect(isPotentialSlot('belt')).toBe(true)
+    expect(slotProfile('belt').flame.enabled).toBe(false)
+    expect(slotProfile('belt').potential.enabled).toBe(false)
+  })
+
   it('categoryProfile matches slotProfile for each category', () => {
     const cats: EquipCategory[] = [
       'weapon',

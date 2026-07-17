@@ -30,6 +30,12 @@ import {
   shoesMainOptionsForRank,
   supportsShoesMainOption,
 } from './shoesMainOption'
+import {
+  BELT_MAIN_OPTIONS,
+  emptyBeltMainOption,
+  normalizeBeltMainOption,
+  supportsBeltMainOption,
+} from './beltMainOption'
 
 export type ArmorBaseGearSlot =
   | 'hat'
@@ -38,6 +44,12 @@ export type ArmorBaseGearSlot =
   | 'outfitBottom'
   | 'shoulder'
   | 'shoes'
+  | 'belt'
+
+/** Shoulder / Belt / Cape use Max MP base instead of Max HP. */
+export function usesArmorMpBase(slot: GearSlotId): boolean {
+  return slot === 'shoulder' || slot === 'belt' || slot === 'cape'
+}
 
 export function isArmorBaseGearSlot(
   slot: GearSlotId,
@@ -48,7 +60,8 @@ export function isArmorBaseGearSlot(
     slot === 'outfitTop' ||
     slot === 'outfitBottom' ||
     slot === 'shoulder' ||
-    slot === 'shoes'
+    slot === 'shoes' ||
+    slot === 'belt'
   )
 }
 
@@ -60,6 +73,7 @@ export function armorMainOptionOptions(
   if (slot === 'gloves') return GLOVE_MAIN_OPTIONS
   if (slot === 'shoulder') return shoulderMainOptionsForRank(rank)
   if (slot === 'shoes') return shoesMainOptionsForRank(rank)
+  if (slot === 'belt') return BELT_MAIN_OPTIONS
   return outfitMainOptionsForRank(rank)
 }
 
@@ -74,6 +88,7 @@ export function supportsArmorMainOption(
   }
   if (slot === 'shoulder') return supportsShoulderMainOption(slot, rank)
   if (slot === 'shoes') return supportsShoesMainOption(slot, rank)
+  if (slot === 'belt') return supportsBeltMainOption(slot, rank)
   return false
 }
 
@@ -87,6 +102,7 @@ export function emptyArmorMainOption(
   if (slot === 'gloves') return emptyGloveMainOption(optionId, value)
   if (slot === 'shoulder') return emptyShoulderMainOption(rank, optionId, value)
   if (slot === 'shoes') return emptyShoesMainOption(rank, optionId, value)
+  if (slot === 'belt') return emptyBeltMainOption(optionId, value)
   return emptyOutfitMainOption(rank, optionId, value)
 }
 
@@ -105,6 +121,9 @@ export function normalizeArmorMainOption(
   }
   if (slot === 'shoes') {
     return normalizeShoesMainOption(slot, rank, option)
+  }
+  if (slot === 'belt') {
+    return normalizeBeltMainOption(slot, rank, option)
   }
   return null
 }

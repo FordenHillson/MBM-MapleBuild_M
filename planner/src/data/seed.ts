@@ -30,6 +30,7 @@ export function demoMainWeapon(): GearItem {
     phyDefBase: 0,
     magDefBase: 0,
     maxHpBase: 0,
+    maxMpBase: 0,
     maxDamageBase: 0,
     flameRank: 'Legendary' satisfies FlameRank,
     mainLines: [

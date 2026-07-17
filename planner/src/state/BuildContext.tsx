@@ -36,6 +36,7 @@ import { normalizeSoul } from '../data/souls'
 import {
   isArmorBaseGearSlot,
   normalizeArmorMainOption,
+  usesArmorMpBase,
 } from '../data/armorBaseGear'
 import { normalizeHighTierOption } from '../data/highTierOption'
 import { normalizeSharenianAbility } from '../data/sharenianAbility'
@@ -138,7 +139,12 @@ function migrateGearItem(item: GearItem, slotId: GearSlotId): GearItem {
   const magDefBase = isArmorBaseGearSlot(slotId)
     ? phyDefBase
     : Number(item.magDefBase) || 0
-  const maxHpBase = Number(item.maxHpBase) || 0
+  let maxHpBase = Number(item.maxHpBase) || 0
+  let maxMpBase = Number(item.maxMpBase) || 0
+  if (usesArmorMpBase(slotId) && maxMpBase === 0 && maxHpBase !== 0) {
+    maxMpBase = maxHpBase
+    maxHpBase = 0
+  }
   const maxDamageBase = Number(item.maxDamageBase) || 0
 
   const highTierOption = isArmorBaseGearSlot(slotId)
@@ -151,6 +157,7 @@ function migrateGearItem(item: GearItem, slotId: GearSlotId): GearItem {
     phyDefBase,
     magDefBase,
     maxHpBase,
+    maxMpBase,
     maxDamageBase,
     flameRank,
     mainLines,
