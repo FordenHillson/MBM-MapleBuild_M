@@ -22,6 +22,14 @@ function potGradeLetter(grade: PotentialGrade | string): string {
   return grade[0]!.toUpperCase()
 }
 
+/** Emblem level diamond: hidden at 0; blue 1–9; pink 10–14; glow+smoke ≥15. */
+function emblemLevelTone(level: number): 'blue' | 'pink' | 'max' | null {
+  if (level <= 0) return null
+  if (level <= 9) return 'blue'
+  if (level <= 14) return 'pink'
+  return 'max'
+}
+
 /** 7×5 grid: left 2 + center 3 + right 2 */
 const GRID_SLOTS: { slot: GearSlotId; col: number; row: number }[] = [
   // left
@@ -88,6 +96,9 @@ function SlotCell({
         }
       : {}),
   }
+  const emblemLvTone = item?.emblem
+    ? emblemLevelTone(item.emblem.level)
+    : null
   return (
     <button
       type="button"
@@ -128,6 +139,18 @@ function SlotCell({
             </span>
           )}
           <span className="badge star">★{item.star}</span>
+          {emblemLvTone && item.emblem && (
+            <span
+              className={`badge-emblem-lv tone-${emblemLvTone}`}
+              title={`Emblem Lv.${item.emblem.level}`}
+              aria-label={`Emblem level ${item.emblem.level}`}
+            >
+              <span className="badge-emblem-lv-inner">{item.emblem.level}</span>
+              {emblemLvTone === 'max' && (
+                <span className="badge-emblem-lv-smoke" aria-hidden />
+              )}
+            </span>
+          )}
           <span className="slot-lv">Lv.{item.level}</span>
           <span className="slot-name">{SLOT_LABELS[slot]}</span>
         </>
