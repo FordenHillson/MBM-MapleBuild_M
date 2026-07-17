@@ -56,3 +56,15 @@ describe('ranksForSlot shoulder', () => {
     expect(ranks).toContain('Legendary')
   })
 })
+
+describe('ranksForSlot shoes', () => {
+  it('excludes Genesis and Root Abyss but keeps Absolab/Arcane/Necro', () => {
+    const ranks = ranksForSlot('shoes')
+    expect(ranks).not.toContain('Genesis')
+    expect(ranks).not.toContain('Root Abyss')
+    expect(ranks).toContain('Absolab')
+    expect(ranks).toContain('Arcane')
+    expect(ranks).toContain('Necro')
+    expect(ranks).toContain('Legendary')
+  })
+})

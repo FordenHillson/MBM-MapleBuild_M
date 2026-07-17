@@ -5,6 +5,7 @@ import { POTENTIAL_HAT_OPTIONS } from './potentialHat'
 import { POTENTIAL_OUTFIT_BOTTOM_OPTIONS } from './potentialOutfitBottom'
 import { POTENTIAL_OUTFIT_TOP_OPTIONS } from './potentialOutfitTop'
 import { POTENTIAL_SHOULDER_OPTIONS } from './potentialShoulder'
+import { POTENTIAL_SHOES_OPTIONS } from './potentialShoes'
 
 /** Cube Potential ranks for Weapon / Secondary — Nexon table 6438. */
 export const POTENTIAL_RANKS: PotentialGrade[] = [
@@ -145,7 +146,8 @@ export function isPotentialSlot(slot: GearSlotId): boolean {
     slot === 'gloves' ||
     slot === 'outfitTop' ||
     slot === 'outfitBottom' ||
-    slot === 'shoulder'
+    slot === 'shoulder' ||
+    slot === 'shoes'
   )
 }
 
@@ -169,6 +171,7 @@ export function potentialOptionsForSlot(slot: GearSlotId): PotentialOptionDef[] 
   if (slot === 'outfitTop') return POTENTIAL_OUTFIT_TOP_OPTIONS
   if (slot === 'outfitBottom') return POTENTIAL_OUTFIT_BOTTOM_OPTIONS
   if (slot === 'shoulder') return POTENTIAL_SHOULDER_OPTIONS
+  if (slot === 'shoes') return POTENTIAL_SHOES_OPTIONS
   return POTENTIAL_WEAPON_OPTIONS
 }
 

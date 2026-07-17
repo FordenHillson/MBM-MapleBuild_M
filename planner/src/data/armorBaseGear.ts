@@ -24,6 +24,12 @@ import {
   shoulderMainOptionsForRank,
   supportsShoulderMainOption,
 } from './shoulderMainOption'
+import {
+  emptyShoesMainOption,
+  normalizeShoesMainOption,
+  shoesMainOptionsForRank,
+  supportsShoesMainOption,
+} from './shoesMainOption'
 
 export type ArmorBaseGearSlot =
   | 'hat'
@@ -31,6 +37,7 @@ export type ArmorBaseGearSlot =
   | 'outfitTop'
   | 'outfitBottom'
   | 'shoulder'
+  | 'shoes'
 
 export function isArmorBaseGearSlot(
   slot: GearSlotId,
@@ -40,7 +47,8 @@ export function isArmorBaseGearSlot(
     slot === 'gloves' ||
     slot === 'outfitTop' ||
     slot === 'outfitBottom' ||
-    slot === 'shoulder'
+    slot === 'shoulder' ||
+    slot === 'shoes'
   )
 }
 
@@ -51,6 +59,7 @@ export function armorMainOptionOptions(
   if (slot === 'hat') return HAT_MAIN_OPTIONS
   if (slot === 'gloves') return GLOVE_MAIN_OPTIONS
   if (slot === 'shoulder') return shoulderMainOptionsForRank(rank)
+  if (slot === 'shoes') return shoesMainOptionsForRank(rank)
   return outfitMainOptionsForRank(rank)
 }
 
@@ -64,6 +73,7 @@ export function supportsArmorMainOption(
     return supportsOutfitMainOption(slot, rank)
   }
   if (slot === 'shoulder') return supportsShoulderMainOption(slot, rank)
+  if (slot === 'shoes') return supportsShoesMainOption(slot, rank)
   return false
 }
 
@@ -76,6 +86,7 @@ export function emptyArmorMainOption(
   if (slot === 'hat') return emptyHatMainOption(optionId, value)
   if (slot === 'gloves') return emptyGloveMainOption(optionId, value)
   if (slot === 'shoulder') return emptyShoulderMainOption(rank, optionId, value)
+  if (slot === 'shoes') return emptyShoesMainOption(rank, optionId, value)
   return emptyOutfitMainOption(rank, optionId, value)
 }
 
@@ -91,6 +102,9 @@ export function normalizeArmorMainOption(
   }
   if (slot === 'shoulder') {
     return normalizeShoulderMainOption(slot, rank, option)
+  }
+  if (slot === 'shoes') {
+    return normalizeShoesMainOption(slot, rank, option)
   }
   return null
 }

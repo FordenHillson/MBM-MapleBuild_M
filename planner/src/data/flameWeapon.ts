@@ -5,6 +5,7 @@ import { FLAME_HAT_OPTIONS } from './flameHat'
 import { FLAME_OUTFIT_BOTTOM_OPTIONS } from './flameOutfitBottom'
 import { FLAME_OUTFIT_TOP_OPTIONS } from './flameOutfitTop'
 import { FLAME_SHOULDER_OPTIONS } from './flameShoulder'
+import { FLAME_SHOES_OPTIONS } from './flameShoes'
 
 export const FLAME_RANKS: FlameRank[] = [
   'Mythic',
@@ -226,7 +227,8 @@ export function isFlameSlot(slot: GearSlotId): boolean {
     slot === 'gloves' ||
     slot === 'outfitTop' ||
     slot === 'outfitBottom' ||
-    slot === 'shoulder'
+    slot === 'shoulder' ||
+    slot === 'shoes'
   )
 }
 
@@ -236,6 +238,7 @@ export function flameOptionsForSlot(slot: GearSlotId): FlameOptionDef[] {
   if (slot === 'outfitTop') return FLAME_OUTFIT_TOP_OPTIONS
   if (slot === 'outfitBottom') return FLAME_OUTFIT_BOTTOM_OPTIONS
   if (slot === 'shoulder') return FLAME_SHOULDER_OPTIONS
+  if (slot === 'shoes') return FLAME_SHOES_OPTIONS
   if (slot === 'mainWeapon' || slot === 'secondary') return FLAME_WEAPON_OPTIONS
   return []
 }

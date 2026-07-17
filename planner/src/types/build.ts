@@ -81,6 +81,7 @@ export const HIGH_TIER_SLOTS: ReadonlySet<GearSlotId> = new Set([
   'outfitTop',
   'cape',
   'shoulder',
+  'shoes',
 ])
 
 /** Second Weapon: capped ranks (Mythic … Rare). Labels: Mystic=Mythic, Magic=Epic. */
