@@ -88,6 +88,8 @@ export const GEAR_OPTION_TO_STAT: Record<string, PlayerStatKey> = {
   itemDropPercent: 'itemDropPercent',
   mesoGainPercent: 'mesoGainPercent',
   meso: 'mesoGainPercent',
+  'Meso Acquisition Increase': 'mesoGainPercent',
+  'Meso Acquisition': 'mesoGainPercent',
   spdPercent: 'spdPercent',
   'SPD Increase': 'spdPercent',
   feverDurationSec: 'feverDurationSec',

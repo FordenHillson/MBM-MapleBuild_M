@@ -69,6 +69,18 @@ describe('ranksForSlot shoes', () => {
   })
 })
 
+describe('ranksForSlot cape', () => {
+  it('excludes Genesis and Root Abyss but keeps Absolab/Arcane/Necro', () => {
+    const ranks = ranksForSlot('cape')
+    expect(ranks).not.toContain('Genesis')
+    expect(ranks).not.toContain('Root Abyss')
+    expect(ranks).toContain('Absolab')
+    expect(ranks).toContain('Arcane')
+    expect(ranks).toContain('Necro')
+    expect(ranks).toContain('Legendary')
+  })
+})
+
 describe('ranksForSlot belt', () => {
   it('puts Dreamy Belt first; keeps Necro; excludes Absolab/Arcane/Genesis/Root Abyss', () => {
     const ranks = ranksForSlot('belt')

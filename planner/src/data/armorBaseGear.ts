@@ -36,6 +36,12 @@ import {
   normalizeBeltMainOption,
   supportsBeltMainOption,
 } from './beltMainOption'
+import {
+  CAPE_MAIN_OPTIONS,
+  emptyCapeMainOption,
+  normalizeCapeMainOption,
+  supportsCapeMainOption,
+} from './capeMainOption'
 
 export type ArmorBaseGearSlot =
   | 'hat'
@@ -45,6 +51,7 @@ export type ArmorBaseGearSlot =
   | 'shoulder'
   | 'shoes'
   | 'belt'
+  | 'cape'
 
 /** Shoulder / Belt / Cape use Max MP base instead of Max HP. */
 export function usesArmorMpBase(slot: GearSlotId): boolean {
@@ -61,7 +68,8 @@ export function isArmorBaseGearSlot(
     slot === 'outfitBottom' ||
     slot === 'shoulder' ||
     slot === 'shoes' ||
-    slot === 'belt'
+    slot === 'belt' ||
+    slot === 'cape'
   )
 }
 
@@ -74,6 +82,7 @@ export function armorMainOptionOptions(
   if (slot === 'shoulder') return shoulderMainOptionsForRank(rank)
   if (slot === 'shoes') return shoesMainOptionsForRank(rank)
   if (slot === 'belt') return BELT_MAIN_OPTIONS
+  if (slot === 'cape') return CAPE_MAIN_OPTIONS
   return outfitMainOptionsForRank(rank)
 }
 
@@ -89,6 +98,7 @@ export function supportsArmorMainOption(
   if (slot === 'shoulder') return supportsShoulderMainOption(slot, rank)
   if (slot === 'shoes') return supportsShoesMainOption(slot, rank)
   if (slot === 'belt') return supportsBeltMainOption(slot, rank)
+  if (slot === 'cape') return supportsCapeMainOption(slot, rank)
   return false
 }
 
@@ -103,6 +113,7 @@ export function emptyArmorMainOption(
   if (slot === 'shoulder') return emptyShoulderMainOption(rank, optionId, value)
   if (slot === 'shoes') return emptyShoesMainOption(rank, optionId, value)
   if (slot === 'belt') return emptyBeltMainOption(optionId, value)
+  if (slot === 'cape') return emptyCapeMainOption(optionId, value)
   return emptyOutfitMainOption(rank, optionId, value)
 }
 
@@ -124,6 +135,9 @@ export function normalizeArmorMainOption(
   }
   if (slot === 'belt') {
     return normalizeBeltMainOption(slot, rank, option)
+  }
+  if (slot === 'cape') {
+    return normalizeCapeMainOption(slot, rank, option)
   }
   return null
 }

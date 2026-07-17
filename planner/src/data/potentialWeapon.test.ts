@@ -117,6 +117,18 @@ describe('potential / bonus on gloves', () => {
       potentialOptionsForSlot('shoes'),
     )
   })
+
+  it('treats cape as a potential slot with its own pools', () => {
+    expect(isPotentialSlot('cape')).toBe(true)
+    expect(potentialOptionsForSlot('cape').length).toBeGreaterThan(0)
+    expect(bonusPotentialOptionsForSlot('cape').length).toBeGreaterThan(0)
+    expect(potentialOptionsForSlot('cape')).not.toEqual(
+      potentialOptionsForSlot('mainWeapon'),
+    )
+    expect(potentialOptionsForSlot('cape')).not.toEqual(
+      potentialOptionsForSlot('belt'),
+    )
+  })
 })
 
 describe('potential / bonus on outfit', () => {
