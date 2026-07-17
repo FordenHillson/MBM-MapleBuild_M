@@ -67,10 +67,24 @@ describe('potential / bonus on hat', () => {
     )
   })
 
+})
+
+describe('potential / bonus on gloves', () => {
+  it('treats gloves as a potential slot with its own glove-specific pools', () => {
+    expect(isPotentialSlot('gloves')).toBe(true)
+    expect(potentialOptionsForSlot('gloves').length).toBeGreaterThan(0)
+    expect(bonusPotentialOptionsForSlot('gloves').length).toBeGreaterThan(0)
+    expect(potentialOptionsForSlot('gloves')).not.toEqual(
+      potentialOptionsForSlot('mainWeapon'),
+    )
+    expect(potentialOptionsForSlot('gloves')).not.toEqual(
+      potentialOptionsForSlot('hat'),
+    )
+  })
+
   it('does not treat other armor slots as potential slots', () => {
-    expect(isPotentialSlot('gloves')).toBe(false)
     expect(isPotentialSlot('outfitTop')).toBe(false)
-    expect(potentialOptionsForSlot('gloves')).toEqual([])
-    expect(bonusPotentialOptionsForSlot('gloves')).toEqual([])
+    expect(potentialOptionsForSlot('outfitTop')).toEqual([])
+    expect(bonusPotentialOptionsForSlot('outfitTop')).toEqual([])
   })
 })

@@ -62,11 +62,12 @@ import {
   supportsHighTierOption,
 } from '../data/highTierOption'
 import {
-  HAT_MAIN_OPTIONS,
-  emptyHatMainOption,
-  normalizeHatMainOption,
-  supportsHatMainOption,
-} from '../data/hatMainOption'
+  armorMainOptionOptions,
+  emptyArmorMainOption,
+  isArmorBaseGearSlot,
+  normalizeArmorMainOption,
+  supportsArmorMainOption,
+} from '../data/armorBaseGear'
 import {
   normalizeSharenianAbility,
   supportsSharenianAbility,
@@ -407,9 +408,8 @@ export function GearEditModal({
       bonusPotential,
       emblem: normalizeEmblem(slot, base.emblem, normalizedRank),
       soul: normalizeSoul(slot, base.soul),
-      highTierOption:
-        slot === 'hat'
-          ? normalizeHatMainOption(slot, normalizedRank, base.highTierOption)
+      highTierOption: isArmorBaseGearSlot(slot)
+          ? normalizeArmorMainOption(slot, normalizedRank, base.highTierOption)
           : normalizeHighTierOption(slot, normalizedRank, base.highTierOption),
       sharenianAbility: normalizeSharenianAbility(
         slot,
@@ -622,9 +622,8 @@ export function GearEditModal({
                     const rank = e.target.value as ItemRank
                     const allowEmblem = canEquipEmblem(slot, rank)
                     if (!allowEmblem) setEmblemPickerOpen(false)
-                    const nextHighTier =
-                      slot === 'hat'
-                        ? normalizeHatMainOption(
+                    const nextHighTier = isArmorBaseGearSlot(slot)
+                        ? normalizeArmorMainOption(
                             slot,
                             rank,
                             item.highTierOption,
@@ -784,8 +783,8 @@ export function GearEditModal({
           )}
 
           <section>
-            <h4>{slot === 'hat' ? 'Option' : 'ATK'}</h4>
-            {slot === 'hat' ? (
+            <h4>{isArmorBaseGearSlot(slot) ? 'Option' : 'ATK'}</h4>
+            {isArmorBaseGearSlot(slot) ? (
               <div className="hat-option-edit">
                 <label>
                   PHY / MAG DEF
@@ -815,27 +814,28 @@ export function GearEditModal({
                     }
                   />
                 </label>
-                {supportsHatMainOption(slot, item.rank) ? (
+                {supportsArmorMainOption(slot, item.rank) ? (
                   <div className="hat-main-option-row">
                     <label>
                       Option หลัก
                       <select
                         value={
                           item.highTierOption?.optionId ??
-                          HAT_MAIN_OPTIONS[0]!.optionId
+                          armorMainOptionOptions(slot)[0]!.optionId
                         }
                         onChange={(e) => {
                           const optionId = e.target.value
                           setItem({
                             ...item,
-                            highTierOption: emptyHatMainOption(
+                            highTierOption: emptyArmorMainOption(
+                              slot,
                               optionId || undefined,
                               item.highTierOption?.value ?? 0,
                             ),
                           })
                         }}
                       >
-                        {HAT_MAIN_OPTIONS.map((opt) => (
+                        {armorMainOptionOptions(slot).map((opt) => (
                           <option key={opt.optionId} value={opt.optionId}>
                             {opt.label}
                           </option>
@@ -854,7 +854,7 @@ export function GearEditModal({
                             ...item,
                             highTierOption: {
                               ...(item.highTierOption ??
-                                emptyHatMainOption(undefined, 0)),
+                                emptyArmorMainOption(slot, undefined, 0)),
                               value: Number(e.target.value),
                             },
                           })
@@ -862,11 +862,11 @@ export function GearEditModal({
                       />
                     </label>
                   </div>
-                ) : (
+                ) : slot === 'hat' ? (
                   <p className="muted" style={{ margin: 0 }}>
                     Root Abyss — ไม่มี Option หลักให้เลือก
                   </p>
-                )}
+                ) : null}
                 <label>
                   DMG สูงสุด
                   <input
@@ -912,7 +912,7 @@ export function GearEditModal({
             )}
           </section>
 
-          {(isFlameSlot(slot) || slot !== 'hat') && (
+          {(isFlameSlot(slot) || !isArmorBaseGearSlot(slot)) && (
           <section>
             <div className="block-head" style={{ marginBottom: 6 }}>
               <h4 style={{ margin: 0 }}>สายหลัก / Flame</h4>

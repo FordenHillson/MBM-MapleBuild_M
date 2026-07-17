@@ -33,7 +33,10 @@ import {
 import { normalizeBonusPotentialLines } from '../data/bonusPotentialWeapon'
 import { normalizeEmblem } from '../data/emblems'
 import { normalizeSoul } from '../data/souls'
-import { normalizeHatMainOption } from '../data/hatMainOption'
+import {
+  isArmorBaseGearSlot,
+  normalizeArmorMainOption,
+} from '../data/armorBaseGear'
 import { normalizeHighTierOption } from '../data/highTierOption'
 import { normalizeSharenianAbility } from '../data/sharenianAbility'
 import { normalizeIconUrl } from '../data/gearIcon'
@@ -132,15 +135,14 @@ function migrateGearItem(item: GearItem, slotId: GearSlotId): GearItem {
         })()
 
   const phyDefBase = Number(item.phyDefBase) || 0
-  // Hat PHY/MAG DEF always match in-game — keep both fields in sync.
-  const magDefBase =
-    slotId === 'hat' ? phyDefBase : Number(item.magDefBase) || 0
+  const magDefBase = isArmorBaseGearSlot(slotId)
+    ? phyDefBase
+    : Number(item.magDefBase) || 0
   const maxHpBase = Number(item.maxHpBase) || 0
   const maxDamageBase = Number(item.maxDamageBase) || 0
 
-  const highTierOption =
-    slotId === 'hat'
-      ? normalizeHatMainOption(slotId, item.rank, item.highTierOption)
+  const highTierOption = isArmorBaseGearSlot(slotId)
+      ? normalizeArmorMainOption(slotId, item.rank, item.highTierOption)
       : normalizeHighTierOption(slotId, item.rank, item.highTierOption)
 
   return {

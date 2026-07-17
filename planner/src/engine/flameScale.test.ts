@@ -125,4 +125,11 @@ describe('applyFlameScales', () => {
     )
     expect(bag.ignoreDefPercent).toBe(4)
   })
+
+  it('Crit Rate scales with EXP → critRate (% × %)', () => {
+    const bag = applyFlameScales(bases, [
+      { optionId: 'critRateExp', label: 'Crit Rate scales with EXP▲', value: 6 },
+    ])
+    expect(bag.critRate).toBeCloseTo(3)
+  })
 })

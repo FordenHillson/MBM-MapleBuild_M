@@ -237,6 +237,24 @@ export function applyFlameScales(
         add(bag, 'critDmgPercent', scalePercentWithPercent(bases.critRate, v))
         break
 
+      case 'critRateExp':
+        add(bag, 'critRate', scalePercentWithPercent(bases.expPercent, v))
+        break
+      case 'critRateBossAtk':
+        add(
+          bag,
+          'critRate',
+          scalePercentWithPercent(bases.bossAtkPercent, v),
+        )
+        break
+      case 'critRateCritDmg':
+        add(
+          bag,
+          'critRate',
+          scalePercentWithPercent(bases.critDmgPercent, v),
+        )
+        break
+
       case 'finalDmg':
       case 'Final DMG Increase':
         add(bag, 'finalPercent', v)

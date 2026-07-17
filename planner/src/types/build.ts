@@ -135,7 +135,8 @@ export function ranksForSlot(
     ranks = ranks.filter((r) => r !== 'Dreamy Belt')
   }
 
-  if (slot === 'hat') {
+  // Genesis is main-weapon only.
+  if (slot === 'hat' || slot === 'gloves') {
     ranks = ranks.filter((r) => r !== 'Genesis')
   }
 

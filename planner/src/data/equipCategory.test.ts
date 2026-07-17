@@ -5,7 +5,8 @@ import {
   categoryProfile,
   type EquipCategory,
 } from './equipCategory'
-import type { GearSlotId } from '../types/build'
+import { isFlameSlot } from './flameWeapon'
+import { isPotentialSlot } from './potentialWeapon'
 
 describe('equipCategory', () => {
   it('maps core slots to flat categories', () => {
@@ -47,6 +48,12 @@ describe('equipCategory', () => {
     expect(slotProfile('medal').mainLinesMode).toBe('none')
     expect(slotProfile('gloves').flame.enabled).toBe(false)
     expect(slotProfile('gloves').potential.enabled).toBe(false)
+  })
+
+  it('gloves slot override enables flame/pot without changing armor profile', () => {
+    expect(isFlameSlot('gloves')).toBe(true)
+    expect(isPotentialSlot('gloves')).toBe(true)
+    expect(slotProfile('gloves').flame.enabled).toBe(false)
   })
 
   it('categoryProfile matches slotProfile for each category', () => {

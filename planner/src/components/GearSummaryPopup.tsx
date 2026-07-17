@@ -13,7 +13,10 @@ import {
   emblemEffectValue,
   emblemMaxDamageValue,
 } from '../data/emblems'
-import { supportsHatMainOption } from '../data/hatMainOption'
+import {
+  isArmorBaseGearSlot,
+  supportsArmorMainOption,
+} from '../data/armorBaseGear'
 import { parseSoulId, soulBossById } from '../data/souls'
 import { flameRankFrameClass, isFlameSlot } from '../data/flameWeapon'
 import { supportsHighTierOption } from '../data/highTierOption'
@@ -228,7 +231,7 @@ export function GearSummaryPopup({
             </div>
           </div>
 
-          {slot === 'hat' ? (
+          {isArmorBaseGearSlot(slot) ? (
             <section className="dossier-section dossier-opt-list" aria-label="Option">
               <div className="dossier-opt-row">
                 <span>PHY / MAG DEF</span>
@@ -243,7 +246,7 @@ export function GearSummaryPopup({
                 </strong>
               </div>
               {item.highTierOption &&
-                supportsHatMainOption(slot, item.rank) && (
+                supportsArmorMainOption(slot, item.rank) && (
                   <div className="dossier-opt-row dossier-opt-main">
                     <span>{item.highTierOption.label}</span>
                     <strong className="dossier-opt-value">

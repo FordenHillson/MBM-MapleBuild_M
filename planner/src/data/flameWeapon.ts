@@ -1,5 +1,6 @@
 import type { FlameRank, GearSlotId } from '../types/build'
 import { slotProfile } from './equipCategory'
+import { FLAME_GLOVES_OPTIONS } from './flameGloves'
 import { FLAME_HAT_OPTIONS } from './flameHat'
 
 export const FLAME_RANKS: FlameRank[] = [
@@ -216,11 +217,14 @@ export const FLAME_WEAPON_OPTIONS: FlameOptionDef[] = [
 const EMPTY_LINE = { optionId: '', label: '', value: 0 }
 
 export function isFlameSlot(slot: GearSlotId): boolean {
-  return slotProfile(slot).flame.enabled || slot === 'hat'
+  return (
+    slotProfile(slot).flame.enabled || slot === 'hat' || slot === 'gloves'
+  )
 }
 
 export function flameOptionsForSlot(slot: GearSlotId): FlameOptionDef[] {
   if (slot === 'hat') return FLAME_HAT_OPTIONS
+  if (slot === 'gloves') return FLAME_GLOVES_OPTIONS
   if (slot === 'mainWeapon' || slot === 'secondary') return FLAME_WEAPON_OPTIONS
   return []
 }
